@@ -24,6 +24,13 @@ while (game_quit){                                                   //一级菜
     }
 else if ( select_menu == 2){                                                     
 }
+else if ( select_menu == 1){
+
+
+
+
+
+}
 else{
     cout<<"please enter a number in range (1-3)"<<endl;
 }
