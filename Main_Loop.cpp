@@ -23,71 +23,13 @@ while (game_quit){                                                   //一级菜
         game_quit = false;
     }
 else if ( select_menu == 2){                                                     
-    option_quit = true;
-    while ( option_quit ) {                                              //二级菜单-设置
-        cout<<"1-Change Difficulty"<<endl; 
-        cout<<"2-Return to Menu"<<endl;
-        cout<< "enter the numbers before the entries for selecting" <<endl;
-        cin>>select_option;
-        if ( select_option == 1 ){
-            difficulty_quit = true;
-            while ( difficulty_quit ){                                   //三级菜单-难度
-            cout<<"1-Journey"<<endl;
-            cout<<"2-Classic (Default)"<<endl;
-            cout<<"3-Hardcore"<<endl;
-            cout<<"4-Return to Options"<<endl;
-                switch (difficulty) {
-                    case 1:
-                    cout<<"current difficulty: Journey"<<endl;
-                    break;
-                    case 2:
-                    cout<<"current difficulty: Classic"<<endl;
-                    break;
-                    case 3:
-                    cout<<"current difficulty: Hardcore"<<endl;
-                    break;
-                }
-            cout<<"enter the numbers before the entries for changing difficulty" <<endl;
-            cin>>select_difficulty;
-                switch (select_difficulty){
-                    case 1:
-                        difficulty = 1;
-                        cout<<"You have set the difficulty to Journey"<<endl;
-                        break;
-                    case 2:
-                        difficulty = 2;
-                        cout<<"You have set the difficulty to Classic"<<endl;
-                        break;
-                    case 3:
-                        difficulty = 3;
-                        cout<<"You have set the difficulty to Hardcore"<<endl;
-                        break;
-                    case 4:                                                          //退出难度
-                        difficulty_quit = false;
-                        select_option = 0;
-                        break;
-                    default:
-                        cout<<"please enter a number in range (1-4)"<<endl;
-                        break;
-                        
-                }
-            }
-        }  
-        else if ( select_option == 2 ){                                           //退出设置
-            option_quit = false;
-            select_menu = 0;
-        }
-        else{
-            cout<<"please enter a number in range (1-2)"<<endl;
-        }
-    }
 }
 else{
     cout<<"please enter a number in range (1-3)"<<endl;
 }
-  
 
 
 }
 
+return 0
 }
