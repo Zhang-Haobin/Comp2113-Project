@@ -11,7 +11,6 @@ int main(){
     int difficulty = 2;
   
   
-  
 while (game_quit){                                                   //一级菜单  
     game_quit = true;
     cout<< "SPIRE LITE" <<endl;
@@ -25,10 +24,12 @@ while (game_quit){                                                   //一级菜
     }
 else if ( select_menu == 2){                                                     
 }
-else if ( select_menu == 1){
-
-
-
+else if ( select_menu == 1){                                                //开始游戏
+    cout<< "1-New Game"<<endl;                                              //新开一个存档
+    cout<< "2-Load"<<endl;      
+    cout<< "3-Quit"<<endl;                                            //加载一个已有的存档
+    cout<< "enter the numbers before the entries for selecting"<<endl;
+    while 
 
 
 }
