@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include "player.h"
 using namespace std;
 
 int main(){
