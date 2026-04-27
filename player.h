@@ -2,43 +2,51 @@
 #define PLAYER_H
 
 #include <string>
+#include <vector>
+
+#include "Card.cpp"
 
 using namespace std;
-struct player{                       //玩家的状态
-    string name;                     //名称
-    int max_hp = 60;                 //最大生命值
-    int hp = 60;                     //当前生命值
-    int max_energy = 3;              //最大能量
-    int energy = 3;                  //当前能量
-    int strength = 1;                //伤害倍率
-    int damage_boost = 0;            //伤害增加
-    int armor = 0;                   //伤害减免值
-    int stage = 0;                   //当前处于的层数
-    int difficulty = 2               //难度
-    int max_card = 6;                //卡牌上限
-    int heal(int hp_add){            //回血函数
+
+// only defines the player states and actions
+// does NOT do the battle logic
+
+class Player {
+public:
+    string name;
+    int max_hp = 60;
+    int hp = 60;
+    int max_energy = 3;
+    int energy = 3;
+    int strength = 1;                // damage multiplier
+    int damage_boost = 0;            // damage boost
+    int armor = 0;                   // damage reduction
+    int stage = 0;                   // current stage
+    int difficulty = 2;              // difficulty
+    int max_card = 6;                // max number of cards held at the same time
+    vector<Card> hand_of_cards = {};
+
+    // these functions ONLY RETURNS a value:
+
+    int get_hp_after_heal(int hp_add) {
         hp += hp_add;
-        if (hp > max_hp){
+        if (hp > max_hp) {
             hp = max_hp;
         }
         return hp;
     }
 
-    int hurt(int hp_minus){          //扣血函数
-        hp -= hp_minus
-        if (hp < 0){
+    int get_hp_after_hurt(int hp_minus) {
+        hp -= hp_minus;
+        if (hp < 0) {
             hp = 0;
         }
         return hp;
     }
     
-    int attack(int atk){                              //计算buff后的伤害函数
+    int get_damage(int atk) {
         return (atk + damage_boost) * strength;
     }
-
-   
-
-
 }
 
 #endif
