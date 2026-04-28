@@ -47,10 +47,10 @@ public:
             layers[i].resize(nodeCount);
             for (int j = 0; j < nodeCount; ++j) {
                 int r = rand() % 100;
-                if (r < 70) {
-                    layers[i][j].type = NodeType::NormalEnemy;           // 70% chance for normal enemy
+                if (r < 60) {
+                    layers[i][j].type = NodeType::NormalEnemy;           // 60% chance for normal enemy
                 }else{
-                    layers[i][j].type = NodeType::Event;                 // 30% chance for event
+                    layers[i][j].type = NodeType::Event;                 // 40% chance for event
                 }
             }
         }
