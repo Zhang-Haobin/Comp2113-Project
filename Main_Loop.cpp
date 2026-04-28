@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <iomanip>
+
 #include "player.h"
 #include "save.h"
+#include "battle.h"
 
 using namespace std;
 
@@ -14,74 +15,67 @@ bool is_game_running = true;
 int difficulty = 2;
 Screen cur_screen = Screen::welcome;
 
-void welcomeprocess();                              
-void lobbyprocess();
-void battleprocess();
-void pausedprocess();
+void welcome_screen();                              
+void lobby_screen();
+void battle_screen();
+void paused_screen();
 
-void save_slotprocess();
-void recordprocess();
-void infoprocess();
+void save_slot_screen();
+void record_screen();
+void info_screen();
 
 int main() {
-
-while(is_game_running) {
-    switch(cur_screen){
+    while(is_game_running) {
+        switch(cur_screen) {
         case Screen::welcome:
-            welcomeprocess();
+            welcome_screen();
             break;
         case Screen::lobby:
-            lobbyprocess();
+            lobby_screen();
             break;
         case Screen::battle:
-            battleprocess();
+            battle_screen();
             break;
         case Screen::paused:
-            pausedprocess();
+            paused_screen();
             break;
         case Screen::end:
             is_game_running = false;
             break;
+        }
+        return 0;
     }
-
-return 0;
 }
 
-//this is welcome page
-void welcomeprocess(){
+void welcome_screen() {
+    cout << "\n===|Spire Lite|===\n" << endl;
+    cout << "    Main Menu   " << endl;
+    cout << "   1-Start      " << endl;
+    cout << "   2-Game Record" << endl;
+    cout << "   3-More Info  " << endl;
+    cout << "   4-Quit       " << endl;
 
-cout<<"\n===|Spire Lite|===\n"<<endl;
-cout<<"    Main Menu   "<<endl;
-cout<<"   1-Start      "<<endl;
-cout<<"   2-Game Record"<<endl;
-cout<<"   3-More Info  "<<endl;
-cout<<"   4-Quit       "<<endl;
-
-int choice;
-cin>>choice;
-switch (choice){
-    case 1:
-        save_slotprocess();
-        break;
-    case 2:
-        recordprocess();
-        break;
-    case 3:
-        infoprocess();
-        break;
-    case 4:
-        cur_screen = Screen::end;
-        break;
-    default:
-        cout<<"Invalid Choice"<<endl;
-        break;
+    int choice;
+    cin >> choice;
+    switch(choice) {
+        case 1:
+            cur_screen = Screen::lobby;
+            break;
+        case 2:
+            record_screen();
+            break;
+        case 3:
+            info_screen();
+            break;
+        case 4:
+            cur_screen = Screen::end;
+            break;
+        default:
+            cout << "Invalid Choice" << endl;
+            break;
     }
 }    
  
-void save_slotprocess()
-        
-        
-        
-        
+void save_slot_screen() {
 
-
+}

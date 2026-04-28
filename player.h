@@ -24,7 +24,7 @@ public:
     int stage = 0;                   // current stage
     int difficulty = 2;              // difficulty
     int max_card = 6;                // max number of cards held at the same time
-    vector<Card> hand_of_cards = {};
+    vector<Card> cards = {};
 
     // these functions ONLY RETURNS a value:
 
