@@ -32,9 +32,15 @@ struct Card {
 
     // These functions are card templates.
     // If you want to add a new card, add another createXXX() function.
-    static Card createStrike();
-    static Card createDefend();
-    static Card createHeal();
+    static Card create_Strike();
+    static Card create_Defend();
+    static Card create_Heal();
+    static Card create_Bash();
+    static Card create_Recover();
+    static Card create_Fireball();
+    static Card create_QuickSlash();
+    static Card create_IronWall();
+    static Card create_Adrenaline();
 };
 
 #endif

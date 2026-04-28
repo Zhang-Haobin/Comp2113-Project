@@ -1,4 +1,4 @@
-#include "deck.h"
+#include "Deck.h"
 
 #include <algorithm>
 #include <cstdlib>

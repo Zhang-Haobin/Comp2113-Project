@@ -1,4 +1,4 @@
-#include "card.h"
+#include "Card.h"
 
 using namespace std;
 
@@ -57,16 +57,39 @@ bool Card::isPlayable(int currentEnergy) const {
 // return Card("Name", "Type", cost, value, "Description");
 
 // Basic attack card
-Card Card::createStrike() {
+Card Card::create_Strike() {
     return Card("Strike", "Attack", 1, 6, "Deal 6 damage.");
 }
 
 // defend card
-Card Card::createDefend() {
+Card Card::create_Defend() {
     return Card("Defend", "Skill", 1, 5, "Gain 5 block.");
 }
 
 // heal card
-Card Card::createHeal() {
+Card Card::create_Heal() {
     return Card("Heal", "Utility", 1, 4, "Recover 4 HP.");
+}
+Card Card::create_Bash() {
+    return Card("Bash", "Attack", 2, 10, "Deal 10 damage.");
+}
+
+Card Card::create_Recover() {
+    return Card("Recover", "Skill", 1, 4, "Recover 4 HP.");
+}
+
+Card Card::create_Fireball() {
+    return Card("Fireball", "Attack", 2, 13, "Deal 13 damage.");
+}
+
+Card Card::create_QuickSlash() {
+    return Card("Quick Slash", "Attack", 1, 5, "Deal 5 damage and gain 2 block.");
+}
+
+Card Card::createIronWall() {
+    return Card("Iron Wall", "Skill", 2, 11, "Gain 11 block.");
+}
+
+Card Card::create_Adrenaline() {
+    return Card("Adrenaline", "Skill", 0, 0, "Gain 1 energy and recover 2 HP.");
 }
