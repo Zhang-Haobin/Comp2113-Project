@@ -5,10 +5,10 @@
 #include "player.h"
 #include "save.h"
 #include "battle.h"
-
+#include "map.h"
 using namespace std;
 
-enum class Screen { welcome, lobby, battle, paused, end };                  
+enum class Screen { welcome, map, battle, paused, end };                  
 enum class Difficulty { easy, normal, hard, lunatic }; 
 
 bool is_game_running = true;
@@ -30,8 +30,8 @@ int main() {
         case Screen::welcome:
             welcome_screen();
             break;
-        case Screen::lobby:
-            lobby_screen();
+        case Screen::map:
+            map_screen();
             break;
         case Screen::battle:
             battle_screen();
