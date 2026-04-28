@@ -31,3 +31,7 @@ Battle::print_battle_screen() {
 
 	cout << option_name << ". Drink potion\n\n";
 }
+
+Battle::process_player_input() {
+	
+}

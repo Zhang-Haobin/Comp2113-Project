@@ -14,6 +14,7 @@ public:
 	vector<Enemy> enemies;
 
 	void print_battle_screen() const;
+	void process_player_input();
 }
 
 #endif // ifndef BATTLE_H
