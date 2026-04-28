@@ -4,52 +4,22 @@
 using namespace std;
 
 struct Enemy{
-    string enemy_name;
+    static Enemy create_Cultist();
+    static Enemy create_JawWorm();
+    static Enemy create_Boss();
+
+    string name;
     int hp;
     int max_hp;
     int attack;
     int armor;
 
     Enemy();
-    Enemy( string enemy_name,int max_hp,int attack,int armor );
+    Enemy(string name, int max_hp, int attack, int armor);
 
     void take_damage(int attck);   // the enemy is attacked
     int get_attack() const;        //the enemy attack player
     bool is_dead() const;
-
-
-    static Enemy create_Cultist();
-    static Enemy create_JawWorm();
-    static Enemy create_Boss();
-
-
-
-
-
-
-
-
-
-    
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif
+#endif // ifndef ENEMY_H

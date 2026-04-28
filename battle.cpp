@@ -10,7 +10,7 @@ Battle::print_battle_screen() {
 	}
 	else {
 		for(const Enemy &enemy : enemies) {
-			cout << enemy_name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
+			cout << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
 		}
 		cout << "\n";
 	}

@@ -6,18 +6,16 @@
 
 using namespace std;
 
-Enemy::Enemy() { //creat an object;
-    enemy_name = "unknown";
+Enemy::Enemy() { // default constructor: default enemy
+    name = "unknown";
     max_hp = 15;
     hp = 15;
     attack = 5;
     armor = 0;
 }
-//This function is to creat a enemy you want
-//You can define whatever you want
 
-Enemy::Enemy(string enemy_name, int max_hp, int attack, int armor) {
-    this->enemy_name = enemy_name;
+Enemy::Enemy(string name, int max_hp, int attack, int armor) { // custom enemy
+    this->name = name;
     this->max_hp = max_hp;
     this->hp = max_hp;
     this->attack = attack;
