@@ -1,5 +1,5 @@
 #ifndef ENEMY_H
-#define ENMEY_H
+#define ENEMY_H
 #include <string>
 using namespace std;
 
@@ -11,7 +11,7 @@ struct Enemy{
     int armor;
 
     Enemy();
-    Enemy( string enemy_name,int map_hp,int attack,int armor );
+    Enemy( string enemy_name,int max_hp,int attack,int armor );
 
     void take_damage(int attck);   // the enemy is attacked
     int get_attack() const;        //the enemy attack player

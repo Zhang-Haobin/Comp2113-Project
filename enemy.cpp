@@ -14,6 +14,7 @@ Enemy::Enemy(){ //creat an object;
 Enemy::Enemy( string enemy_name,int max_hp,int attack,int armor ){
     this->enemy_name= enemy_name;
     this->max_hp= max_hp;
+    this->hp=max_hp;
     this->attack=attack;
     this->armor=armor;
 }
@@ -41,7 +42,7 @@ Enemy Enemy::create_Cultist() {
 }
 
 Enemy Enemy::create_JawWorm() {
-    return Enemy("Goblin", 30, 7,0);
+    return Enemy("Jaw Worm", 30, 7,0);
 }
 
 Enemy Enemy::create_Boss() {
