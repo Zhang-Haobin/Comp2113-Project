@@ -25,13 +25,11 @@ Battle::print_battle_screen() {
 			++option_name;
 		}
 	}
-
 	cout << option_name << ". End turn\n\n";
 	++option_name;
-
 	cout << option_name << ". Drink potion\n\n";
 }
 
 Battle::process_player_input() {
-	
+	;
 }
