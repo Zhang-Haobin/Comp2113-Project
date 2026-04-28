@@ -138,7 +138,7 @@ void displayNodeType(NodeType type) {
     }
 }
 
-//this function↓ is only used for test the random system. will not be contained in final code (Since we apply the map_screen method)
+//this function↓ is only used for test the random system. will not be contained in final code (We will make it be showed by the map_screen)
 void playMap() {
     Map map(5);
 
