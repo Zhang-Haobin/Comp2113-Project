@@ -29,7 +29,7 @@ else if ( select_menu == 1){                                                //�
     cout<< "2-Load"<<endl;      
     cout<< "3-Quit"<<endl;                                            //加载一个已有的存档
     cout<< "enter the numbers before the entries for selecting"<<endl;
-    while 
+    
 
 
 }
@@ -40,5 +40,5 @@ else{
 
 }
 
-return 0
+return 0;
 }
