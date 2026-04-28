@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include <fstream>
 #include <iomanip>
@@ -7,6 +8,7 @@
 using namespace std;
 
 enum class Screen { welcome, lobby, battle, paused, end };
+enum class Menu_page { save_slot, record, info }
 enum class Difficulty { easy, normal, hard }; // todo: add maybe one more
 
 bool is_game_running = true;
@@ -43,7 +45,17 @@ int main() {
         }
 
 void welcomeprocess(){
+    cout<<"\n===|Spire Lite|===\n"<<endl;
+    cout<<"    Main Menu   "<<endl;
+    cout<<"   1-Start      "<<endl;
+    cout<<"   2-Game Record"<<endl;
+    cout<<"   3-More Info  "<<endl;
+    cout<<"   4-Quit       "<<endl;
+
     
+
+
+
 }    
  
         
