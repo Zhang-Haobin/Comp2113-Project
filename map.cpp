@@ -74,7 +74,7 @@ public:
             }  
         }
 
-        for (size_t i = 1; i < layers.size(); ++i) {                        //Check if each node in layer i has at least one parent in layer i-1, if not, connect it to a random parent
+        for (size_t i = 1; i < layers.size(); ++i) {                        //Check if each node in layer i has at least one parent in layer i-1, if not, connect it to a random node in layer i-1
             for (size_t j = 0; j < layers[i].size(); ++j) {
                 if (i == layers.size() - 1) continue; 
                 bool hasParent = false;
@@ -123,10 +123,10 @@ public:
         currentNodeIdx = nextNodeIdx;
         return true;
     }
+
     bool isBossLayer() {
         return currentLayer == static_cast<int>(layers.size()) - 1;
     }
-   
 };
 
 void displayNodeType(NodeType type) {
@@ -140,15 +140,15 @@ void displayNodeType(NodeType type) {
 
 
 void playMap() {
-    Map map(5);                             //create a map with 5 layers ,it may change after we completing the difficulty part
+    Map map(5);
 
     while (!map.isBossLayer()) {
-        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
        
 
         Node& cur = map.getCurrentNode();
         cout << "=== Current Stage ===" << endl;
-        cout << "            " << map.currentLayer << endl;
+        cout << "           " << map.currentLayer << endl;
         displayNodeType(cur.type);
         cout << "\n\n";
 
@@ -184,7 +184,7 @@ void playMap() {
     }
 
     
-   cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+   cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
    cout << "=== Final Stage ===\n";
    displayNodeType(map.getCurrentNode().type);
    cout << "\n";
