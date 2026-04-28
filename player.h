@@ -33,4 +33,4 @@ public:
     int get_damage(int atk);
 };
 
-#endif
+#endif // ifndef PLAYER_H

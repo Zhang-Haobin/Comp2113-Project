@@ -1,30 +1,13 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 
+#include "main.h"
 #include "player.h"
 #include "save.h"
 #include "battle.h"
 #include "map.h"
+
 using namespace std;
-
-enum class Screen { welcome, lobby, map, battle, paused, end };                  
-enum class Difficulty { easy, normal, hard, lunatic }; 
-
-bool is_game_running = true;
-int difficulty = 2;
-Screen cur_screen = Screen::welcome;
-
-void welcome_screen();                              
-void lobby_screen();
-void map_screen()
-void battle_screen();
-void paused_screen();
-
-
-void save_slot_screen();
-void record_screen();
-void info_screen();
 
 int main() {
     while(is_game_running) {
@@ -85,8 +68,12 @@ void save_slot_screen() {
 
 }
 
-void map_screen(){
+void map_screen() {
     Map map(difficulty*4+10)
     
+}
+
+void battle_screen() {
+
 }
 

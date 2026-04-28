@@ -33,5 +33,8 @@ Battle::print_battle_screen() {
 }
 
 Battle::process_player_input() {
-	;
+	// todo: save the current battle state every turn
+	//       so that the player can just Ctrl+C or Alt+F4 anytime
+
+	
 }
