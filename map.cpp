@@ -123,7 +123,9 @@ public:
         currentNodeIdx = nextNodeIdx;
         return true;
     }
-
+    bool isBossLayer() {
+        return currentLayer == static_cast<int>(layers.size()) - 1;
+    }
    
 };
 
