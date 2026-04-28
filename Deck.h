@@ -2,7 +2,7 @@
 #define DECK_H
 
 #include <vector>
-#include "Card.h"
+#include "card.h"
 
 using namespace std;
 
