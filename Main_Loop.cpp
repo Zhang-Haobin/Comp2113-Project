@@ -34,10 +34,18 @@ int main() {
             case Screen::battle:
                 battleprocess();
                 break
-            case Screen::
-                pausedprocess()
+            case Screen::paused:
+                pausedprocess();
+                break
+            case Screen::end:
+                is_game_running = false
+                break;
         }
 
+void welcomeprocess(){
+    
+}    
+ 
         
         
         
