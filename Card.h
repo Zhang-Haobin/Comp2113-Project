@@ -1,18 +1,19 @@
+#ifndef CARD_H
+#define CARD_H
+
 #include <string>
 
 using namespace std;
 
-// This class stores the information of one card.
+// This struct stores the information of one card.
 // It only keeps card data and does not handle battle logic.
-class Card {
-private:
+struct Card {
     string name;         // card name
     string description;  // card description
     string type;         // card type, such as Attack / Skill / Utility
     int cost;            // energy cost
     int value;           // main number of the card effect
 
-public:
     // Create a default card
     Card();
 
@@ -35,3 +36,5 @@ public:
     static Card createDefend();
     static Card createHeal();
 };
+
+#endif

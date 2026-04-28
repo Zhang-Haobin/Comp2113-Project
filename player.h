@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Card.cpp"
+#include "Card.h"
 
 using namespace std;
 
@@ -47,6 +47,6 @@ public:
     int get_damage(int atk) {
         return (atk + damage_boost) * strength;
     }
-}
+};
 
 #endif
