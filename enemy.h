@@ -6,7 +6,7 @@ using namespace std;
 struct Enemy{
     string enemy_name;
     int hp;
-    int map_hp;
+    int max_hp;
     int attack;
     int armor;
 
@@ -20,6 +20,7 @@ struct Enemy{
 
     static Enemy create_Cultist();
     static Enemy create_JawWorm();
+    static Enemy create_Boss();
 
 
 
