@@ -1,5 +1,5 @@
-main: main.o battle.o enemy.o player.o
-	g++ main.o battle.o enemy.o player.o -o main -O2 -std=c++11
+main: main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o
+	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o -o main -O2 -std=c++11
 
 battle.o: battle.cpp battle.h
 	g++ -c battle.cpp -O2 -std=c++11
@@ -9,3 +9,15 @@ enemy.o: enemy.cpp enemy.h
 
 player.o: player.cpp player.h
 	g++ -c player.cpp -O2 -std=c++11
+
+Card.o: Card.cpp Card.h
+	g++ -c Card.cpp -O2 -std=c++11
+
+Deck.o: Deck.cpp Deck.h Card.h
+	g++ -c Deck.cpp -O2 -std=c++11
+
+save.o: save.cpp save.h
+	g++ -c save.cpp -O2 -std=c++11
+
+Cardfactory.o: Cardfactory.cpp Cardfactory.h Card.h
+	g++ -c Cardfactory.cpp -O2 -std=c++11
