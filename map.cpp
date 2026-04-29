@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-
+#include "main.h"
 using namespace std;
 
 enum class NodeType { NormalEnemy, EliteEnemy, Shop, Campfire, Event, Boss, Start };
@@ -137,7 +137,7 @@ void displayNodeType(NodeType type) {
         case NodeType::Start:       std::cout << "Starting Point"; break;
     }
 } 
-void playmap(){
+void playmap(Map &map){
     while (!map.isBossLayer()) {
         cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
        
@@ -166,10 +166,10 @@ void playmap(){
                 switch (cur.type){
                     case NodeType::NormalEnemy:
                         cur_screen = Screen::battle;                                //jump to the battle screen
-                        return
+                        return;
                     case NodeType::Event:
                                                                //We need to add some random events here
-                        return
+                        return;
                 }
             }  
         }else{
