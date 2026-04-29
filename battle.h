@@ -1,6 +1,7 @@
 #ifndef BATTLE_H
 #define BATTLE_H
 
+#include <string>
 #include <vector>
 
 #include "player.h"
@@ -13,8 +14,10 @@ public:
 	Player player;
 	vector<Enemy> enemies;
 
-	void print_battle_screen() const;
+	vector<string> valid_options;
+
+	void print_battle_screen();
 	void process_player_input();
-}
+};
 
 #endif // ifndef BATTLE_H
