@@ -24,6 +24,8 @@ struct Enemy{
 
     static Enemy create_JawWorm();
 
+    static Enemy create_Louses();
+
     static Enemy create_Boss();
 
 };

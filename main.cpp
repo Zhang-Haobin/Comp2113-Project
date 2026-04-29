@@ -38,10 +38,10 @@ int main() {
 void welcome_screen() {
     cout << "\n===|Spire Lite|===\n" << endl;
     cout << "    Main Menu   " << endl;
-    cout << "   1-Start      " << endl;
-    cout << "   2-Game Record" << endl;
-    cout << "   3-More Info  " << endl;
-    cout << "   4-Quit       " << endl;
+    cout << "   1. Start      " << endl;
+    cout << "   2. Game Record" << endl;
+    cout << "   3. More Info  " << endl;
+    cout << "   4. Quit       " << endl;
 
     int choice;
     cin >> choice;
@@ -65,7 +65,10 @@ void welcome_screen() {
 }    
  
 void save_slot_screen() {
-
+    cout << " Saves:\n\n";
+    cout << "1. New Game\n\n";
+    cout << "2. Browse Saves\n\n";
+    cout << "3. Main Menu\n\n";
 }
 
 void map_screen() {

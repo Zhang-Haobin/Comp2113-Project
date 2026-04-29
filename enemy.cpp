@@ -1,7 +1,4 @@
-
-
 #include <string>
-
 #include "enemy.h"
 
 using namespace std;
@@ -32,6 +29,7 @@ void Enemy::take_damage(int attack) {
         hp = 0;
     }
 }
+
 int Enemy::get_attack() const {
     return attack;
 }
@@ -48,6 +46,11 @@ Enemy Enemy::create_JawWorm() {
     return Enemy("Jaw Worm", 30, 7, 0);
 }
 
+// Enemy Enemy::create_Louses() {
+//     return Enemy("Louses", 60, 12, 0);
+// }
+
 Enemy Enemy::create_Boss() {
     return Enemy("Boss", 60, 12, 0);
 }
+
