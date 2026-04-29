@@ -8,11 +8,11 @@ using namespace std;
 void Effect::apply_effect_on_entity(Entity &entity) {
     switch(type) {
     case EffectType::Weak: {
-        entity.strength = 1 - 0.25; // constant
+        entity.set_strength(1 - 0.25); // constant
         break;
     }
     case EffectType::Strength: {
-        entity.damage_boost = value; // depends on value
+        entity.set_damage_boost(value); // depends on value
         break;
     }
     default: {
