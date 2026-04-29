@@ -37,6 +37,4 @@ public:
 
 void displayNodeType(NodeType type);
 
-void playMap();
-
 #endif 
