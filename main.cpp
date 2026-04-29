@@ -70,7 +70,7 @@ void save_slot_screen() {
 
 void map_screen() {
     Map map(difficulty*4+10);
-    playmap(Map &map);
+    playmap(map);
 }
 
 void battle_screen() {
