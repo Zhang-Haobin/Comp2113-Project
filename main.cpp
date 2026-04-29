@@ -8,7 +8,7 @@
 #include "map.h"
 using namespace std;
 
-enum class Screen { welcome, map, battle, paused, end };                  
+enum class Screen { welcome, lobby, map, battle, paused, end };                  
 enum class Difficulty { easy, normal, hard, lunatic }; 
 
 bool is_game_running = true;
@@ -17,8 +17,10 @@ Screen cur_screen = Screen::welcome;
 
 void welcome_screen();                              
 void lobby_screen();
+void map_screen()
 void battle_screen();
 void paused_screen();
+
 
 void save_slot_screen();
 void record_screen();
@@ -29,6 +31,9 @@ int main() {
         switch(cur_screen) {
         case Screen::welcome:
             welcome_screen();
+            break;
+        case Screen::lobby:
+            lobby_screen();
             break;
         case Screen::map:
             map_screen();
@@ -79,3 +84,9 @@ void welcome_screen() {
 void save_slot_screen() {
 
 }
+
+void map_screen(){
+    Map map(difficulty*5+10)
+    
+}
+
