@@ -1,4 +1,6 @@
 #include "battle.h"
+#include <iostream>
+using namespace std;
 
 Battle::print_battle_screen() {
 	cout << player.name << " HP " << player.hp << "/" << player.max_hp << " | Block 0 | Energy " << player.energy << " | Potions 0\n\n";
@@ -8,7 +10,7 @@ Battle::print_battle_screen() {
 	}
 	else {
 		for(const Enemy &enemy : enemies) {
-			cout << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
+			cout << enemy_name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
 		}
 		cout << "\n";
 	}
