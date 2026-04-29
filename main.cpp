@@ -86,7 +86,7 @@ void save_slot_screen() {
 }
 
 void map_screen(){
-    Map map(difficulty*5+10)
+    Map map(difficulty*4+10)
     
 }
 
