@@ -173,6 +173,5 @@ void playmap(Map &map){
         } 
     }
 }
-}
 
 
