@@ -57,5 +57,5 @@ void Battle::process_player_input() {
 	}
 	// else:
 
-	;
+	; 
 }
