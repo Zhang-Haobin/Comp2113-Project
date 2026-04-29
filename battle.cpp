@@ -39,9 +39,10 @@ void Battle::print_and_select_options() {
                 }
                 player.energy -= card.getCost();
 
-                cout << "You played " << card.getName() << "!\n";
                 round = BattleRound::option_result;
-                // todo: implement card effects
+                cout << "You played " << card.getName() << "!\n";
+
+                apply_card(card);
             };
             ++option_name;
         }
@@ -104,5 +105,46 @@ void Battle::process_player_input() {
         round = BattleRound::select_option;
         break;
     }
+    }
+}
+
+void Battle::apply_card(const Card &card) {
+    if(card.getType() == "Strike") {
+        card.getValue(); // todo: apply to which enemy?
+    }
+    else if(card.getType() == "Defend") {
+        player.block += card.getValue();
+    }
+    else if(card.getType() == "Heal") {
+        player.hp = player.get_hp_after_heal(card.getValue());
+    }
+    else if(card.getType() == "Bash") {
+        card.getValue(); // todo: apply to which enemy?
+    }
+    else if(card.getType() == "Recover") {
+        player.energy += card.getValue();
+        if(player.energy > player.max_energy) {
+            player.energy = player.max_energy;
+        }
+    }
+    else if(card.getType() == "Fireball") {
+        card.getValue(); // todo: apply to which enemy?
+    }
+    else if(card.getType() == "Quick Slash") {
+        card.getValue(); // todo: apply to which enemy?
+    }
+    else if(card.getType() == "Iron Wall") {
+        player.block += card.getValue();
+    }
+    else if(card.getType() == "Adrenaline") {
+        card.getValue(); // todo: 2 stats?
+        player.energy += 1;
+        if(player.energy > player.max_energy) {
+            player.energy = player.max_energy;
+        }
+        player.hp = player.get_hp_after_heal(2);
+    }
+    else {
+        cout << "Unimplemented card type!\n";
     }
 }

@@ -20,7 +20,7 @@ public:
     int energy = 3;
     int strength = 1;                // damage multiplier
     int damage_boost = 0;            // damage boost
-    int armor = 0;                   // damage reduction
+    int block = 0;                   // damage reduction
     int stage = 0;                   // current stage
     int difficulty = 2;              // difficulty
     int max_card = 6;                // max number of cards held at the same time

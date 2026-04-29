@@ -32,6 +32,8 @@ public:
     void print_option_result() const;
     void print_battle_screen();
     void process_player_input();
+
+    void apply_card(const Card &card);
 };
 
 #endif // ifndef BATTLE_H
