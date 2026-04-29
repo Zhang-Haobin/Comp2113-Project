@@ -2,36 +2,22 @@
 #define BATTLE_H
 
 #include <string>
-#include <functional>
-#include <unordered_map>
+#include <vector>
 
 #include "player.h"
 #include "enemy.h"
 
-template <typename K, typename V>
-using umap = unordered_map<K, V>;
-
 // a "screen", initialized by the main loop
-
-enum class BattleRound {
-    select_option,
-    option_result,
-};
 
 class Battle {
 public:
-    Player player;
-    vector<Enemy> enemies;
-    BattleRound round = BattleRound::select_option;
+	Player player;
+	vector<Enemy> enemies;
 
-    umap<string, function<void()>> valid_options;
+	vector<string> valid_options;
 
-    Battle() = default;
-
-    void print_and_select_options();
-    void print_option_result() const;
-    void print_battle_screen();
-    void process_player_input();
+	void print_battle_screen();
+	void process_player_input();
 };
 
 #endif // ifndef BATTLE_H
