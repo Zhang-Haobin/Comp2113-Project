@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::get_hp_after_heal(int hp_add) {
+int Player::get_hp_after_heal(int hp_add) {
 	hp += hp_add;
 	if (hp > max_hp) {
 		hp = max_hp;
@@ -8,7 +8,7 @@ Player::get_hp_after_heal(int hp_add) {
 	return hp;
 }
 
-Player::get_hp_after_hurt(int hp_minus) {
+int Player::get_hp_after_hurt(int hp_minus) {
 	hp -= hp_minus;
 	if (hp < 0) {
 		hp = 0;
@@ -16,6 +16,6 @@ Player::get_hp_after_hurt(int hp_minus) {
 	return hp;
 }
 
-Player::get_damage(int atk) {
+int Player::get_damage(int atk) {
 	return (atk + damage_boost) * strength;
 }
