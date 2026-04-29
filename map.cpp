@@ -8,13 +8,6 @@
 #include "map.h"
 using namespace std;
 
-
-struct Node {
-    NodeType type;
-    vector<int> nextIndices;   
-};
-
-
 class Map {
 public:
     vector<vector<Node>> layers;
@@ -178,8 +171,8 @@ void playmap(Map &map){
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.get();
         } 
+    }
 }
-
 }
 
 
