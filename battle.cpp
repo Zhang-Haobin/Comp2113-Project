@@ -1,5 +1,9 @@
-#include "battle.h"
 #include <iostream>
+#include <fstream>
+
+#include "battle.h"
+#include "save.h"
+
 using namespace std;
 
 Battle::print_battle_screen() {
@@ -34,7 +38,19 @@ Battle::print_battle_screen() {
 
 Battle::process_player_input() {
 	// todo: save the current battle state every turn
-	//       so that the player can just Ctrl+C or Alt+F4 anytime
 
-	
+	string ln;
+	cin >> ln;
+
+	try {
+		int option = stoi(ln);
+		if(option) { // todo
+			throw exception();
+		}
+
+		
+	}
+	catch(exception e) {
+
+	}
 }

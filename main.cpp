@@ -74,6 +74,7 @@ void map_screen() {
 }
 
 void battle_screen() {
-
+    cur_battle.process_player_input();
+    cur_battle.print_battle_screen();
 }
 
