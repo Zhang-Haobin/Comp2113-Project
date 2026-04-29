@@ -86,7 +86,7 @@ Card Card::create_QuickSlash() {
     return Card("Quick Slash", "Attack", 1, 5, "Deal 5 damage and gain 2 block.");
 }
 
-Card Card::createIronWall() {
+Card Card::create_IronWall() {
     return Card("Iron Wall", "Skill", 2, 11, "Gain 11 block.");
 }
 
