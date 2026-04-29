@@ -33,8 +33,12 @@ public:
     bool moveToNextLayer(int nextNodeIdx);
 
     bool isBossLayer();
+
+    
 };
 
 void displayNodeType(NodeType type);
+
+void playmap()
 
 #endif 
