@@ -136,6 +136,49 @@ void displayNodeType(NodeType type) {
         case NodeType::Boss:        std::cout << "BOSS"; break;
         case NodeType::Start:       std::cout << "Starting Point"; break;
     }
+} 
+void playmap(){
+    while (!map.isBossLayer()) {
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
+       
+        Node& cur = map.getCurrentNode();                                          //show the current stages
+        cout << "=== Current Stage ===" << endl;
+        cout << "           " << map.currentLayer << endl;
+        displayNodeType(cur.type);
+        cout << "\n\n";
+
+        auto nexts = map.getNextNodes();
+
+        cout<<"Reachable Nodes:"<<endl;                                                //show reachable node
+        for (size_t i = 0; i < nexts.size(); ++i) {
+            cout << "  " << (i + 1) << ". ";
+            displayNodeType(nexts[i].second);
+            cout << "\n";
+        }
+
+        cout << "\nEnter (1-" << nexts.size() << ") to move or enter 0 to pause: ";
+        int choice;
+        cin >> choice;
+
+        if (choice >= 1 && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
+            int targetIdx = nexts[choice - 1].first;
+            if (map.moveToNextLayer(targetIdx)) {
+                switch (cur.type){
+                    case NodeType::NormalEnemy:
+                        cur_screen = Screen::battle;                                //jump to the battle screen
+                        return
+                    case NodeType::Event:
+                                                               //We need to add some random events here
+                        return
+                }
+            }  
+        }else{
+        cout << "Invalid choice\n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.get();
+        } 
+}
+
 }
 
 
