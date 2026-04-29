@@ -5,9 +5,9 @@
 #include <ctime>
 #include <limits>
 #include "main.h"
+#include "map.h"
 using namespace std;
 
-enum class NodeType { NormalEnemy, EliteEnemy, Shop, Campfire, Event, Boss, Start };
 
 struct Node {
     NodeType type;
