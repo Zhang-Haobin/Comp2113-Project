@@ -39,6 +39,6 @@ public:
 
 void displayNodeType(NodeType type);
 
-void playmap(Map &map)
+void playmap(Map &map);
 
 #endif 
