@@ -8,19 +8,15 @@
 #include "map.h"
 using namespace std;
 
-class Map {
-public:
-    vector<vector<Node>> layers;
-    int currentLayer;     
-    int currentNodeIdx;   
 
-    Map(int numLayers = 5) {                             
+
+Map::Map(int numLayers = 5) {                             
         layers.resize(numLayers);
         currentLayer = 0;
         generate();
     }
 
-    void generate() {
+void Map::generate() {
         srand(static_cast<unsigned> (time(nullptr)));            //random seed
 
     
@@ -90,7 +86,7 @@ public:
         currentNodeIdx = 0;
     }
 
-    Node& getCurrentNode() {
+    Node& Map::getCurrentNode() {
         return layers[currentLayer][currentNodeIdx];
     }
 
@@ -105,7 +101,7 @@ public:
         return result;
     }
 
-    bool moveToNextLayer(int nextNodeIdx) {
+    bool Map::moveToNextLayer(int nextNodeIdx) {
         auto nexts = getNextNodes();
         bool valid = false;
         for (auto& p : nexts) {
@@ -117,12 +113,12 @@ public:
         return true;
     }
 
-    bool isBossLayer() {
+    bool Map::isBossLayer() {
         return currentLayer == static_cast<int>(layers.size()) - 1;
     }
 };
 
-void displayNodeType(NodeType type) {
+void Map::displayNodeType(NodeType type) {
     switch (type) {
         case NodeType::NormalEnemy: std::cout << "Normal Enemy"; break;
         case NodeType::Event:       std::cout << "Event"; break;
@@ -172,6 +168,6 @@ void playmap(Map &map){
         cin.get();
         } 
     }
-}
+
 
 
