@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include "main.h"
+#include "map.h"
 using namespace std;
 
 
