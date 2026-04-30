@@ -31,7 +31,7 @@ public:
     Battle() = default;
 
     void print_and_select_options();
-    void print_option_result() const;
+    void print_and_apply_enemies();
     void print_battle_screen();
     void process_player_input();
 

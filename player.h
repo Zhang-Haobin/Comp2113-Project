@@ -26,11 +26,10 @@ public:
     int max_card = 6;                // max number of cards held at the same time
     vector<Card> cards = {};
 
-    // these functions ONLY RETURNS a value:
-
-    int get_hp_after_heal(int hp_add);
-    int get_hp_after_hurt(int hp_minus);
-    int get_damage(int atk);
+    int get_damage(int atk) const;
+    
+    void heal(const int delta);
+    void hurt(const int delta);
 };
 
 #endif // ifndef PLAYER_H
