@@ -10,6 +10,11 @@
 
 using namespace std;
 
+bool is_game_running = true;
+int difficulty = 2;
+Screen cur_screen = Screen::welcome;
+Battle cur_battle;
+
 int main() {
     while(is_game_running) {
         switch(cur_screen) {
@@ -101,3 +106,16 @@ void battle_screen() {
     cur_battle.print_battle_screen();
 }
 
+void lobby_screen() {
+    save_slot_screen();
+}
+
+void record_screen() {
+    print_record();
+    cur_screen = Screen::welcome;
+}
+
+void info_screen() {
+    cout << "Spire Lite" << endl;
+    cur_screen = Screen::welcome;
+}

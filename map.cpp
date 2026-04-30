@@ -10,7 +10,7 @@ using namespace std;
 
 
 
-Map::Map(int numLayers = 5) {                             
+Map::Map(int numLayers) {                             
         layers.resize(numLayers);
         currentLayer = 0;
         generate();
@@ -90,7 +90,7 @@ void Map::generate() {
         return layers[currentLayer][currentNodeIdx];
     }
 
-    vector<pair<int, NodeType>> getNextNodes() {
+    vector<pair<int, NodeType>> Map::getNextNodes() {
         vector<pair<int, NodeType>> result;
         if (currentLayer + 1 >= static_cast<int>(layers.size())) return result;
         for (int idx : getCurrentNode().nextIndices) {
@@ -116,9 +116,8 @@ void Map::generate() {
     bool Map::isBossLayer() {
         return currentLayer == static_cast<int>(layers.size()) - 1;
     }
-};
 
-void Map::displayNodeType(NodeType type) {
+void displayNodeType(NodeType type) {
     switch (type) {
         case NodeType::NormalEnemy: std::cout << "Normal Enemy"; break;
         case NodeType::Event:       std::cout << "Event"; break;
@@ -170,4 +169,4 @@ void playmap(Map &map){
     }
 
 
-
+}
