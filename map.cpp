@@ -47,7 +47,7 @@ void Map::generate() {
      
         for (size_t i = 0; i < layers.size() - 1; ++i) {                       // Connect Layer i to Layer i+1
             for (size_t j = 0; j < layers[i].size(); ++j) {
-                int maxConnection = (i == 0) ? 2 : (1 + rand() % 2);                  //the first layer can have up to 2 connections, the others can have 1-2 connections
+                int maxConnection = (i == 0) ? 2 : (1 + rand() % 2);                  //the each nodes can have up to 2 connections
                 int nextLayerSize = static_cast<int>(layers[i+1].size());      
                 for (int k = 0; k < maxConnection; ++k) {                          
                     int targetIdx = rand() % nextLayerSize;
