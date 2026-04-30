@@ -93,6 +93,9 @@ void save_slot_screen() {
         cin>>new_name;
         Player player;
         player.name = new_name;
+        cout<<"\nCreate successfully, welcome to Spire Lite, "<<new_name<<endl;
+                                                                //todo :insert a difficulty selection function and store it in player.difficulty
+        cur_screen = Screen::map;
         break;
     }
     case 2: {
@@ -111,7 +114,7 @@ void save_slot_screen() {
 }
 
 void map_screen() {
-    Map map(difficulty*4+10);
+    Map map((player.difficulty)*4+10);
     playmap(map);
     Node& newNode = map.getCurrentNode(); 
         switch (newNode.type){
