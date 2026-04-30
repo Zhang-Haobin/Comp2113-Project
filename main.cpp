@@ -109,6 +109,15 @@ void save_slot_screen() {
 void map_screen() {
     Map map(difficulty*4+10);
     playmap(map);
+    Node& newNode = map.getCurrentNode(); 
+        switch (newNode.type){
+                case NodeType::NormalEnemy:
+                    cur_screen = Screen::battle;                                //jump to the battle screen
+                    break;
+                case NodeType::Event:
+                    break;         
+        }
+                                                                                 //We need to add some random events here                    
 }
 
 void battle_screen() {
