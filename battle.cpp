@@ -142,34 +142,42 @@ void Battle::apply_card() {
     if(played_card_enemy_idx != -1) {
         cout << " on " << enemies[played_card_enemy_idx].name;
     }
-    cout << "!\n";
+    cout << "!\n\n";
 
     if(card.getType() == "Strike") {
         enemy.take_damage(card.getValue());
+        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
     }
     else if(card.getType() == "Defend") {
         player.block += card.getValue();
+        cout << "You gained " << card.getValue() << " block!\n";
     }
     else if(card.getType() == "Heal") {
         player.hp = player.get_hp_after_heal(card.getValue());
+        cout << "You healed for " << card.getValue() << " HP!\n";
     }
     else if(card.getType() == "Bash") {
         enemy.take_damage(card.getValue());
+        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
     }
     else if(card.getType() == "Recover") {
         player.energy += card.getValue();
         if(player.energy > player.max_energy) {
             player.energy = player.max_energy;
         }
+        cout << "You recovered " << card.getValue() << " energy!\n";
     }
     else if(card.getType() == "Fireball") {
         enemy.take_damage(card.getValue());
+        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
     }
     else if(card.getType() == "Quick Slash") {
         enemy.take_damage(card.getValue());
+        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
     }
     else if(card.getType() == "Iron Wall") {
         player.block += card.getValue();
+        cout << "You gained " << card.getValue() << " block!\n";
     }
     else if(card.getType() == "Adrenaline") {
         card.getValue(); // todo: 2 stats?
@@ -179,6 +187,8 @@ void Battle::apply_card() {
             player.energy = player.max_energy;
         }
         player.hp = player.get_hp_after_heal(2);
+
+        // todo: print msg
     }
     else {
         cout << "Unimplemented card type!\n";
