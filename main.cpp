@@ -1,11 +1,12 @@
-#include <iostream>
-#include <string>
-
 #include "main.h"
 #include "player.h"
 #include "save.h"
 #include "battle.h"
 #include "map.h"
+
+#include <iostream>
+#include <string>
+#include <limits>
 
 using namespace std;
 
@@ -69,6 +70,25 @@ void save_slot_screen() {
     cout << "1. New Game\n\n";
     cout << "2. Browse Saves\n\n";
     cout << "3. Main Menu\n\n";
+
+    int option;
+    cin >> option;
+    if(cin.fail()) {
+        cout << "Invalid input!\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
+    switch(option) {
+    case 1: {
+        break;
+    }
+    default: {
+        cout << "Invalid option!\n";
+        break;
+    }
+    }
 }
 
 void map_screen() {
