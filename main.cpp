@@ -88,7 +88,11 @@ void save_slot_screen() {
 
     switch(option) {
     case 1: {
-        cur_screen = Screen::battle; // todo
+        string new_name;
+        cout<<"Type your name: ";
+        cin>>new_name;
+        Player player;
+        player.name = new_name;
         break;
     }
     case 2: {
