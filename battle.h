@@ -25,6 +25,8 @@ public:
     BattleRound round = BattleRound::select_option;
 
     umap<string, function<void()>> valid_options;
+    int played_card_idx;
+    int played_card_enemy_idx;
 
     Battle() = default;
 
@@ -33,7 +35,7 @@ public:
     void print_battle_screen();
     void process_player_input();
 
-    void apply_card(const Card &card);
+    void apply_card();
 };
 
 #endif // ifndef BATTLE_H

@@ -8,17 +8,18 @@ using namespace std;
 // This struct stores the information of one card.
 // It only keeps card data and does not handle battle logic.
 struct Card {
-    string name;         // card name
-    string description;  // card description
-    string type;         // card type, such as Attack / Skill / Utility
-    int cost;            // energy cost
-    int value;           // main number of the card effect
+    string name;            // card name
+    string description;     // card description
+    string type;            // card type, such as Attack / Skill / Utility
+    int cost;               // energy cost
+    int value;              // main number of the card effect
+    bool is_apply_to_enemy; // whether the card applies to enemy
 
     // Create a default card
     Card();
 
     // Create a card with full information
-    Card(string name, string type, int cost, int value, string description);
+    Card(string name, string type, int cost, int value, string description, bool is_apply_to_enemy);
 
     // Read card information
     string getName() const;
@@ -26,7 +27,7 @@ struct Card {
     string getType() const;
     int getCost() const;
     int getValue() const;
-
+    bool getIsApplyToEnemy() const;
     // Check whether current energy is enough
     bool isPlayable(int currentEnergy) const;
 
