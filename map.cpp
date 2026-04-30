@@ -126,7 +126,7 @@ void Map::displayNodeType(NodeType type) {
         case NodeType::Start:       std::cout << "Starting Point"; break;
     }
 } 
-void Map::playmap(Map &map){
+void playmap(Map &map){
     while (!map.isBossLayer()) {
         cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
        
