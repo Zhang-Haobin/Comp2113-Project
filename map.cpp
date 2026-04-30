@@ -151,17 +151,10 @@ void playmap(Map &map){
         if (choice >= 1 && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
             int targetIdx = nexts[choice - 1].first;
             if (map.moveToNextLayer(targetIdx)) {
-                Node& newNode = map.getCurrentNode(); 
-                switch (newNode.type){
-                    case NodeType::NormalEnemy:
-                        cur_screen = Screen::battle;                                //jump to the battle screen
-                        return;
-                    case NodeType::Event:
-                                                               //We need to add some random events here
-                        return;
+                return;
                 }
-            }  
-        }else{
+        }
+        else{
         cout << "Invalid choice\n";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.get();
