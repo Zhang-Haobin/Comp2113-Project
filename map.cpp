@@ -8,19 +8,15 @@
 #include "map.h"
 using namespace std;
 
-class Map {
-public:
-    vector<vector<Node>> layers;
-    int currentLayer;     
-    int currentNodeIdx;   
 
-    Map(int numLayers = 5) {                             
+
+Map::Map(int numLayers) {                             
         layers.resize(numLayers);
         currentLayer = 0;
         generate();
     }
 
-    void generate() {
+void Map::generate() {
         srand(static_cast<unsigned> (time(nullptr)));            //random seed
 
     
@@ -51,7 +47,7 @@ public:
      
         for (size_t i = 0; i < layers.size() - 1; ++i) {                       // Connect Layer i to Layer i+1
             for (size_t j = 0; j < layers[i].size(); ++j) {
-                int maxConnection = (i == 0) ? 2 : (1 + rand() % 2);                  //the first layer can have up to 2 connections, the others can have 1-2 connections
+                int maxConnection = (i == 0) ? 2 : (1 + rand() % 2);                  //the each nodes can have up to 2 connections
                 int nextLayerSize = static_cast<int>(layers[i+1].size());      
                 for (int k = 0; k < maxConnection; ++k) {                          
                     int targetIdx = rand() % nextLayerSize;
@@ -90,11 +86,11 @@ public:
         currentNodeIdx = 0;
     }
 
-    Node& getCurrentNode() {
+    Node& Map::getCurrentNode() {
         return layers[currentLayer][currentNodeIdx];
     }
 
-    vector<pair<int, NodeType>> getNextNodes() {
+    vector<pair<int, NodeType>> Map::getNextNodes() {
         vector<pair<int, NodeType>> result;
         if (currentLayer + 1 >= static_cast<int>(layers.size())) return result;
         for (int idx : getCurrentNode().nextIndices) {
@@ -105,7 +101,7 @@ public:
         return result;
     }
 
-    bool moveToNextLayer(int nextNodeIdx) {
+    bool Map::moveToNextLayer(int nextNodeIdx) {
         auto nexts = getNextNodes();
         bool valid = false;
         for (auto& p : nexts) {
@@ -117,10 +113,9 @@ public:
         return true;
     }
 
-    bool isBossLayer() {
+    bool Map::isBossLayer() {
         return currentLayer == static_cast<int>(layers.size()) - 1;
     }
-};
 
 void displayNodeType(NodeType type) {
     switch (type) {
@@ -172,6 +167,6 @@ void playmap(Map &map){
         cin.get();
         } 
     }
+
+
 }
-
-

@@ -26,8 +26,17 @@ struct Enemy{
 
     static Enemy create_Louses();
 
+    static Enemy create_Slime();
+
+    static Enemy create_Sentry();
+
+    static Enemy create_GremlinNob();
+
     static Enemy create_Boss();
 
 };
+
+Enemy create_normal_enemy_by_floor(int floor);
+Enemy create_boss_enemy();
 
 #endif 
