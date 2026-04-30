@@ -27,6 +27,7 @@ public:
     vector<Card> cards = {};
 
     int get_damage(int atk) const;
+    bool is_dead() const;
     
     void heal(const int delta);
     void hurt(const int delta);

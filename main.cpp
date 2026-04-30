@@ -74,7 +74,7 @@ void save_slot_screen() {
     int option;
     cin >> option;
     if(cin.fail()) {
-        cout << "Invalid input!\n";
+        cout << "Invalid option!\n";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         return;
@@ -82,6 +82,15 @@ void save_slot_screen() {
 
     switch(option) {
     case 1: {
+        cur_screen = Screen::battle; // todo
+        break;
+    }
+    case 2: {
+        // todo
+        break;
+    }
+    case 3: {
+        cur_screen = Screen::welcome;
         break;
     }
     default: {
