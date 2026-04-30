@@ -98,8 +98,8 @@ void Battle::print_and_apply_enemies() {
         player.hurt(enemy.get_attack());
         cout << enemy.name << " dealt " << (old_player_hp - player.hp) << " damage to you!\n\n";
 
-        if(player.hp <= 0) {
-            // todo
+        if(player.is_dead()) {
+            cout << "You are defeated...\n";
             break;
         }
     }
@@ -132,7 +132,7 @@ void Battle::process_player_input() {
         string option;
         cin >> option;
 
-        if(valid_options.find(option) == valid_options.end()) { // can't find this player-input option
+        if(valid_options.find(option) == valid_options.end()) { // can't find this option
             cout << "'" << option << "' is not a valid option!\n";
             return;
         }
