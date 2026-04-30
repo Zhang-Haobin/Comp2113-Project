@@ -32,13 +32,13 @@ public:
 
     bool moveToNextLayer(int nextNodeIdx);
 
-    bool isBossLayer(Map &map);
+    bool isBossLayer();
 
     
 };
 
 void displayNodeType(NodeType type);
 
-void playmap()
+void playmap(Map &map)
 
 #endif 
