@@ -5,9 +5,9 @@ class Entity {
 private:
     int max_hp = 0;
     int hp = 0;
-    int strength = 1;                // damage multiplier
-    int damage_boost = 0;            // damage boost
-    int block = 0;                   // damage reduction
+    int strength = 1;         // damage multiplier
+    int damage_boost = 0;     // damage boost
+    int block = 0;            // damage reduction
     // todo...
 
 public:
@@ -37,21 +37,6 @@ public:
     }
     void set_block(int new_block) {
         block = new_block;
-    }
-
-    int get_hp_after_heal(int heal_amount) const {
-        int new_hp = hp + heal_amount;
-        if(new_hp > max_hp) {
-            new_hp = max_hp;
-        }
-        return new_hp;
-    }
-    int get_damage_after_block(int damage) const {
-        int new_damage = damage - block;
-        if(new_damage < 0) {
-            new_damage = 0;
-        }
-        return new_damage;
     }
 };
 

@@ -3,7 +3,7 @@
 
 #include "battle.h"
 
-enum class Screen { welcome, lobby, map, battle, paused, end };
+enum class Screen { welcome, lobby, map, battle, end, quit };
 enum class Difficulty { easy, normal, hard, lunatic };
 
 bool is_game_running = true;
@@ -14,7 +14,6 @@ void welcome_screen();
 void lobby_screen();
 void map_screen();
 void battle_screen();
-void paused_screen();
 
 void save_slot_screen();
 void record_screen();

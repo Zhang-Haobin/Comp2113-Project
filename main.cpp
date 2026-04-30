@@ -24,11 +24,11 @@ int main() {
         case Screen::battle:
             battle_screen();
             break;
-        case Screen::paused:
-            paused_screen();
-            break;
-        case Screen::end:
+        case Screen::quit:
             is_game_running = false;
+            break;
+        default:
+            cout << "Unimplemented screen!\n";
             break;
         }
         return 0;
@@ -56,7 +56,7 @@ void welcome_screen() {
             info_screen();
             break;
         case 4:
-            cur_screen = Screen::end;
+            cur_screen = Screen::quit;
             break;
         default:
             cout << "Invalid Choice" << endl;
