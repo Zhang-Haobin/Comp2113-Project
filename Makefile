@@ -24,3 +24,6 @@ Cardfactory.o: Cardfactory.cpp Cardfactory.h Card.h
 
 map.o: map.cpp map.h main.h
 	g++ -c map.cpp -O2 -std=c++11
+
+clean:
+	rm -f main *.o

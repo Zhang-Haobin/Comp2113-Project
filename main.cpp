@@ -37,8 +37,9 @@ int main() {
             cout << "Unimplemented screen!\n";
             break;
         }
-        return 0;
+        
     }
+    return 0;
 }
 
 void welcome_screen() {
