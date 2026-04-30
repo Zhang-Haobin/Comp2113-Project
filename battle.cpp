@@ -72,6 +72,7 @@ void Battle::print_and_select_options() {
             ++option_name;
         }
     }
+
     cout << option_name << ". End turn\n\n";
     valid_options[to_string(option_name)] = [&]() {
         // end turn: do nothing
@@ -87,11 +88,6 @@ void Battle::print_and_select_options() {
 }
 
 void Battle::print_option_result() const {
-    cout << "You performed" << player.cards[played_card_idx].getName();
-    if(played_card_enemy_idx != -1) {
-        cout << " on " << enemies[played_card_enemy_idx].name;
-    }
-    cout << "!\n";
     // todo
     cout << "Press enter to continue...\n";
 }
@@ -141,6 +137,12 @@ void Battle::process_player_input() {
 void Battle::apply_card() {
     const Card &card = player.cards[played_card_idx];
     Enemy &enemy = enemies[played_card_enemy_idx];
+
+    cout << "You performed" << player.cards[played_card_idx].getName();
+    if(played_card_enemy_idx != -1) {
+        cout << " on " << enemies[played_card_enemy_idx].name;
+    }
+    cout << "!\n";
 
     if(card.getType() == "Strike") {
         enemy.take_damage(card.getValue());

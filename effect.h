@@ -4,8 +4,9 @@
 #include "entity.h"
 
 enum class EffectType {
-    Weak,
-    Strength,
+    none,
+    weak,
+    strength,
     // todo...
 };
 
