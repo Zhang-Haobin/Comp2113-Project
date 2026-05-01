@@ -37,7 +37,7 @@ void Battle::print_and_select_options() {
             // Print card name, cost, and description
             cout << option_name << ". " << card.getName() << " (Cost: " << card.getCost() << ") - " << card.getDescription() << "\n";
             
-            valid_options[to_string(option_name)] = [&]() {
+            valid_options[to_string(option_name)] = [&, i]() {  // Capture i by value to avoid reference issues
                 if(!card.isPlayable(player.energy)) {
                     cout << "Not enough energy to play " << card.getName() << "!\n";
                     return;
@@ -49,10 +49,13 @@ void Battle::print_and_select_options() {
                 cout << "You played " << card.getName() << "!\n";
 
                 if(!card.getIsApplyToEnemy()) {
+                    // Card doesn't need target (like Defend or Heal)
+                    played_card_enemy_idx = -1;  // Set to -1 for non-target cards
                     apply_card();
                     return;
                 }
 
+                // Card needs a target - ask player which enemy to target
                 cout << "Apply '" << card.getName() << "' to which enemy?\n";
                 for(int j = 0; j < enemies.size(); ++j) {
                     Enemy &enemy = enemies[j];
@@ -63,12 +66,12 @@ void Battle::print_and_select_options() {
                 do {
                     cin >> option_enemy_idx;
                     if(!(1 <= option_enemy_idx && option_enemy_idx <= enemies.size())) {
-                        cout << "Invalid enemy index!\n\n";
+                        cout << "Invalid enemy index!\n";
                         cout << "Apply '" << card.getName() << "' to which enemy?\n";
                     }
                 } while(!(1 <= option_enemy_idx && option_enemy_idx <= enemies.size()));
 
-                played_card_enemy_idx = option_enemy_idx - 1;
+                played_card_enemy_idx = option_enemy_idx - 1;  // Convert to 0-based index
                 apply_card();
             };
             ++option_name;
@@ -154,81 +157,75 @@ void Battle::process_player_input() {
 
 void Battle::apply_card() {
     const Card &card = player.cards[played_card_idx];
-    Enemy &enemy = enemies[played_card_enemy_idx];
+    
+    cout << "You performed " << card.getName();
+    
+    // Check if card applies to enemy (for damage cards)
+    if(card.getIsApplyToEnemy() && played_card_enemy_idx != -1 && played_card_enemy_idx < enemies.size()) {
+        Enemy &enemy = enemies[played_card_enemy_idx];
+        cout << " on " << enemy.name;
+        cout << "!\n\n";
 
-    cout << "You performed " << player.cards[played_card_idx].getName();
-    if(played_card_enemy_idx != -1) {
-        cout << " on " << enemies[played_card_enemy_idx].name;
-    }
-    cout << "!\n\n";
-
-    if(card.getType() == "Strike") {
-        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-        enemy.take_damage(card.getValue());
-        if(enemy.is_dead()) {
-            cout << enemy.name << " is defeated!\n";
+        // Apply damage effects
+        if(card.getType() == "Strike" || card.getType() == "Attack") {
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            enemy.take_damage(card.getValue());
+            if(enemy.is_dead()) {
+                cout << enemy.name << " is defeated!\n";
+            }
+        }
+        else if(card.getType() == "Bash") {
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            enemy.take_damage(card.getValue());
+            if(enemy.is_dead()) {
+                cout << enemy.name << " is defeated!\n";
+            }
+        }
+        else if(card.getType() == "Fireball") {
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            enemy.take_damage(card.getValue());
+            if(enemy.is_dead()) {
+                cout << enemy.name << " is defeated!\n";
+            }
+        }
+        else if(card.getType() == "Quick Slash") {
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            enemy.take_damage(card.getValue());
+            if(enemy.is_dead()) {
+                cout << enemy.name << " is defeated!\n";
+            }
         }
     }
-
-    else if(card.getType() == "Defend") {
-        cout << "You gained " << card.getValue() << " block!\n";
-        player.block += card.getValue();
-    }
-
-    else if(card.getType() == "Heal") {
-        cout << "You healed for " << card.getValue() << " HP!\n";
-        player.heal(card.getValue());
-    }
-
-    else if(card.getType() == "Bash") {
-        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-        enemy.take_damage(card.getValue());
-        if(enemy.is_dead()) {
-            cout << enemy.name << " is defeated!\n";
-        }
-    }
-
-    else if(card.getType() == "Recover") {
-        cout << "You recovered " << card.getValue() << " energy!\n";
-        player.energy += card.getValue();
-        if(player.energy > player.max_energy) {
-            player.energy = player.max_energy;
-        }
-    }
-
-    else if(card.getType() == "Fireball") {
-        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-        enemy.take_damage(card.getValue());
-        if(enemy.is_dead()) {
-            cout << enemy.name << " is defeated!\n";
-        }
-    }
-
-    else if(card.getType() == "Quick Slash") {
-        cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-        enemy.take_damage(card.getValue());
-        if(enemy.is_dead()) {
-            cout << enemy.name << " is defeated!\n";
-        }
-    }
-
-    else if(card.getType() == "Iron Wall") {
-        cout << "You gained " << card.getValue() << " block!\n";
-        player.block += card.getValue();
-    }
-
-    else if(card.getType() == "Adrenaline") {
-        card.getValue(); // todo: 2 stats?
-        player.energy += 1;
-        if(player.energy > player.max_energy) {
-            player.energy = player.max_energy;
-        }
-        player.heal(2);
-
-        // todo: print msg
-    }
-
     else {
-        cout << "Unimplemented card type!\n";
+        // Card doesn't apply to enemy (like Defend or Heal)
+        cout << "!\n\n";
+
+        if(card.getType() == "Defend") {
+            cout << "You gained " << card.getValue() << " block!\n";
+            player.block += card.getValue();
+        }
+        else if(card.getType() == "Heal") {
+            cout << "You healed for " << card.getValue() << " HP!\n";
+            player.heal(card.getValue());
+        }
+        else if(card.getType() == "Recover") {
+            cout << "You recovered " << card.getValue() << " energy!\n";
+            player.energy += card.getValue();
+            if(player.energy > player.max_energy) {
+                player.energy = player.max_energy;
+            }
+        }
+        else if(card.getType() == "Iron Wall") {
+            cout << "You gained " << card.getValue() << " block!\n";
+            player.block += card.getValue();
+        }
+        else if(card.getType() == "Adrenaline") {
+            player.energy += 1;
+            if(player.energy > player.max_energy) {
+                player.energy = player.max_energy;
+            }
+            player.heal(2);
+            cout << "You gained 1 energy and recovered 2 HP!\n";
+        }
     }
 }
