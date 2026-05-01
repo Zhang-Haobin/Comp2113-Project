@@ -34,7 +34,8 @@ void Battle::print_and_select_options() {
         for(int i = 0; i < player.cards.size(); ++i) {
             const Card &card = player.cards[i];
 
-            cout << option_name << ". \n\n";
+            // Print card name, cost, and description
+            cout << option_name << ". " << card.getName() << " (Cost: " << card.getCost() << ") - " << card.getDescription() << "\n";
             
             valid_options[to_string(option_name)] = [&]() {
                 if(!card.isPlayable(player.energy)) {
@@ -74,7 +75,7 @@ void Battle::print_and_select_options() {
         }
     }
 
-    cout << option_name << ". End turn\n\n";
+    cout << "\n" << option_name << ". End turn\n\n";
     valid_options[to_string(option_name)] = [&]() {
         // end turn: do nothing
         round = BattleRound::option_result;
@@ -155,7 +156,7 @@ void Battle::apply_card() {
     const Card &card = player.cards[played_card_idx];
     Enemy &enemy = enemies[played_card_enemy_idx];
 
-    cout << "You performed" << player.cards[played_card_idx].getName();
+    cout << "You performed " << player.cards[played_card_idx].getName();
     if(played_card_enemy_idx != -1) {
         cout << " on " << enemies[played_card_enemy_idx].name;
     }
