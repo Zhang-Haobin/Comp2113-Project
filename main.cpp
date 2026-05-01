@@ -89,12 +89,12 @@ void save_slot_screen() {
     switch(option) {
     case 1: {
         string new_name;
-        cout<<"Type your name: ";
-        cin>>new_name;
+        cout << "Type your name: ";
+        cin >> new_name;
         Player player;
         player.name = new_name;
-        cout<<"\nCreate successfully, welcome to Spire Lite, "<<new_name<<endl;
-                                                                //todo :insert a difficulty selection function and store it in player.difficulty
+        cout << "\nCreate successfully, welcome to Spire Lite, " << new_name << endl;
+        //todo: insert a difficulty selection function and store it in player.difficulty
         cur_screen = Screen::map;
         break;
     }
@@ -117,14 +117,14 @@ void map_screen() {
     Map map((player.difficulty)*4+10);
     playmap(map);
     Node& newNode = map.getCurrentNode(); 
-        switch (newNode.type){
-                case NodeType::NormalEnemy:
-                    cur_screen = Screen::battle;                                //jump to the battle screen
-                    break;
-                case NodeType::Event:
-                    break;         
-        }
-                                                                                 //We need to add some random events here                    
+    switch (newNode.type){
+        case NodeType::NormalEnemy:
+            cur_screen = Screen::battle; // jump to the battle screen
+            break;
+        case NodeType::Event:
+            break;         
+    }
+    // We need to add some random events here                    
 }
 
 void battle_screen() {

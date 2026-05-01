@@ -162,60 +162,61 @@ void Battle::apply_card() {
 
     if(card.getType() == "Strike") {
         cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-
         enemy.take_damage(card.getValue());
         if(enemy.is_dead()) {
             cout << enemy.name << " is defeated!\n";
         }
     }
+
     else if(card.getType() == "Defend") {
         cout << "You gained " << card.getValue() << " block!\n";
         player.block += card.getValue();
     }
+
     else if(card.getType() == "Heal") {
         cout << "You healed for " << card.getValue() << " HP!\n";
         player.heal(card.getValue());
     }
+
     else if(card.getType() == "Bash") {
         cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-
         enemy.take_damage(card.getValue());
         if(enemy.is_dead()) {
             cout << enemy.name << " is defeated!\n";
         }
     }
+
     else if(card.getType() == "Recover") {
         cout << "You recovered " << card.getValue() << " energy!\n";
-
         player.energy += card.getValue();
         if(player.energy > player.max_energy) {
             player.energy = player.max_energy;
         }
     }
+
     else if(card.getType() == "Fireball") {
         cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-
         enemy.take_damage(card.getValue());
         if(enemy.is_dead()) {
             cout << enemy.name << " is defeated!\n";
         }
     }
+
     else if(card.getType() == "Quick Slash") {
         cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
-
         enemy.take_damage(card.getValue());
         if(enemy.is_dead()) {
             cout << enemy.name << " is defeated!\n";
         }
     }
+
     else if(card.getType() == "Iron Wall") {
         cout << "You gained " << card.getValue() << " block!\n";
-
         player.block += card.getValue();
     }
+
     else if(card.getType() == "Adrenaline") {
         card.getValue(); // todo: 2 stats?
-
         player.energy += 1;
         if(player.energy > player.max_energy) {
             player.energy = player.max_energy;
@@ -224,6 +225,7 @@ void Battle::apply_card() {
 
         // todo: print msg
     }
+    
     else {
         cout << "Unimplemented card type!\n";
     }
