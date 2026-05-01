@@ -1,5 +1,5 @@
 main: main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o
-	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o -o main -O2 -std=c++11
+	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o -o SpireLite -O2 -std=c++11
 
 battle.o: battle.cpp battle.h
 	g++ -c battle.cpp -O2 -std=c++11
@@ -26,4 +26,4 @@ map.o: map.cpp map.h main.h
 	g++ -c map.cpp -O2 -std=c++11
 
 clean:
-	rm -f main *.o
+	rm -f *.o SpireLite

@@ -137,7 +137,7 @@ void playmap(Map &map){
 
         auto nexts = map.getNextNodes();
 
-        cout<<"Reachable Nodes:"<<endl;                                                //show reachable node
+        cout << "Reachable Nodes:" << endl;                                                //show reachable node
         for (size_t i = 0; i < nexts.size(); ++i) {
             cout << "  " << (i + 1) << ". ";
             displayNodeType(nexts[i].second);
@@ -145,21 +145,16 @@ void playmap(Map &map){
         }
 
         cout << "\nEnter (1-" << nexts.size() << ") to move or enter 0 to pause: ";
-
         int choice = read_int();
 
-        if (choice >= 1 && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
+        if (1 <= choice && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
             int targetIdx = nexts[choice - 1].first;
             if (map.moveToNextLayer(targetIdx)) {
                 return;
-                }
+            }
         }
-        else{
-        cout << "Invalid choice\n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin.get();
+        else {
+            cout << "Invalid choice\n";
         } 
     }
-
-
 }

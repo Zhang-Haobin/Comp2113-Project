@@ -86,10 +86,10 @@ void welcome_screen() {
 }    
  
 void save_slot_screen() {
-    cout << " Saves:\n\n";
-    cout << "1. New Game\n\n";
-    cout << "2. Browse Saves\n\n";
-    cout << "3. Main Menu\n\n";
+    cout << " Saves:\n";
+    cout << "1. New Game\n";
+    cout << "2. Browse Saves\n";
+    cout << "3. Main Menu\n";
 
     int option = read_int();
     switch(option) {
@@ -127,10 +127,9 @@ void map_screen() {
         case NodeType::NormalEnemy:
             cur_screen = Screen::battle; // jump to the battle screen
             break;
-        case NodeType::Event:
+        case NodeType::Event: // todo: we need to add some random events here
             break;         
     }
-    // We need to add some random events here                    
 }
 
 void battle_screen() {
