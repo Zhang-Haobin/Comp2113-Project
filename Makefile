@@ -19,7 +19,7 @@ Card.o: src/Card.cpp include/Card.h
 Deck.o: src/Deck.cpp include/Deck.h src/Card.cpp include/Card.h
 	g++ -c src/Deck.cpp -O2 -std=c++11
 
-save.o: src/save.cpp include/save.h
+save.o: src/save.cpp include/save.h src/main.cpp include/main.h
 	g++ -c src/save.cpp -O2 -std=c++11
 
 Cardfactory.o: src/Cardfactory.cpp include/Cardfactory.h src/Card.cpp include/Card.h

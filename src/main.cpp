@@ -45,20 +45,9 @@ int main() {
     return 0;
 }
 
-int read_int() { // read until input really is integer
-    int input;
-    cin >> input;
-    while(cin.fail()) {
-        cout << "Invalid input!\n";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin >> input;
-    }
-    return input;
-}
-
 void welcome_screen() {
-    cout << "\n===|Spire Lite|===\n" << endl;
+    print_sep_line();
+    cout << "===|Spire Lite|===\n" << endl;
     cout << "    Main Menu   " << endl;
     cout << "   1. Start      " << endl;
     cout << "   2. Game Record" << endl;
@@ -86,10 +75,11 @@ void welcome_screen() {
 }    
  
 void save_slot_screen() {
-    cout << " Saves:\n";
-    cout << "1. New Game\n";
-    cout << "2. Browse Saves\n";
-    cout << "3. Main Menu\n";
+    print_sep_line();
+    cout << "    Saves:\n";
+    cout << "   1. New Game\n";
+    cout << "   2. Browse Saves\n";
+    cout << "   3. Main Menu\n";
 
     int option = read_int();
     switch(option) {
@@ -120,8 +110,10 @@ void save_slot_screen() {
 }
 
 void map_screen() {
+    print_sep_line();
     Map map((cur_battle.player.difficulty) * 4 + 10);
     playmap(map);
+
     Node& newNode = map.getCurrentNode(); 
     switch(newNode.type) {
         case NodeType::NormalEnemy:
@@ -137,17 +129,19 @@ void map_screen() {
 }
 
 void battle_screen() {
+    print_sep_line();
     cur_battle.print_battle_screen();
     cur_battle.process_player_input();
 }
 
 void end_screen() {
-    cout << "Rest In Peace, " << cur_battle.player.name << "\n\n";
-    cout << "Difficulty: " << cur_battle.player.difficulty << "\n";
-    cout << "Stage: " << cur_battle.player.stage << "\n\n";
+    print_sep_line();
+    cout << "   Rest In Peace, " << cur_battle.player.name << "\n\n";
+    cout << "   Difficulty: " << cur_battle.player.difficulty << "\n";
+    cout << "   Stage: " << cur_battle.player.stage << "\n\n";
 
-    cout << "1. Main Menu\n\n";
-    cout << "2. Quit\n\n";
+    cout << "   1. Main Menu\n\n";
+    cout << "   2. Quit\n\n";
 
     int option = read_int();
     switch(option) {
@@ -176,6 +170,23 @@ void record_screen() {
 }
 
 void info_screen() {
-    cout << "Spire Lite" << endl;
+    print_sep_line();
+    cout << "   Spire Lite" << endl;
     cur_screen = Screen::welcome;
+}
+
+int read_int() { // read until input really is integer
+    int input;
+    cin >> input;
+    while(cin.fail()) {
+        cout << "Invalid input!\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> input;
+    }
+    return input;
+}
+
+void print_sep_line() {
+    cout << "\n------------------------------------------------------------\n\n";
 }

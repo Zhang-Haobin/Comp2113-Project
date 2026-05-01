@@ -127,8 +127,7 @@ void displayNodeType(NodeType type) {
 } 
 void playmap(Map &map){
     while (!map.isBossLayer()) {
-        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"; 
-       
+        
         Node& cur = map.getCurrentNode();                                          //show the current stages
         cout << "=== Current Stage ===" << endl;
         cout << "           " << map.currentLayer << endl;

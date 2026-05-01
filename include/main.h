@@ -4,6 +4,7 @@
 #include "battle.h"
 
 int read_int();
+void print_sep_line();
 
 enum class Screen { welcome, lobby, map, battle, end, quit };
 enum class Difficulty { easy, normal, hard, lunatic };

@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 
+#include "../include/main.h"
 #include "../include/save.h"
 
 using namespace std;
@@ -75,7 +76,7 @@ void update_record(int current_score, int current_floor, bool player_won) {
 
 void print_record(){
     record record = get_record();
-    cout<<endl;
+    print_sep_line();
     cout << "=== Game Record ===" << endl;
     cout << "Best Score: " << record.best_score << endl;
     cout << "Highest Floor: " << record.highest_floor << endl;

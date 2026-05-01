@@ -28,7 +28,7 @@ void Battle::print_and_select_options() {
     int option_name = 1;
 
     if(player.cards.empty()) {
-        cout << "(You don't have any cards)\n";
+        cout << "(You don't have any cards)\n\n";
     }
     else {
         for(int i = 0; i < player.cards.size(); ++i) {
