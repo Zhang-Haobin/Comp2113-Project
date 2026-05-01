@@ -144,7 +144,7 @@ void playmap(Map &map){
             cout << "\n";
         }
 
-        cout << "\nEnter (1-" << nexts.size() << ") to move or enter 0 to pause: ";
+        cout << "\nEnter (1-" << nexts.size() << ") to move: ";
         int choice = read_int();
 
         if (1 <= choice && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
