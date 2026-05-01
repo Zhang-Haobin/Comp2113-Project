@@ -9,11 +9,13 @@ enum class Difficulty { easy, normal, hard, lunatic };
 extern bool is_game_running;
 extern int difficulty;
 extern Screen cur_screen;
+extern Battle cur_battle;
 
 void welcome_screen();
 void lobby_screen();
 void map_screen();
 void battle_screen();
+void end_screen();
 
 void save_slot_screen();
 void record_screen();

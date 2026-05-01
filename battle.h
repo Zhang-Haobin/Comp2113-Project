@@ -11,8 +11,6 @@
 template <typename K, typename V>
 using umap = unordered_map<K, V>;
 
-// a "screen", initialized by the main loop
-
 enum class BattleRound {
     select_option,
     option_result,

@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "battle.h"
+#include "main.h"
 #include "save.h"
 
 using namespace std;
@@ -99,7 +100,7 @@ void Battle::print_and_apply_enemies() {
         cout << enemy.name << " dealt " << (old_player_hp - player.hp) << " damage to you!\n\n";
 
         if(player.is_dead()) {
-            cout << "You are defeated...\n";
+            cur_screen = Screen::end;
             break;
         }
     }
@@ -225,7 +226,7 @@ void Battle::apply_card() {
 
         // todo: print msg
     }
-    
+
     else {
         cout << "Unimplemented card type!\n";
     }

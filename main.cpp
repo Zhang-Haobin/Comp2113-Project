@@ -30,6 +30,9 @@ int main() {
         case Screen::battle:
             battle_screen();
             break;
+        case Screen::end:
+            end_screen();
+            break;
         case Screen::quit:
             is_game_running = false;
             break;
@@ -114,10 +117,10 @@ void save_slot_screen() {
 }
 
 void map_screen() {
-    Map map((player.difficulty)*4+10);
+    Map map((cur_battle.player.difficulty) * 4 + 10);
     playmap(map);
     Node& newNode = map.getCurrentNode(); 
-    switch (newNode.type){
+    switch(newNode.type) {
         case NodeType::NormalEnemy:
             cur_screen = Screen::battle; // jump to the battle screen
             break;
@@ -130,6 +133,39 @@ void map_screen() {
 void battle_screen() {
     cur_battle.process_player_input();
     cur_battle.print_battle_screen();
+}
+
+void end_screen() {
+    cout << "Rest In Peace, " << cur_battle.player.name << "\n\n";
+    cout << "Difficulty: " << cur_battle.player.difficulty << "\n\n";
+    cout << "Stage: " << cur_battle.player.stage << "\n\n";
+
+    cout << "1. Main Menu\n\n";
+    cout << "2. Quit\n\n";
+
+    int option;
+    cin >> option;
+    if(cin.fail()) {
+        cout << "Invalid option!\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
+    switch(option) {
+    case 1: {
+        cur_screen = Screen::welcome;
+        break;
+    }
+    case 2: {
+        cur_screen = Screen::quit;
+        break;
+    }
+    default: {
+        cout << "Invalid option!\n";
+        break;
+    }
+    }
 }
 
 void lobby_screen() {
