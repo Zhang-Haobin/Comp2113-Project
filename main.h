@@ -3,6 +3,8 @@
 
 #include "battle.h"
 
+int read_int();
+
 enum class Screen { welcome, lobby, map, battle, end, quit };
 enum class Difficulty { easy, normal, hard, lunatic };
 
@@ -20,7 +22,5 @@ void end_screen();
 void save_slot_screen();
 void record_screen();
 void info_screen();
-
-extern Battle cur_battle;
 
 #endif // ifndef MAIN_H

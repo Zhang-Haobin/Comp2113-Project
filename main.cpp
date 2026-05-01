@@ -45,6 +45,18 @@ int main() {
     return 0;
 }
 
+int read_int() { // read until input is really integer
+    int input;
+    cin >> input;
+    while(cin.fail()) {
+        cout << "Invalid input!\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> input;
+    }
+    return input;
+}
+
 void welcome_screen() {
     cout << "\n===|Spire Lite|===\n" << endl;
     cout << "    Main Menu   " << endl;
@@ -53,8 +65,7 @@ void welcome_screen() {
     cout << "   3. More Info  " << endl;
     cout << "   4. Quit       " << endl;
 
-    int choice;
-    cin >> choice;
+    int choice = read_int();
     switch(choice) {
         case 1:
             cur_screen = Screen::lobby;
@@ -80,15 +91,7 @@ void save_slot_screen() {
     cout << "2. Browse Saves\n\n";
     cout << "3. Main Menu\n\n";
 
-    int option;
-    cin >> option;
-    if(cin.fail()) {
-        cout << "Invalid option!\n";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return;
-    }
-
+    int option = read_int();
     switch(option) {
     case 1: {
         string new_name;
@@ -143,15 +146,7 @@ void end_screen() {
     cout << "1. Main Menu\n\n";
     cout << "2. Quit\n\n";
 
-    int option;
-    cin >> option;
-    if(cin.fail()) {
-        cout << "Invalid option!\n";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return;
-    }
-
+    int option = read_int();
     switch(option) {
     case 1: {
         cur_screen = Screen::welcome;
