@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -29,75 +30,71 @@ void Battle::print_and_select_options() {
 
     if(player.cards.empty()) {
         cout << "(You don't have any cards)\n\n";
+        return;
     }
-    else {
-        for(int i = 0; i < player.cards.size(); ++i) {
-            const Card &card = player.cards[i];
+    // else:
 
-            // Print card name, cost, and description
-            cout << option_name << ". " << card.getName() << " (Cost: " << card.getCost() << ") - " << card.getDescription() << "\n";
-            
-            valid_options[to_string(option_name)] = [&, i]() {  // Capture i by value to avoid reference issues
-                if(!card.isPlayable(player.energy)) {
-                    cout << "Not enough energy to play " << card.getName() << "!\n";
-                    return;
-                }
-                player.energy -= card.getCost();
+    for(int i = 0; i < player.cards.size(); ++i) {
+        const Card &card = player.cards[i];
 
-                round = BattleRound::option_result;
-                played_card_idx = i;
-                cout << "You played " << card.getName() << "!\n";
+        // Print card name, cost, and description
+        cout << option_name << ". " << card.getName() << " (Cost: " << card.getCost() << ") - " << card.getDescription() << "\n";
+        
+        valid_options[to_string(option_name)] = [&, i]() {  // Capture i by value to avoid reference issues
+            if(!card.isPlayable(player.energy)) {
+                cout << "Not enough energy to play " << card.getName() << "!\n";
+                return;
+            }
+            player.energy -= card.getCost();
 
-                if(!card.getIsApplyToEnemy()) {
-                    // Card doesn't need target (like Defend or Heal)
-                    played_card_enemy_idx = -1;  // Set to -1 for non-target cards
-                    apply_card();
-                    return;
-                }
+            round = BattleRound::option_result;
+            played_card_idx = i;
+            cout << "You played " << card.getName() << "!\n";
 
-                // Card needs a target - ask player which enemy to target
-                cout << "Apply '" << card.getName() << "' to which enemy?\n";
-                for(int j = 0; j < enemies.size(); ++j) {
-                    Enemy &enemy = enemies[j];
-                    cout << j + 1 << ". " << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
-                }
-
-                int option_enemy_idx;
-                do {
-                    cin >> option_enemy_idx;
-                    if(!(1 <= option_enemy_idx && option_enemy_idx <= enemies.size())) {
-                        cout << "Invalid enemy index!\n";
-                        cout << "Apply '" << card.getName() << "' to which enemy?\n";
-                    }
-                } while(!(1 <= option_enemy_idx && option_enemy_idx <= enemies.size()));
-
-                played_card_enemy_idx = option_enemy_idx - 1;  // Convert to 0-based index
+            if(!card.getIsApplyToEnemy()) {
+                // Card doesn't need target (like Defend or Heal)
+                played_card_enemy_idx = -1;  // Set to -1 for non-target cards
                 apply_card();
-            };
-            ++option_name;
-        }
+                return;
+            }
+
+            // Card needs a target - ask player which enemy to target
+            cout << "Apply '" << card.getName() << "' to which enemy?\n\n";
+            for(int j = 0; j < enemies.size(); ++j) {
+                Enemy &enemy = enemies[j];
+                cout << j + 1 << ". " << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
+            }
+
+            int option_enemy_idx = read_int();
+            while(!(1 <= option_enemy_idx && option_enemy_idx <= enemies.size())) {
+                cout << "Invalid enemy index!\n";
+                cout << "Apply '" << card.getName() << "' to which enemy?\n";
+                option_enemy_idx = read_int();
+            }
+
+            played_card_enemy_idx = option_enemy_idx - 1;  // Convert to 0-based index
+            apply_card();
+        };
+        ++option_name;
     }
 
     cout << "\n" << option_name << ". End turn\n\n";
     valid_options[to_string(option_name)] = [&]() {
-        // end turn: do nothing
-        round = BattleRound::option_result;
-    };
-    ++option_name;
-
-    cout << option_name << ". Drink potion\n\n";
-    valid_options[to_string(option_name)] = [&]() {
-        // todo: does not have potion currently
-        round = BattleRound::option_result;
+        round = BattleRound::option_result; // do nothing
     };
 }
 
 void Battle::print_and_apply_enemies() {
+    for(int i = 0; i < enemies.size(); ) { // remove dead enemies first
+        if(enemies[i].is_dead()) {
+            enemies.erase(enemies.begin() + i);
+        }
+        else {
+            ++i;
+        }
+    }
     for(int i = 0; i < enemies.size(); ++i) {
         const Enemy &enemy = enemies[i];
-        if(enemy.is_dead()) {
-            continue;
-        }
 
         const int old_player_hp = player.hp;
         player.hurt(enemy.get_attack());
@@ -109,8 +106,8 @@ void Battle::print_and_apply_enemies() {
         }
     }
     cout << "Press enter to continue...\n";
-    string dummy;
-    getline(cin, dummy);
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    round = BattleRound::select_option;
 }
 
 void Battle::print_battle_screen() {
@@ -228,4 +225,7 @@ void Battle::apply_card() {
             cout << "You gained 1 energy and recovered 2 HP!\n";
         }
     }
+
+    // actually consume that card
+    player.cards.erase(player.cards.begin() + played_card_idx);
 }
