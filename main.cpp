@@ -140,7 +140,7 @@ void battle_screen() {
 
 void end_screen() {
     cout << "Rest In Peace, " << cur_battle.player.name << "\n\n";
-    cout << "Difficulty: " << cur_battle.player.difficulty << "\n\n";
+    cout << "Difficulty: " << cur_battle.player.difficulty << "\n";
     cout << "Stage: " << cur_battle.player.stage << "\n\n";
 
     cout << "1. Main Menu\n\n";

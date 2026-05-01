@@ -5,6 +5,7 @@
 #include <ctime>
 #include <limits>
 #include "map.h"
+#include "main.h"
 using namespace std;
 
 
@@ -144,8 +145,8 @@ void playmap(Map &map){
         }
 
         cout << "\nEnter (1-" << nexts.size() << ") to move or enter 0 to pause: ";
-        int choice;
-        cin >> choice;
+
+        int choice = read_int();
 
         if (choice >= 1 && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
             int targetIdx = nexts[choice - 1].first;
