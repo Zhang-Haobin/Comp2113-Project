@@ -45,7 +45,7 @@ int main() {
     return 0;
 }
 
-int read_int() { // read until input is really integer
+int read_int() { // read until input really is integer
     int input;
     cin >> input;
     while(cin.fail()) {
@@ -125,16 +125,20 @@ void map_screen() {
     Node& newNode = map.getCurrentNode(); 
     switch(newNode.type) {
         case NodeType::NormalEnemy:
+            cur_battle = Battle(); // new battle
             cur_screen = Screen::battle; // jump to the battle screen
             break;
         case NodeType::Event: // todo: we need to add some random events here
-            break;         
+            break;
+        default:
+            cout << "Unimplemented node type!\n";
+            break;
     }
 }
 
 void battle_screen() {
-    cur_battle.process_player_input();
     cur_battle.print_battle_screen();
+    cur_battle.process_player_input();
 }
 
 void end_screen() {

@@ -18,7 +18,7 @@ enum class BattleRound {
 
 class Battle {
 public:
-    Player player;
+    Player player = {};
     vector<Enemy> enemies;
     BattleRound round = BattleRound::select_option;
 
