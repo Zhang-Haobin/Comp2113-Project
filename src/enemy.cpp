@@ -1,6 +1,7 @@
 #include <string>
 #include <cstdlib>
-#include "enemy.h"
+
+#include "../include/enemy.h"
 
 using namespace std;
 

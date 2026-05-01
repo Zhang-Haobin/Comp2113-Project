@@ -4,9 +4,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "battle.h"
-#include "main.h"
-#include "save.h"
+#include "../include/battle.h"
+#include "../include/main.h"
+#include "../include/save.h"
 
 using namespace std;
 

@@ -4,11 +4,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <limits>
-#include "map.h"
-#include "main.h"
+
+#include "../include/map.h"
+#include "../include/main.h"
+
 using namespace std;
-
-
 
 Map::Map(int numLayers) {                             
         layers.resize(numLayers);

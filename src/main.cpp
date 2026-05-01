@@ -1,8 +1,8 @@
-#include "main.h"
-#include "player.h"
-#include "save.h"
-#include "battle.h"
-#include "map.h"
+#include "../include/main.h"
+#include "../include/player.h"
+#include "../include/save.h"
+#include "../include/battle.h"
+#include "../include/map.h"
 
 #include <iostream>
 #include <string>

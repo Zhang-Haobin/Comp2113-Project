@@ -1,4 +1,4 @@
-#include "player.h"
+#include "../include/player.h"
 
 int Player::get_damage(int atk) const {
 	return (atk + damage_boost) * strength;

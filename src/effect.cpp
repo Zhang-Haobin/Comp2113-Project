@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "effect.h"
-#include "entity.h"
+#include "../include/effect.h"
+#include "../include/entity.h"
 
 using namespace std;
 

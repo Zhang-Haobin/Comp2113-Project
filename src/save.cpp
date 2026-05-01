@@ -1,12 +1,13 @@
-#include "save.h"
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <fstream>
+
+#include "../include/save.h"
+
 using namespace std;
 
-const string save_file = "save.txt";
-
+const string save_file = "../save.txt";
 
 void record::reset_record(){
     best_score = 0;
