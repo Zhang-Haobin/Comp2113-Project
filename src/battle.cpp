@@ -12,17 +12,17 @@
 using namespace std;
 
 void Battle::print_and_select_options() {
-    cout << player.name << " HP " << player.hp << "/" << player.max_hp << " | Block 0 | Energy " << player.energy << " | Potions 0\n\n";
+    if(enemies.empty()) { // victory
+        cout << "All enemies cleared!\n\n";
+        cur_screen = Screen::map;
+        return;
+    }
 
-    if(enemies.empty()) {
-        cout << "(Silence... No enemies present)\n\n";
+    cout << player.name << " HP " << player.hp << "/" << player.max_hp << " | Block " << player.block << " | Energy " << player.energy << "\n\n";
+    for(const Enemy &enemy : enemies) {
+        cout << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
     }
-    else {
-        for(const Enemy &enemy : enemies) {
-            cout << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
-        }
-        cout << "\n";
-    }
+    cout << "\n";
 
     cout << "Hand:\n\n";
     valid_options.clear();
@@ -41,6 +41,8 @@ void Battle::print_and_select_options() {
         cout << option_name << ". " << card.getName() << " (Cost: " << card.getCost() << ") - " << card.getDescription() << "\n";
         
         valid_options[to_string(option_name)] = [&, i]() {  // Capture i by value to avoid reference issues
+            print_sep_line();
+
             if(!card.isPlayable(player.energy)) {
                 cout << "Not enough energy to play " << card.getName() << "!\n";
                 return;
@@ -64,6 +66,7 @@ void Battle::print_and_select_options() {
                 Enemy &enemy = enemies[j];
                 cout << j + 1 << ". " << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
             }
+            cout << "\n";
 
             int option_enemy_idx = read_int();
             while(!(1 <= option_enemy_idx && option_enemy_idx <= enemies.size())) {
@@ -105,9 +108,6 @@ void Battle::print_and_apply_enemies() {
             break;
         }
     }
-    cout << "Press enter to continue...\n";
-    cin.ignore(numeric_limits<streamsize>::max(),'\n');
-    round = BattleRound::select_option;
 }
 
 void Battle::print_battle_screen() {
@@ -133,9 +133,8 @@ void Battle::process_player_input() {
     case BattleRound::select_option: {
         string option;
         cin >> option;
-
         if(valid_options.find(option) == valid_options.end()) { // can't find this option
-            cout << "'" << option << "' is not a valid option!\n";
+            cout << "Invalid option!\n";
             return;
         }
 
@@ -144,9 +143,11 @@ void Battle::process_player_input() {
         break;
     }
     case BattleRound::option_result: {
-        string input;
-        cin >> input;
         round = BattleRound::select_option;
+        break;
+    }
+    default: {
+        cout << "Unimplemented battle round!\n";
         break;
     }
     }
@@ -155,6 +156,7 @@ void Battle::process_player_input() {
 void Battle::apply_card() {
     const Card &card = player.cards[played_card_idx];
     
+    print_sep_line();
     cout << "You performed " << card.getName();
     
     // Check if card applies to enemy (for damage cards)
