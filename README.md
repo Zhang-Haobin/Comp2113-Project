@@ -1,7 +1,9 @@
 # Spire Lite
 **A tiny text-based deckbuilding climb.**
 
-Our group plans to build a text-based card battle game inspired by Slay the Spire. The player climbs through different stages, manages a deck of cards, survives enemy encounters, and tries to achieve the highest score and best record.
+Our group plans to build a playable text-based card battle game that runs in the terminal, inspired by Slay the Spire. The player climbs through different stages, manages a deck of cards, survives enemy encounters, and tries to achieve the highest score and best record.
+
+Spire Lite provides a simple but complete gameplay loop: choose difficulty, enter battles, use cards, survive stages, and record results. We have designed the game so it satisfies the course requirements, including random events, data structures, dynamic memory management, file input/output, multiple source files, and multiple difficulty levels.
 
 ## How to run the game?
 1. Open the Terminal executable. You can find it by searching on your computer.
@@ -17,7 +19,7 @@ Our group plans to build a text-based card battle game inspired by Slay the Spir
     * On **Windows**, enter this command: ```SpireLite```
     * On **Linux / Mac**, enter this command: ```./SpireLite```
 
-4. A CLI of Spire Lite should sppear.
+4. Spire Lite should now appear. Enjoy!
 
 ## Compilation (using make)
 1. Open Terminal.
