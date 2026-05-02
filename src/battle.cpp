@@ -87,6 +87,10 @@ void Battle::finish_victory() {
     player.stage++;
 
     if(is_boss_battle) {
+        Card rare_reward = Cardfactory::create_random_rare_card();
+        player.cards.push_back(rare_reward);
+        cout << "Boss reward: " << rare_reward.getName()
+             << " added to your deck as a rare card.\n";
         current_run_won = true;
         record_current_run();
         cur_screen = Screen::end;
@@ -324,9 +328,33 @@ void Battle::apply_card() {
         Enemy &enemy = enemies[played_card_enemy_idx];
 
         if(card.getType() == "Attack") {
-            int damage = player.get_damage(card.getValue());
+            int base_damage = card.getValue();
+
+            if(card.getName() == "Perfected Strike") {
+                int bonus = 0;
+                for(const Card &deck_card : player.cards) {
+                    if(deck_card.getName().find("Strike") != string::npos) {
+                        bonus += 2;
+                    }
+                }
+                base_damage = 6 + bonus;
+                cout << "Perfected Strike gains +" << bonus << " damage from your deck.\n";
+            }
+            else if(card.getName() == "Rampage") {
+                base_damage = 8 + (card.times_played * 5);
+                cout << "Rampage has been played " << card.times_played
+                     << " time(s) this battle.\n";
+            }
+
+            int damage = player.get_damage(base_damage);
             cout << "You deal " << damage << " damage to " << enemy.name << ".\n";
             enemy.take_damage(damage);
+
+            if(card.getName() == "Rampage") {
+                card.times_played++;
+                cout << "Rampage will deal 5 more damage next time this battle.\n";
+            }
+
             if(card.getName() == "Quick Slash") {
                 player.block += 2;
                 cout << "You gained 2 block.\n";
@@ -364,8 +392,27 @@ void Battle::apply_card() {
             player.heal(2);
             cout << "You gained 1 energy and recovered 2 HP.\n";
         }
+        else if(card.getName() == "Entrench") {
+            int old_block = player.block;
+            player.block *= 2;
+            cout << "Entrench doubles your block from " << old_block
+                 << " to " << player.block << ".\n";
+        }
+        else if(card.getName() == "Bloodletting") {
+            player.hurt(3);
+            player.energy += 2;
+            cout << "Bloodletting costs 3 HP and gives 2 energy.\n";
+            cout << "Player HP " << player.hp << "/" << player.max_hp
+                 << " | Energy " << player.energy << "/" << player.max_energy << "\n";
+        }
     }
 
     player.hand.erase(player.hand.begin() + played_card_idx);
     player.discard_pile.push_back(card);
+
+    if(player.is_dead()) {
+        current_run_won = false;
+        record_current_run();
+        cur_screen = Screen::end;
+    }
 }

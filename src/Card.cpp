@@ -10,6 +10,7 @@ Card::Card() {
     cost = 0;
     value = 0;
     is_apply_to_enemy = false;
+    times_played = 0;
 }
 
 // Create a custom card
@@ -20,6 +21,7 @@ Card::Card(string name, string type, int cost, int value, string description, bo
     this->value = value;
     this->description = description;
     this->is_apply_to_enemy = is_apply_to_enemy;
+    this->times_played = 0;
 }
 
 // Get card name
@@ -98,4 +100,20 @@ Card Card::create_IronWall() {
 
 Card Card::create_Adrenaline() {
     return Card("Adrenaline", "Skill", 0, 0, "Gain 1 energy and recover 2 HP.", false);
+}
+
+Card Card::create_Entrench() {
+    return Card("Entrench", "Skill", 2, 0, "Double your current block.", false);
+}
+
+Card Card::create_Bloodletting() {
+    return Card("Bloodletting", "Skill", 0, 0, "Lose 3 HP. Gain 2 energy.", false);
+}
+
+Card Card::create_PerfectedStrike() {
+    return Card("Perfected Strike", "Attack", 2, 6, "Deal 6 damage. +2 for each Strike in your deck.", true);
+}
+
+Card Card::create_Rampage() {
+    return Card("Rampage", "Attack", 1, 8, "Deal 8 damage. This card gains 5 damage each time played this battle.", true);
 }
