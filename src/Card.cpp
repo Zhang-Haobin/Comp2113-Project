@@ -53,23 +53,21 @@ bool Card::getIsApplyToEnemy() const {
     return is_apply_to_enemy;
 }
 
-// Check whether current energy is enough to play the card
+// Energy check only. Target selection and effects are handled in Battle.
 bool Card::isPlayable(int currentEnergy) const {
     return currentEnergy >= cost;
 }
 
 
-// Card database starts here
-// To add a new card, copy one function and change its values
-// Format:
-// return Card("Name", "Type", cost, value, "Description");
+// Card database starts here.
+// To add a new card, copy one function and change its numbers/text.
 
-// Basic attack card
+// Basic attack card.
 Card Card::create_Strike() {
     return Card("Strike", "Attack", 1, 6, "Deal 6 damage.", true);
 }
 
-// defend card
+// Basic defense card.
 Card Card::create_Defend() {
     return Card("Defend", "Skill", 1, 5, "Gain 5 block.", false);
 }

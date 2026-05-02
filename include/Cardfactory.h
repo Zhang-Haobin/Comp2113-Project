@@ -4,39 +4,35 @@
 #include <vector>
 #include <string>
 using namespace std;
+
+// This is basically the card shop / card database.
+// Other files ask it for cards instead of manually typing card stats everywhere.
 struct Cardfactory{
-    //Create one card by its name.
+    // Find a card template by name and return a fresh copy of it.
     static Card create_card(const string& card_name);
 
-//Create the player's starter deck.
+    // The small deck every new player starts with.
     static vector<Card> create_starter_carddeck();
 
-  // Create one random card with rarity weighting.
-    
+    // Random reward card. Common cards show up more often than rare ones.
     static Card create_random_card();
 
-    // Create one random rare card.
-    
+    // Bosses can use this so the reward feels a bit better.
     static Card create_random_rare_card();
 
-    // Create reward card choices using a temporary dynamic array.
-    
+    // Make several reward choices. This also shows our dynamic memory part.
     static vector<Card> create_reward_card(int count);
 
-    //  Get all available card names.
-    
+    // Useful if we ever want to print every card in the game.
     static vector<string> getall_cardnames();
 
-    //  Get common card names.
-   
+    // Common cards are the usual reward pool.
     static vector<string> get_common_cardnames();
 
-    // Get uncommon card names.
-    
+    // Slightly better cards, not as frequent.
     static vector<string> get_uncommon_cardnames();
 
-    //  Get rare card names.
-  
+    // The rare pool, mostly for lucky rolls and boss rewards.
     static vector<string> get_rare_cardnames();
 };
 #endif

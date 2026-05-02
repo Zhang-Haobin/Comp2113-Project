@@ -10,6 +10,7 @@ using namespace std;
 
 const string save_file = "save.txt";
 
+// Reset the permanent record, not the current run.
 void record::reset_record(){
     best_score = 0;
     highest_floor = 0;
@@ -18,6 +19,7 @@ void record::reset_record(){
 }
 
 
+// Read best score / best floor / wins / losses from save.txt.
 record get_record(){
     record record;
 
@@ -37,6 +39,7 @@ record get_record(){
 
 }
 
+// Write the permanent record back to save.txt.
 bool save_record(const record& record) {
     ofstream fout(save_file);
 
@@ -54,6 +57,7 @@ bool save_record(const record& record) {
 }
 
 
+// Called once when a run ends, so record numbers stay up to date.
 void update_record(int current_score, int current_floor, bool player_won) {
     record record = get_record();
 
@@ -74,9 +78,9 @@ void update_record(int current_score, int current_floor, bool player_won) {
     save_record(record);
 }
 
+// Shows the record screen from the main menu.
 void print_record(){
     record record = get_record();
-    print_sep_line();
     cout << "==== Game Record ====\n";
     cout << "Best score: " << record.best_score
          << " | Best stage: " << record.highest_floor
@@ -85,10 +89,12 @@ void print_record(){
     cout << "Win rate: " << record.win_rate() << "%\n";
 }
 
+// Total finished runs.
 int record::get_total_game(){
     return total_wins + total_losses;
 }
 
+// Avoid divide-by-zero if nobody has finished a game yet.
 double record::win_rate(){
     double total = get_total_game();
     if (total == 0){
@@ -97,4 +103,3 @@ double record::win_rate(){
     return total_wins/total*100;
 
 }
-

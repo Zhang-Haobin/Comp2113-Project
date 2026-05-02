@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// One card's basic info lives here.
+// One card's basic info
 // The real battle effect is handled in battle.cpp, otherwise this file gets too messy.
 struct Card {
     string name;            // card name

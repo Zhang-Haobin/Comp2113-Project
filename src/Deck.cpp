@@ -6,12 +6,14 @@
 
 using namespace std;
 
+// Print every card with a number, so the player can pick one if needed.
 void printDeck(const vector<Card>& deck) {          //This function print the unshuffled card
     for (int i = 0; i < deck.size(); i++) {         
         cout << i + 1 << ". " << deck[i].getName() << endl;
     }
 }
 
+// Fisher-Yates style shuffle using rand(), enough for this terminal game.
 void shuffleDeck(vector<Card>& deck) {          //This function shuffles the card
     for (int i = deck.size() - 1; i > 0; i--) { 
         int random_index = rand() % (i + 1);

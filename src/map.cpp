@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// Build a map object. If numLayers is 0, it stays empty for later loading.
 Map::Map(int numLayers) {                             
         layers.resize(numLayers);
         currentLayer = 0;
@@ -19,6 +20,7 @@ Map::Map(int numLayers) {
         }
     }
 
+// Randomly create rooms and connections between layers.
 void Map::generate() {
         for (size_t i = 0; i < layers.size(); ++i) { 
             if (i == 0) {                                        //first layer, only start node
@@ -63,6 +65,7 @@ void Map::generate() {
             }  
         }
 
+        // Make sure no room is completely unreachable, except the boss layer is already special.
         for (size_t i = 1; i < layers.size(); ++i) {                        //Check if each node in layer i has at least one parent in layer i-1, if not, connect it to a random node in layer i-1
             for (size_t j = 0; j < layers[i].size(); ++j) {
                 if (i == layers.size() - 1) continue; 
@@ -86,10 +89,12 @@ void Map::generate() {
         currentNodeIdx = 0;
     }
 
+    // The room the player currently stands on.
     Node& Map::getCurrentNode() {
         return layers[currentLayer][currentNodeIdx];
     }
 
+    // Return possible next rooms with their type, so the menu can print them.
     vector<pair<int, NodeType>> Map::getNextNodes() {
         vector<pair<int, NodeType>> result;
         if (currentLayer + 1 >= static_cast<int>(layers.size())) return result;
@@ -101,6 +106,7 @@ void Map::generate() {
         return result;
     }
 
+    // Move only if the selected node is actually connected.
     bool Map::moveToNextLayer(int nextNodeIdx) {
         auto nexts = getNextNodes();
         bool valid = false;
@@ -113,18 +119,21 @@ void Map::generate() {
         return true;
     }
 
+    // Boss layer is the last layer.
     bool Map::isBossLayer() {
         return currentLayer == static_cast<int>(layers.size()) - 1;
     }
 
+// Print room type in a human-readable way.
 void displayNodeType(NodeType type) {
     switch (type) {
-        case NodeType::NormalEnemy: std::cout << "Normal Enemy"; break;
-        case NodeType::Event:       std::cout << "Event"; break;
-        case NodeType::Boss:        std::cout << "BOSS"; break;
-        case NodeType::Start:       std::cout << "Starting Point"; break;
+        case NodeType::NormalEnemy: std::cout << "[Enemy]"; break;
+        case NodeType::Event:       std::cout << "[?]"; break;
+        case NodeType::Boss:        std::cout << "[Boss]"; break;
+        case NodeType::Start:       std::cout << "[Start]"; break;
     }
 } 
+// Show next rooms and wait until the player picks a valid one.
 void playmap(Map &map){
     while (!map.isBossLayer()) {
         
@@ -141,13 +150,13 @@ void playmap(Map &map){
             cout << i + 1 << ". ";
             displayNodeType(nexts[i].second);
             if (nexts[i].second == NodeType::NormalEnemy) {
-                cout << " - fight and earn a reward";
+                cout << " Fight and earn a reward";
             }
             else if (nexts[i].second == NodeType::Event) {
-                cout << " - resolve an event";
+                cout << " Event";
             }
             else if (nexts[i].second == NodeType::Boss) {
-                cout << " - final battle";
+                cout << " Final battle";
             }
             cout << "\n";
         }

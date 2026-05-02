@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Convert menu choice into the actual difficulty numbers.
 DifficultySettings get_difficulty_by_level(int level) {
     DifficultySettings s;
     s.level = level;
@@ -39,6 +40,7 @@ DifficultySettings get_difficulty_by_level(int level) {
     return s;
 }
 
+// Apply the chosen difficulty directly to the player.
 void apply_difficulty_to_player(int level, Player& player) {
     DifficultySettings s = get_difficulty_by_level(level);
     player.max_hp = s.player_max_hp;
@@ -47,6 +49,7 @@ void apply_difficulty_to_player(int level, Player& player) {
     cout << "Difficulty: " << s.name << " | HP: " << player.hp << " | Floors: " << s.map_layers << "\n";
 }
 
+// Print difficulty menu before a new run starts.
 void print_difficulty_options() {
     print_sep_line();
     cout << "=== Select Difficulty ===\n\n";

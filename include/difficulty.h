@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// A small bundle of numbers for one difficulty choice.
+// Some fields are here for possible balancing even if not every one is used yet.
 struct DifficultySettings {
     int level;
     string name;
@@ -16,8 +18,8 @@ struct DifficultySettings {
     int starting_bonus;
 };
 
-DifficultySettings get_difficulty_by_level(int level);  // Get settings
-void apply_difficulty_to_player(int level, class Player& player);  // Apply to player
-void print_difficulty_options();  // Display menu
+DifficultySettings get_difficulty_by_level(int level);  // turn 1/2/3 into settings
+void apply_difficulty_to_player(int level, class Player& player);  // put the settings onto the player
+void print_difficulty_options();  // print the menu choices
 
 #endif

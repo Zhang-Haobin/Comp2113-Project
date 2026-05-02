@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 void trigger_random_event(Player& player, int& score) {
     print_sep_line();
     cout << "=== Random Event ===\n\n";
@@ -41,6 +42,7 @@ void trigger_random_event(Player& player, int& score) {
     cin.get();
 }
 
+// Apply the actual event effect to HP, cards, or score.
 void show_event_result(Player& player, EventType type, int& score) {
     switch(type) {
         case EventType::HealEvent: {

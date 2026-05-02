@@ -1,6 +1,7 @@
 #include "../include/Cardfactory.h"
 #include <cstdlib>
 
+// Put every rarity pool together. Mostly useful for debugging or future card lists.
 vector<string> Cardfactory::getall_cardnames(){
     vector<string> names = get_common_cardnames();
     vector<string> uncommon = get_uncommon_cardnames();
@@ -11,6 +12,7 @@ vector<string> Cardfactory::getall_cardnames(){
     return names;
 }
 
+// Cards that should appear often.
 vector<string> Cardfactory::get_common_cardnames(){
     return {
         "Strike",
@@ -25,6 +27,7 @@ vector<string> Cardfactory::get_common_cardnames(){
     };
 }
 
+// Cards that should be less common than the basic pool.
 vector<string> Cardfactory::get_uncommon_cardnames(){
     return {
         "Bloodletting",
@@ -32,6 +35,7 @@ vector<string> Cardfactory::get_uncommon_cardnames(){
     };
 }
 
+// Rare cards are intentionally a tiny pool for now.
 vector<string> Cardfactory::get_rare_cardnames(){
     return {
         "Entrench",
@@ -39,6 +43,7 @@ vector<string> Cardfactory::get_rare_cardnames(){
     };
 }
 
+// Turn a card name from save files or rewards into the actual Card object.
 Card Cardfactory::create_card(const string& card_name) {
     if (card_name == "Strike") {
         return Card::create_Strike();
@@ -83,6 +88,7 @@ Card Cardfactory::create_card(const string& card_name) {
     return Card();
 }
 
+// Starter deck is small on purpose so the first few fights are easy to read.
 vector<Card> Cardfactory::create_starter_carddeck(){
     vector<Card> deck;
     for (int i=0;i<3;i++){
@@ -95,6 +101,7 @@ vector<Card> Cardfactory::create_starter_carddeck(){
     return deck;
 }
 
+// Weighted random card: common most of the time, rare only if the roll is lucky.
 Card Cardfactory::create_random_card(){
     int roll = rand() % 100;
     vector<string> cardNames;
@@ -114,12 +121,15 @@ Card Cardfactory::create_random_card(){
     return create_card(cardNames[index]);
 }
 
+// Boss reward helper. It skips common/uncommon cards.
 Card Cardfactory::create_random_rare_card(){
     vector<string> cardNames = get_rare_cardnames();
     int index = rand() % cardNames.size();
     return create_card(cardNames[index]);
 }
 
+// Reward choices are generated in a dynamic array first.
+// After copying them into vector, we delete the array so there is no leak.
 vector<Card> Cardfactory::create_reward_card(int count){
     vector<Card> rewards;
     if (count <= 0) {
@@ -138,7 +148,6 @@ vector<Card> Cardfactory::create_reward_card(int count){
 
     return rewards;
 }
-
 
 
 

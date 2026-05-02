@@ -5,12 +5,14 @@
 
 using namespace std;
 
+// Reset the player's turn in the older helper style.
 void reset_player_turn(Player &player) {
     player.energy = player.max_energy;
     draw_cards(player, 5);
     cout << "Turn reset. Energy: " << player.energy << "/" << player.max_energy << "\n";
 }
 
+// Placeholder draw helper kept from the earlier design.
 void draw_cards(Player &player, int count) {
     // Placeholder for full deck system
     if (player.cards.size() < player.max_card) {
@@ -18,6 +20,7 @@ void draw_cards(Player &player, int count) {
     }
 }
 
+// Apply one enemy attack and spend block first.
 void apply_enemy_attack(Player &player, const Enemy &enemy) {
     int damage = enemy.get_attack();
     
@@ -37,6 +40,7 @@ void apply_enemy_attack(Player &player, const Enemy &enemy) {
     }
 }
 
+// Check if the player is dead or all enemies are gone.
 bool is_battle_over(const Battle &battle) {
     if (battle.player.is_dead()) return true;
     
@@ -46,6 +50,7 @@ bool is_battle_over(const Battle &battle) {
     return true;
 }
 
+// Older reward helper, similar to the reward logic now inside Battle.
 void grant_battle_rewards(Player &player, int &score) {
     cout << "\n=== Victory! ===\n\n";
     
@@ -74,6 +79,7 @@ void grant_battle_rewards(Player &player, int &score) {
     cout << "Healed 5 HP. Now: " << player.hp << "/" << player.max_hp << "\n";
 }
 
+// End turn cleanup for the older helper flow.
 void end_player_turn(Player &player) {
     player.block = 0;
     cout << "End turn. Block reset.\n";

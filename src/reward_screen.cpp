@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// Older standalone reward screen. Battle now has its own reward flow too.
 void show_reward_screen(Player& player, int& score) {
     print_sep_line();
     cout << "=== Battle Complete! ===\n\n";
@@ -37,6 +38,7 @@ void show_reward_screen(Player& player, int& score) {
     cin.get();
 }
 
+// Print a simple final score breakdown.
 void show_score_summary(int score, int floor, int difficulty) {
     print_sep_line();
     cout << "=== Run Complete ===\n\n";

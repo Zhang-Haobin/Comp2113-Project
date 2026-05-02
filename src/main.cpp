@@ -31,6 +31,9 @@ Map cur_map;
 const string game_save_file = "game_save.txt";
 
 namespace {
+bool keep_next_welcome_screen = false;
+
+// Small helper so all menus print options in the same style.
 void print_menu_option(int option, const string &label, const string &detail) {
     cout << option << ". " << label;
     if(!detail.empty()) {
@@ -39,19 +42,23 @@ void print_menu_option(int option, const string &label, const string &detail) {
     cout << "\n";
 }
 
+// Continue is only available if the current-run save exists.
 bool saved_game_exists() {
     ifstream fin(game_save_file);
     return fin.good();
 }
 
+// Difficulty controls how long the climb is.
 int total_map_layers_for_difficulty(int difficulty_level) {
     return difficulty_level * 4 + 10;
 }
 
+// New run gets a fresh generated map.
 void reset_current_map_for_player() {
     cur_map = Map(total_map_layers_for_difficulty(cur_battle.player.difficulty));
 }
 
+// If loading an old/broken save, rebuild enough map data so the run can continue.
 void ensure_current_map_ready() {
     int total_layers = total_map_layers_for_difficulty(cur_battle.player.difficulty);
     if(cur_map.layers.empty() || static_cast<int>(cur_map.layers.size()) != total_layers) {
@@ -103,7 +110,13 @@ int main() {
 
 // Display welcome screen and handle main menu choices
 void welcome_screen() {
-    print_sep_line();
+    if(keep_next_welcome_screen) {
+        keep_next_welcome_screen = false;
+        cout << "\n";
+    }
+    else {
+        print_sep_line();
+    }
     record record = get_record();
     cout << "==== Spire Lite ====\n";
     cout << "A tiny text-based deckbuilding climb.\n";
@@ -258,7 +271,13 @@ void map_screen() {
 
 // Display battle screen and process player turn
 void battle_screen() {
-    print_sep_line();
+    if(cur_battle.keep_next_battle_screen) {
+        cur_battle.keep_next_battle_screen = false;
+        cout << "\n";
+    }
+    else {
+        print_sep_line();
+    }
     cur_battle.print_battle_screen();  // Display current battle state
     cur_battle.process_player_input();  // Get and process player action
 }
@@ -306,21 +325,23 @@ void lobby_screen() {
 // Display game record/statistics
 void record_screen() {
     print_record();
+    keep_next_welcome_screen = true;
     cur_screen = Screen::welcome;
 }
 
 // Display game information
 void info_screen() {
-    print_sep_line();
     cout << "==== How To Play ====\n";
     cout << "Map: choose a reachable node number to move to the next stage.\n";
     cout << "Battle: choose card numbers from your hand. Attack cards ask for a target.\n";
     cout << "Turn flow: play any cards you can afford, then choose End turn.\n";
     cout << "Cards: your deck is permanent; each battle uses draw and discard piles.\n";
     cout << "Goal: survive the map and defeat the boss.\n";
+    keep_next_welcome_screen = true;
     cur_screen = Screen::welcome;
 }
 
+// Save the current run, including the map.
 void save_current_game() {
     GameState state;
     state.player = cur_battle.player;
@@ -330,6 +351,7 @@ void save_current_game() {
     state.save_to_file(game_save_file);
 }
 
+// Load a run and clear any old in-combat piles.
 bool load_current_game() {
     GameState state;
     if(!state.load_from_file(game_save_file)) {
@@ -349,6 +371,7 @@ bool load_current_game() {
     return true;
 }
 
+// Record the finished run once, then remove the current-run save.
 void record_current_run() {
     if(record_saved) {
         return;
@@ -372,7 +395,7 @@ int read_int() {
     return input;
 }
 
-// Print separator line for visual clarity
+// Clear the terminal before drawing a new screen.
 void print_sep_line() {
-    cout << "\n";
+    cout << "\033[2J\033[H";
 }

@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Default enemy, mostly used when a vector/object needs something harmless.
 Enemy::Enemy() { // default constructor: default enemy
     name = "unknown";
     max_hp = 15;
@@ -13,6 +14,7 @@ Enemy::Enemy() { // default constructor: default enemy
     armor = 0;
 }
 
+// Create an enemy with fixed stats.
 Enemy::Enemy(string name, int max_hp, int attack, int armor) { // custom enemy
     this->name = name;
     this->max_hp = max_hp;
@@ -21,6 +23,7 @@ Enemy::Enemy(string name, int max_hp, int attack, int armor) { // custom enemy
     this->armor = armor;
 }
 
+// Armor reduces incoming damage first.
 void Enemy::take_damage(int attack) {
     int real_damage = attack - armor;
     if (real_damage < 0){
@@ -32,14 +35,17 @@ void Enemy::take_damage(int attack) {
     }
 }
 
+// Enemy attack is fixed for now, no intent changes yet.
 int Enemy::get_attack() const {
     return attack;
 }
 
+// Dead means zero HP.
 bool Enemy::is_dead() const {
     return hp <= 0;
 }
 
+// The next functions are just enemy templates.
 Enemy Enemy::create_Cultist() {
     return Enemy("Cultist", 20, 5, 0);
 }
@@ -68,6 +74,7 @@ Enemy Enemy::create_Boss() {
     return Enemy("Boss", 60, 12, 0);
 }
 
+// Pick enemies by floor so late game is not only Slime forever.
 Enemy create_normal_enemy_by_floor(int floor) {
     int random_number = rand() % 100;
 
@@ -106,6 +113,7 @@ Enemy create_normal_enemy_by_floor(int floor) {
     }
 }
 
+// Final room always uses the boss template.
 Enemy create_boss_enemy() {
     return Enemy::create_Boss();
 }

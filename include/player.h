@@ -29,10 +29,16 @@ public:
     vector<Card> draw_pile = {};     // shuffled combat draw pile
     vector<Card> discard_pile = {};  // played and discarded cards in battle
 
+    // Damage can be changed by strength and flat boosts.
     int get_damage(int atk) const;
+
+    // Small helper so battle code reads nicely.
     bool is_dead() const;
     
+    // Heal but never go above max HP.
     void heal(const int delta);
+
+    // Take damage but never go below zero HP.
     void hurt(const int delta);
 };
 

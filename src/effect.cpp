@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// Apply this status effect to the generic Entity class.
+// Most of the current card game uses Battle directly, but this is here for expansion.
 void Effect::apply_effect_on_entity(Entity &entity) {
     switch(type) {
     case EffectType::none: { // do nothing

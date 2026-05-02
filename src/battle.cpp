@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <iomanip>
+#include <thread>
 
 #include "../include/battle.h"
 #include "../include/main.h"
@@ -14,27 +17,88 @@
 using namespace std;
 
 namespace {
+const string COLOR_RESET = "\033[0m";
+const string COLOR_RED = "\033[31m";
+const string COLOR_GREEN = "\033[32m";
+const string COLOR_YELLOW = "\033[33m";
+const string COLOR_BLUE = "\033[34m";
+const string COLOR_CYAN = "\033[36m";
+
+string card_type_color(const string &type) {
+    if(type == "Attack") return COLOR_RED;
+    if(type == "Skill") return COLOR_BLUE;
+    if(type == "Utility") return COLOR_GREEN;
+    return "";
+}
+
+void print_padded_colored(const string &text, int width, const string &color) {
+    if(color.empty()) {
+        cout << text;
+    }
+    else {
+        cout << color << text << COLOR_RESET;
+    }
+    if(static_cast<int>(text.size()) < width) {
+        cout << string(width - text.size(), ' ');
+    }
+}
+
+// Print one card as a numbered menu option.
 void print_card_option(int option, const Card &card) {
-    cout << option << ". [" << card.getType() << "] "
-         << card.getName()
-         << " (" << card.getCost() << ") - "
+    string type_label = "[" + card.getType() + "]";
+
+    cout << left
+         << setw(4) << (to_string(option) + ".");
+    print_padded_colored(type_label, 11, card_type_color(card.getType()));
+    cout << setw(12) << card.getName()
+         << "(" << card.getCost() << ") - "
          << card.getDescription();
 
     if(card.getIsApplyToEnemy()) {
         cout << " Target enemy.";
     }
 
-    cout << "\n";
+    cout << right << "\n";
 }
 
+// Enemy target list uses this format when an attack card needs a target.
 void print_enemy_status(int option, const Enemy &enemy) {
     cout << option << ". " << enemy.name
-         << " HP " << enemy.hp << "/" << enemy.max_hp
+         << " HP " << COLOR_RED << enemy.hp << "/" << enemy.max_hp << COLOR_RESET
          << " | Armor " << enemy.armor
          << " | Next attack " << enemy.attack << "\n";
 }
+
+void print_action_status(const Player &player, const vector<Enemy> &enemies) {
+    cout << "\nEnemy status:\n";
+    bool any_alive = false;
+    for(const Enemy &enemy : enemies) {
+        if(enemy.is_dead()) {
+            cout << enemy.name << " defeated.\n";
+        }
+        else {
+            any_alive = true;
+            cout << enemy.name << " HP " << COLOR_RED << enemy.hp << "/" << enemy.max_hp << COLOR_RESET
+                 << " | Armor " << enemy.armor
+                 << " | Next attack " << enemy.attack << "\n";
+        }
+    }
+    if(!any_alive) {
+        cout << "All enemies defeated.\n";
+    }
+
+    cout << "Player HP " << COLOR_RED << player.hp << "/" << player.max_hp << COLOR_RESET
+         << " | Block " << COLOR_CYAN << player.block << COLOR_RESET
+         << " | Energy " << COLOR_YELLOW << player.energy << "/" << player.max_energy << COLOR_RESET << "\n";
 }
 
+void wait_for_next_screen() {
+    cout.flush();
+    this_thread::sleep_for(chrono::milliseconds(1000));
+}
+}
+
+// Fresh combat setup: reset piles, shuffle deck, then start the player's first turn.
 void Battle::start_combat(bool boss_battle) {
     is_boss_battle = boss_battle;
     round = BattleRound::select_option;
@@ -45,6 +109,7 @@ void Battle::start_combat(bool boss_battle) {
     start_player_turn();
 }
 
+// Draw from draw pile. If it runs out, shuffle discard pile back in.
 void Battle::draw_cards(int count) {
     while(count > 0 && player.hand.size() < static_cast<size_t>(player.max_card)) {
         if(player.draw_pile.empty()) {
@@ -62,17 +127,20 @@ void Battle::draw_cards(int count) {
     }
 }
 
+// At end of turn or combat, move hand cards away.
 void Battle::discard_hand() {
     player.discard_pile.insert(player.discard_pile.end(), player.hand.begin(), player.hand.end());
     player.hand.clear();
 }
 
+// New player turn means full energy, no old block, and a fresh draw.
 void Battle::start_player_turn() {
     player.energy = player.max_energy;
     player.block = 0;
     draw_cards(5);
 }
 
+// Called when all enemies are defeated.
 void Battle::finish_victory() {
     discard_hand();
     player.draw_pile.clear();
@@ -120,6 +188,7 @@ void Battle::finish_victory() {
     cur_screen = Screen::map;
 }
 
+// Main player-choice screen for battle.
 void Battle::print_and_select_options() {
     for(int i = 0; i < enemies.size(); ) {
         if(enemies[i].is_dead()) {
@@ -136,9 +205,9 @@ void Battle::print_and_select_options() {
         return;
     }
 
-    cout << "\nPlayer HP " << player.hp << "/" << player.max_hp
-         << " | Block " << player.block
-         << " | Energy " << player.energy << "/" << player.max_energy
+    cout << "\nPlayer HP " << COLOR_RED << player.hp << "/" << player.max_hp << COLOR_RESET
+         << " | Block " << COLOR_CYAN << player.block << COLOR_RESET
+         << " | Energy " << COLOR_YELLOW << player.energy << "/" << player.max_energy << COLOR_RESET
          << " | Stage " << player.stage
          << " | Score " << current_score << "\n";
     cout << "Deck " << player.cards.size()
@@ -147,7 +216,7 @@ void Battle::print_and_select_options() {
 
     for(size_t i = 0; i < enemies.size(); ++i) {
         const Enemy &enemy = enemies[i];
-        cout << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp
+        cout << enemy.name << " HP " << COLOR_RED << enemy.hp << "/" << enemy.max_hp << COLOR_RESET
              << " | Armor " << enemy.armor
              << " | Next attack " << enemy.attack << "\n";
     }
@@ -165,7 +234,7 @@ void Battle::print_and_select_options() {
 
         print_card_option(option_name, card);
         
-        valid_options[to_string(option_name)] = [&, i]() {  // Capture i by value to avoid reference issues
+        valid_options[to_string(option_name)] = [&, i]() {  // capture i by value, otherwise menu choices point at the wrong card
             print_sep_line();
 
             if(i < 0 || i >= static_cast<int>(player.hand.size())) {
@@ -182,10 +251,11 @@ void Battle::print_and_select_options() {
 
             round = BattleRound::select_option;
             played_card_idx = i;
-            cout << selected_card.getName() << " played.\n";
 
             if(!selected_card.getIsApplyToEnemy()) {
                 played_card_enemy_idx = -1;  // index = -1 for non-target cards
+                cout << "Action Log\n";
+                cout << "You played " << selected_card.getName() << ".\n";
                 apply_card();
                 return;
             }
@@ -205,6 +275,9 @@ void Battle::print_and_select_options() {
             }
 
             played_card_enemy_idx = option_enemy_idx - 1;  // convert from 1-based to 0-based index
+            cout << "\nAction Log\n";
+            cout << "You played " << selected_card.getName()
+                 << " on " << enemies[played_card_enemy_idx].name << ".\n";
             apply_card();
         };
         ++option_name;
@@ -219,6 +292,7 @@ void Battle::print_and_select_options() {
     };
 }
 
+// Enemy phase after the player ends the turn.
 void Battle::print_and_apply_enemies() {
     for(int i = 0; i < enemies.size(); ) { // remove dead enemies first
         if(enemies[i].is_dead()) {
@@ -233,6 +307,7 @@ void Battle::print_and_apply_enemies() {
         return;
     }
 
+    cout << "Enemy Turn\n";
     for(int i = 0; i < enemies.size(); ++i) {
         const Enemy &enemy = enemies[i];
 
@@ -248,8 +323,8 @@ void Battle::print_and_apply_enemies() {
         }
         player.hurt(damage);
         cout << enemy.name << " attacks for " << enemy.get_attack()
-             << ". You lose " << (old_player_hp - player.hp)
-             << " HP after block.\n";
+             << ". Block absorbs " << (enemy.get_attack() - damage)
+             << ", you lose " << (old_player_hp - player.hp) << " HP.\n";
 
         if(player.is_dead()) {
             current_run_won = false;
@@ -260,6 +335,7 @@ void Battle::print_and_apply_enemies() {
     }
 }
 
+// Decide which battle sub-screen should be printed.
 void Battle::print_battle_screen() {
     switch(round) {
     case BattleRound::select_option: {
@@ -281,6 +357,7 @@ void Battle::print_battle_screen() {
     }
 }
 
+// Read one battle input and run the option stored in valid_options.
 void Battle::process_player_input() {
     switch(round) {
     case BattleRound::select_option: {
@@ -293,9 +370,15 @@ void Battle::process_player_input() {
 
         // else run the option function
         valid_options[option]();
+        if(round == BattleRound::select_option || cur_screen != Screen::battle) {
+            print_action_status(player, enemies);
+            keep_next_battle_screen = true;
+            wait_for_next_screen();
+        }
         break;
     }
     case BattleRound::option_result: {
+        wait_for_next_screen();
         if(cur_screen == Screen::battle) {
             start_player_turn();
             round = BattleRound::select_option;
@@ -312,6 +395,7 @@ void Battle::process_player_input() {
     }
 }
 
+// Resolve the selected card. Card data is simple; the real effects are checked here.
 void Battle::apply_card() {
     if(played_card_idx < 0 || played_card_idx >= static_cast<int>(player.hand.size())) {
         cout << "Invalid card index!\n";
@@ -347,8 +431,16 @@ void Battle::apply_card() {
             }
 
             int damage = player.get_damage(base_damage);
-            cout << "You deal " << damage << " damage to " << enemy.name << ".\n";
+            int old_enemy_hp = enemy.hp;
+            int damage_after_armor = max(0, damage - enemy.armor);
+            int armor_blocked = damage - damage_after_armor;
             enemy.take_damage(damage);
+            cout << enemy.name << " takes " << (old_enemy_hp - enemy.hp)
+                 << " damage";
+            if(armor_blocked > 0) {
+                cout << " (" << armor_blocked << " blocked by armor)";
+            }
+            cout << ".\n";
 
             if(card.getName() == "Rampage") {
                 card.times_played++;
