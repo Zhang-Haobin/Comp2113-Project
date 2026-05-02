@@ -7,9 +7,9 @@ Spire Lite provides a simple but complete gameplay loop: choose difficulty, ente
 
 ## How to run the game?
 1. On File Explorer / Finder, open the Spire Lite folder.
-    * You should see something like this:
-    
-    ![Your folder containing SpireLite]("folder_demo.png")
+    * On File Explorer / Finder, you should see the "SpireLite" file, like this:
+
+    ![Your folder containing SpireLite](./folder_demo.png)
 
 2. Open **Terminal** on the Spire Lite folder:
     * On **Windows**, follow [these steps](https://johnwargo.com/posts/2024/launch-windows-terminal/).
