@@ -8,6 +8,7 @@
 #include "../include/battle.h"
 #include "../include/main.h"
 #include "../include/save.h"
+#include "../include/Cardfactory.h"
 
 using namespace std;
 
@@ -101,7 +102,7 @@ void Battle::print_and_apply_enemies() {
 
         const int old_player_hp = player.hp;
         player.hurt(enemy.get_attack());
-        cout << enemy.name << " dealt " << (old_player_hp - player.hp) << " damage to you!\n\n";
+        cout << enemy.name << " dealt " << (old_player_hp - player.hp) << " damage to you!\n";
 
         if(player.is_dead()) {
             cur_screen = Screen::end;
@@ -167,28 +168,28 @@ void Battle::apply_card() {
 
         // Apply damage effects
         if(card.getType() == "Strike" || card.getType() == "Attack") {
-            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n\n";
             enemy.take_damage(card.getValue());
             if(enemy.is_dead()) {
                 cout << enemy.name << " is defeated!\n";
             }
         }
         else if(card.getType() == "Bash") {
-            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n\n";
             enemy.take_damage(card.getValue());
             if(enemy.is_dead()) {
                 cout << enemy.name << " is defeated!\n";
             }
         }
         else if(card.getType() == "Fireball") {
-            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n\n";
             enemy.take_damage(card.getValue());
             if(enemy.is_dead()) {
                 cout << enemy.name << " is defeated!\n";
             }
         }
         else if(card.getType() == "Quick Slash") {
-            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n";
+            cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n\n";
             enemy.take_damage(card.getValue());
             if(enemy.is_dead()) {
                 cout << enemy.name << " is defeated!\n";
@@ -200,22 +201,22 @@ void Battle::apply_card() {
         cout << "!\n\n";
 
         if(card.getType() == "Defend") {
-            cout << "You gained " << card.getValue() << " block!\n";
+            cout << "You gained " << card.getValue() << " block!\n\n";
             player.block += card.getValue();
         }
         else if(card.getType() == "Heal") {
-            cout << "You healed for " << card.getValue() << " HP!\n";
+            cout << "You healed for " << card.getValue() << " HP!\n\n";
             player.heal(card.getValue());
         }
         else if(card.getType() == "Recover") {
-            cout << "You recovered " << card.getValue() << " energy!\n";
+            cout << "You recovered " << card.getValue() << " energy!\n\n";
             player.energy += card.getValue();
             if(player.energy > player.max_energy) {
                 player.energy = player.max_energy;
             }
         }
         else if(card.getType() == "Iron Wall") {
-            cout << "You gained " << card.getValue() << " block!\n";
+            cout << "You gained " << card.getValue() << " block!\n\n";
             player.block += card.getValue();
         }
         else if(card.getType() == "Adrenaline") {
@@ -224,10 +225,13 @@ void Battle::apply_card() {
                 player.energy = player.max_energy;
             }
             player.heal(2);
-            cout << "You gained 1 energy and recovered 2 HP!\n";
+            cout << "You gained 1 energy and recovered 2 HP!\n\n";
         }
     }
 
-    // actually consume that card
-    player.cards.erase(player.cards.begin() + played_card_idx);
+    player.cards.erase(player.cards.begin() + played_card_idx); // actually consume that card
+
+    Card new_card = Cardfactory::create_random_card();
+    cout << "You got a new card: " << new_card.getName() << "!\n";
+    player.cards.push_back(new_card);
 }
