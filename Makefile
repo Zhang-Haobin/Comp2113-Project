@@ -1,7 +1,7 @@
-main: main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o game_state.o
-	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o game_state.o -o SpireLite -O2 -std=c++11
+main: main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o game_state.o event_screen.o difficulty.o
+	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o game_state.o event_screen.o difficulty.o -o SpireLite -O2 -std=c++11
 
-main.o: src/main.cpp include/main.h player.o save.o battle.o map.o Cardfactory.o enemy.o Card.o Deck.o game_state.o
+main.o: src/main.cpp include/main.h include/event_screen.h include/difficulty.h player.o save.o battle.o map.o Cardfactory.o enemy.o Card.o Deck.o game_state.o event_screen.o difficulty.o
 	g++ -c src/main.cpp -O2 -std=c++11
 
 battle.o: src/battle.cpp include/battle.h include/main.h save.o Cardfactory.o
@@ -30,6 +30,12 @@ map.o: src/map.cpp include/map.h include/main.h
 
 game_state.o: src/game_state.cpp include/game_state.h player.o map.o Cardfactory.o
 	g++ -c src/game_state.cpp -O2 -std=c++11
+
+event_screen.o: src/event_screen.cpp include/event_screen.h include/main.h Cardfactory.o player.o Card.o
+	g++ -c src/event_screen.cpp -O2 -std=c++11
+
+difficulty.o: src/difficulty.cpp include/difficulty.h include/player.h include/main.h
+	g++ -c src/difficulty.cpp -O2 -std=c++11
 
 clean:
 	rm -f *.o SpireLite

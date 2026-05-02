@@ -2,6 +2,7 @@
 #include "../include/main.h"
 #include "../include/Cardfactory.h"
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ void show_reward_screen(Player& player, int& score) {
     player.heal(5);
     cout << "\nHealed 5 HP. HP: " << player.hp << "/" << player.max_hp << "\n";
     cout << "\nPress Enter...";
-    cin.ignore();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 

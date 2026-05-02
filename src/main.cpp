@@ -6,6 +6,8 @@
 #include "../include/Cardfactory.h"
 #include "../include/enemy.h"
 #include "../include/game_state.h"
+#include "../include/event_screen.h"
+#include "../include/difficulty.h"
 
 #include <iostream>
 #include <string>
@@ -144,19 +146,28 @@ void save_slot_screen() {
         cout << "\nEnter player name: ";
         cin >> new_name;
         
+        int selected_difficulty = 0;
+        while(selected_difficulty < 1 || selected_difficulty > 3) {
+            print_difficulty_options();
+            selected_difficulty = read_int();
+            if(selected_difficulty < 1 || selected_difficulty > 3) {
+                cout << "Invalid difficulty. Choose 1, 2, or 3.\n";
+            }
+        }
+        difficulty = selected_difficulty;
+
         // Initialize battle with new player
         cur_battle = Battle();
         cur_battle.player.name = new_name;
         cur_battle.player.cards = Cardfactory::create_starter_carddeck();  // Initialize player deck with starter cards
         cur_battle.player.stage = 0;
-        cur_battle.player.difficulty = difficulty;
+        apply_difficulty_to_player(difficulty, cur_battle.player);
         current_score = 0;
         current_run_won = false;
         record_saved = false;
         save_current_game();
         
         cout << "\nNew run created. Welcome to Spire Lite, " << new_name << ".\n";
-        //todo: insert a difficulty selection function and store it in player.difficulty
         cur_screen = Screen::map;
         break;
     }
@@ -194,7 +205,14 @@ void map_screen() {
             break;
         }
         case NodeType::Event: {
-            cout << "\nEvent resolved. You move to the next stage.\n";
+            trigger_random_event(cur_battle.player, current_score);
+            if(cur_battle.player.is_dead()) {
+                current_run_won = false;
+                record_current_run();
+                cur_screen = Screen::end;
+                break;
+            }
+
             cur_battle.player.stage++;
             save_current_game();
             cur_screen = Screen::map;
