@@ -122,12 +122,22 @@ Card Cardfactory::create_random_rare_card(){
 
 vector<Card> Cardfactory::create_reward_card(int count){
     vector<Card> rewards;
-    for (int i = 0; i < count; i++) {
-        rewards.push_back(create_random_card());
+    if (count <= 0) {
+        return rewards;
     }
+
+       //copy the generated cards into the vector returned to the caller.
+    Card* reward_choices = new Card[count];
+    for (int i = 0; i < count; i++) {
+        reward_choices[i] = create_random_card();
+    }
+    for (int i = 0; i < count; i++) {
+        rewards.push_back(reward_choices[i]);
+    }
+    delete[] reward_choices;
+
     return rewards;
 }
-
 
 
 

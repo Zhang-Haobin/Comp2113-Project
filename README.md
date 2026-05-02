@@ -28,6 +28,7 @@ Spire Lite also keeps save data and records, so the player can continue an unfin
 - File input/output for current run saves and long-term game records.
 - Modular source code split across multiple header and source files.
 - Dynamic data structures such as vectors, maps, and saved map layers.
+- Dynamic memory management in card reward generation, where temporary reward choices are created with a dynamic array and released after use.
 
 ## Non-standard Libraries
 This project does not use any non-standard libraries.
