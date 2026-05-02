@@ -27,6 +27,7 @@ bool current_run_won = false;
 bool record_saved = false;
 Screen cur_screen = Screen::welcome;
 Battle cur_battle;
+Map cur_map;
 const string game_save_file = "game_save.txt";
 
 namespace {
@@ -41,6 +42,29 @@ void print_menu_option(int option, const string &label, const string &detail) {
 bool saved_game_exists() {
     ifstream fin(game_save_file);
     return fin.good();
+}
+
+int total_map_layers_for_difficulty(int difficulty_level) {
+    return difficulty_level * 4 + 10;
+}
+
+void reset_current_map_for_player() {
+    cur_map = Map(total_map_layers_for_difficulty(cur_battle.player.difficulty));
+}
+
+void ensure_current_map_ready() {
+    int total_layers = total_map_layers_for_difficulty(cur_battle.player.difficulty);
+    if(cur_map.layers.empty() || static_cast<int>(cur_map.layers.size()) != total_layers) {
+        cur_map = Map(total_layers);
+        cur_map.currentLayer = min(cur_battle.player.stage, total_layers - 1);
+        cur_map.currentNodeIdx = 0;
+    }
+    cur_map.currentLayer = max(0, min(cur_map.currentLayer, total_layers - 1));
+    if(cur_map.layers[cur_map.currentLayer].empty()
+       || cur_map.currentNodeIdx < 0
+       || cur_map.currentNodeIdx >= static_cast<int>(cur_map.layers[cur_map.currentLayer].size())) {
+        cur_map.currentNodeIdx = 0;
+    }
 }
 }
 
@@ -162,6 +186,7 @@ void save_slot_screen() {
         cur_battle.player.cards = Cardfactory::create_starter_carddeck();  // Initialize player deck with starter cards
         cur_battle.player.stage = 0;
         apply_difficulty_to_player(difficulty, cur_battle.player);
+        reset_current_map_for_player();
         current_score = 0;
         current_run_won = false;
         record_saved = false;
@@ -185,13 +210,10 @@ void save_slot_screen() {
 // Generate map and handle navigation to next node
 void map_screen() {
     print_sep_line();
-    int total_layers = (cur_battle.player.difficulty) * 4 + 10;
-    Map map(total_layers);
-    map.currentLayer = min(cur_battle.player.stage, total_layers - 1);
-    map.currentNodeIdx = 0;
-    playmap(map);
+    ensure_current_map_ready();
+    playmap(cur_map);
 
-    Node& newNode = map.getCurrentNode(); 
+    Node& newNode = cur_map.getCurrentNode(); 
     switch(newNode.type) {
         case NodeType::NormalEnemy: {
             // Generate enemy for this normal enemy encounter
@@ -302,8 +324,9 @@ void info_screen() {
 void save_current_game() {
     GameState state;
     state.player = cur_battle.player;
+    state.current_map = cur_map;
     state.score = current_score;
-    state.current_floor = cur_battle.player.stage;
+    state.current_floor = cur_map.currentLayer;
     state.save_to_file(game_save_file);
 }
 
@@ -318,6 +341,8 @@ bool load_current_game() {
     cur_battle.player.hand.clear();
     cur_battle.player.draw_pile.clear();
     cur_battle.player.discard_pile.clear();
+    cur_map = state.current_map;
+    ensure_current_map_ready();
     current_score = state.score;
     current_run_won = false;
     record_saved = false;

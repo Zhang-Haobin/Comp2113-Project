@@ -13,7 +13,10 @@ using namespace std;
 Map::Map(int numLayers) {                             
         layers.resize(numLayers);
         currentLayer = 0;
-        generate();
+        currentNodeIdx = 0;
+        if (numLayers > 0) {
+            generate();
+        }
     }
 
 void Map::generate() {

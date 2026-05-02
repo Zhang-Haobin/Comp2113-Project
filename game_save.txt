@@ -1,0 +1,16 @@
+zhang
+50 50
+3 3
+1 0 0
+0 3
+6
+6
+Strike
+Strike
+Strike
+Defend
+Defend
+Heal
+0
+0
+0

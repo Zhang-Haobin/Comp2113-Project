@@ -22,7 +22,7 @@ public:
     int currentLayer;
     int currentNodeIdx;
 
-    Map(int numLayers = 5);
+    Map(int numLayers = 0);
 
     void generate();
 

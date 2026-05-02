@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include "battle.h"
+#include "map.h"
 
 int read_int();
 void print_sep_line();
@@ -16,6 +17,7 @@ extern bool current_run_won;
 extern bool record_saved;
 extern Screen cur_screen;
 extern Battle cur_battle;
+extern Map cur_map;
 
 void welcome_screen();
 void lobby_screen();
