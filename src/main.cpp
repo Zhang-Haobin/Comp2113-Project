@@ -50,7 +50,16 @@ bool saved_game_exists() {
 
 // Difficulty controls how long the climb is.
 int total_map_layers_for_difficulty(int difficulty_level) {
-    return difficulty_level * 4 + 10;
+    return get_difficulty_by_level(difficulty_level).map_layers;
+}
+
+// Apply the chosen difficulty to enemy stats after an enemy template is created.
+Enemy scale_enemy_for_difficulty(Enemy enemy, int difficulty_level) {
+    DifficultySettings settings = get_difficulty_by_level(difficulty_level);
+    enemy.max_hp = max(1, static_cast<int>(enemy.max_hp * settings.enemy_hp_multiplier + 0.5f));
+    enemy.hp = enemy.max_hp;
+    enemy.attack = max(1, static_cast<int>(enemy.attack * settings.enemy_damage_multiplier + 0.5f));
+    return enemy;
 }
 
 // New run gets a fresh generated map.
@@ -200,7 +209,7 @@ void save_slot_screen() {
         cur_battle.player.stage = 0;
         apply_difficulty_to_player(difficulty, cur_battle.player);
         reset_current_map_for_player();
-        current_score = 0;
+        current_score = get_difficulty_by_level(difficulty).starting_bonus;
         current_run_won = false;
         record_saved = false;
         save_current_game();
@@ -232,6 +241,7 @@ void map_screen() {
             // Generate enemy for this normal enemy encounter
             cur_battle.enemies.clear();  // Clear any previous enemies
             Enemy enemy = create_normal_enemy_by_floor(cur_battle.player.stage);  // Generate enemy based on current stage
+            enemy = scale_enemy_for_difficulty(enemy, cur_battle.player.difficulty);
             cur_battle.enemies.push_back(enemy);
             cur_battle.start_combat(false);
             
@@ -256,6 +266,7 @@ void map_screen() {
         case NodeType::Boss: {
             cur_battle.enemies.clear();
             Enemy boss = create_boss_enemy();
+            boss = scale_enemy_for_difficulty(boss, cur_battle.player.difficulty);
             cur_battle.enemies.push_back(boss);
             cur_battle.start_combat(true);
 

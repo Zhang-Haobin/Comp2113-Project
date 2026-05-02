@@ -13,6 +13,7 @@
 #include "../include/save.h"
 #include "../include/Cardfactory.h"
 #include "../include/Deck.h"
+#include "../include/difficulty.h"
 
 using namespace std;
 
@@ -151,7 +152,8 @@ void Battle::finish_victory() {
     player.discard_pile.clear();
     player.block = 0;
 
-    int battle_score = 100 + (player.stage * 10);
+    DifficultySettings settings = get_difficulty_by_level(player.difficulty);
+    int battle_score = static_cast<int>((100 + (player.stage * 10)) * settings.score_multiplier);
     current_score += battle_score;
     cout << "\nBattle won. Score +" << battle_score
          << " | Total score " << current_score << "\n";
