@@ -34,7 +34,6 @@ void GameState::save_to_file(const string& filename) {
     
     fout << score << "\n" << current_floor << "\n" << is_boss_fight << "\n";
     fout.close();
-    cout << "Game saved.\n";
 }
 
 bool GameState::load_from_file(const string& filename) {
@@ -62,7 +61,6 @@ bool GameState::load_from_file(const string& filename) {
     
     fin >> score >> current_floor >> is_boss_fight;
     fin.close();
-    cout << "Game loaded.\n";
     return true;
 }
 

@@ -13,6 +13,28 @@
 
 using namespace std;
 
+namespace {
+void print_card_option(int option, const Card &card) {
+    cout << "  [" << option << "] " << card.getName()
+         << " | Cost " << card.getCost()
+         << " | " << card.getType()
+         << " | " << card.getDescription();
+
+    if(card.getIsApplyToEnemy()) {
+        cout << " | choose target";
+    }
+
+    cout << "\n";
+}
+
+void print_enemy_status(int option, const Enemy &enemy) {
+    cout << "  [" << option << "] " << enemy.name
+         << " | HP " << enemy.hp << "/" << enemy.max_hp
+         << " | Armor " << enemy.armor
+         << " | Intent: Attack " << enemy.attack << "\n";
+}
+}
+
 void Battle::start_combat(bool boss_battle) {
     is_boss_battle = boss_battle;
     round = BattleRound::select_option;
@@ -59,7 +81,9 @@ void Battle::finish_victory() {
 
     int battle_score = 100 + (player.stage * 10);
     current_score += battle_score;
-    cout << "Victory! Gained " << battle_score << " score. Total score: " << current_score << "\n\n";
+    cout << "=== Victory ===\n\n";
+    cout << "Score gained: " << battle_score << "\n";
+    cout << "Total score:  " << current_score << "\n\n";
 
     player.stage++;
 
@@ -71,22 +95,21 @@ void Battle::finish_victory() {
     }
 
     vector<Card> rewards = Cardfactory::create_reward_card(3);
-    cout << "Choose a card reward:\n";
+    cout << "Choose one card reward, or skip:\n\n";
     for(size_t i = 0; i < rewards.size(); ++i) {
-        cout << "  " << (i + 1) << ". " << rewards[i].getName()
-             << " (Cost: " << rewards[i].getCost() << ") - "
-             << rewards[i].getDescription() << "\n";
+        print_card_option(static_cast<int>(i + 1), rewards[i]);
     }
-    cout << "  4. Skip\n\n";
+    cout << "  [4] Skip reward\n\n";
+    cout << "Enter choice: ";
 
     int choice = read_int();
     if(choice >= 1 && choice <= static_cast<int>(rewards.size())) {
         player.cards.push_back(rewards[choice - 1]);
-        cout << "Added " << rewards[choice - 1].getName() << " to your deck.\n";
+        cout << "\nAdded " << rewards[choice - 1].getName() << " to your deck.\n";
     }
 
     player.heal(5);
-    cout << "Healed 5 HP. HP: " << player.hp << "/" << player.max_hp << "\n";
+    cout << "Rest reward: healed 5 HP. HP is now " << player.hp << "/" << player.max_hp << ".\n";
     save_current_game();
     cur_screen = Screen::map;
 }
@@ -107,25 +130,37 @@ void Battle::print_and_select_options() {
         return;
     }
 
-    cout << player.name << " HP " << player.hp << "/" << player.max_hp << " | Block " << player.block << " | Energy " << player.energy << "\n\n";
-    for(const Enemy &enemy : enemies) {
-        cout << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
+    cout << "=== Battle ===\n\n";
+    cout << "Player\n";
+    cout << "  " << player.name
+         << " | HP " << player.hp << "/" << player.max_hp
+         << " | Block " << player.block
+         << " | Energy " << player.energy << "/" << player.max_energy
+         << " | Stage " << player.stage
+         << " | Score " << current_score << "\n";
+    cout << "  Cards: Hand " << player.hand.size()
+         << " | Draw pile " << player.draw_pile.size()
+         << " | Discard pile " << player.discard_pile.size()
+         << " | Deck " << player.cards.size() << "\n\n";
+
+    cout << "Enemies\n";
+    for(size_t i = 0; i < enemies.size(); ++i) {
+        print_enemy_status(static_cast<int>(i + 1), enemies[i]);
     }
     cout << "\n";
 
-    cout << "Hand:\n\n";
+    cout << "Hand\n";
     valid_options.clear();
     int option_name = 1;
 
     if(player.hand.empty()) {
-        cout << "(You don't have any cards)\n\n";
+        cout << "  No cards in hand. End the turn to draw again.\n";
     }
 
     for(int i = 0; i < player.hand.size(); ++i) {
         const Card &card = player.hand[i];
 
-        // Print card name, cost, and description
-        cout << option_name << ". " << card.getName() << " (Cost: " << card.getCost() << ") - " << card.getDescription() << "\n";
+        print_card_option(option_name, card);
         
         valid_options[to_string(option_name)] = [&, i]() {  // Capture i by value to avoid reference issues
             print_sep_line();
@@ -144,7 +179,7 @@ void Battle::print_and_select_options() {
 
             round = BattleRound::select_option;
             played_card_idx = i;
-            cout << "You played " << selected_card.getName() << "!\n";
+            cout << "You played " << selected_card.getName() << ".\n";
 
             if(!selected_card.getIsApplyToEnemy()) {
                 played_card_enemy_idx = -1;  // index = -1 for non-target cards
@@ -153,17 +188,16 @@ void Battle::print_and_select_options() {
             }
 
             // else: card applies to enemy
-            cout << "Apply " << selected_card.getName() << " to which enemy?\n\n";
-            for(int j = 0; j < enemies.size(); ++j) {
-                Enemy &enemy = enemies[j];
-                cout << j + 1 << ". " << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
+            cout << "\nChoose target for " << selected_card.getName() << ":\n\n";
+            for(size_t j = 0; j < enemies.size(); ++j) {
+                print_enemy_status(static_cast<int>(j + 1), enemies[j]);
             }
-            cout << "\n";
+            cout << "\nEnter target number: ";
 
             int option_enemy_idx = read_int();
             while(!(1 <= option_enemy_idx && option_enemy_idx <= static_cast<int>(enemies.size()))) {
                 cout << "Invalid enemy index!\n";
-                cout << "Apply '" << selected_card.getName() << "' to which enemy?\n";
+                cout << "Enter target number for " << selected_card.getName() << ": ";
                 option_enemy_idx = read_int();
             }
 
@@ -173,8 +207,10 @@ void Battle::print_and_select_options() {
         ++option_name;
     }
 
-    cout << "\n" << option_name << ". End turn\n\n";
+    cout << "  [" << option_name << "] End turn\n\n";
+    cout << "Enter a card number, or end the turn: ";
     valid_options[to_string(option_name)] = [&]() {
+        cout << "\nYou ended your turn.\n";
         discard_hand();
         round = BattleRound::option_result;
     };
@@ -189,6 +225,13 @@ void Battle::print_and_apply_enemies() {
             ++i;
         }
     }
+    cout << "=== Enemy Turn ===\n\n";
+
+    if(enemies.empty()) {
+        cout << "No enemies remain.\n";
+        return;
+    }
+
     for(int i = 0; i < enemies.size(); ++i) {
         const Enemy &enemy = enemies[i];
 
@@ -203,7 +246,9 @@ void Battle::print_and_apply_enemies() {
             player.block = 0;
         }
         player.hurt(damage);
-        cout << enemy.name << " dealt " << (old_player_hp - player.hp) << " damage to you!\n";
+        cout << enemy.name << " attacks for " << enemy.get_attack()
+             << ". You take " << (old_player_hp - player.hp)
+             << " damage. HP: " << player.hp << "/" << player.max_hp << "\n";
 
         if(player.is_dead()) {
             current_run_won = false;
@@ -283,35 +328,35 @@ void Battle::apply_card() {
 
         if(card.getType() == "Attack") {
             int damage = player.get_damage(card.getValue());
-            cout << "You dealt " << damage << " damage to " << enemy.name << "!\n\n";
+            cout << "You dealt " << damage << " damage to " << enemy.name << ".\n";
             enemy.take_damage(damage);
             if(card.getName() == "Quick Slash") {
                 player.block += 2;
-                cout << "You gained 2 block!\n\n";
+                cout << "You gained 2 block.\n";
             }
             if(enemy.is_dead()) {
-                cout << enemy.name << " is defeated!\n";
+                cout << enemy.name << " is defeated.\n";
             }
         }
     }
     else { // card doesn't apply to enemy
         if(card.getName() == "Defend") {
-            cout << "You gained " << card.getValue() << " block!\n\n";
+            cout << "You gained " << card.getValue() << " block.\n";
             player.block += card.getValue();
         }
         else if(card.getName() == "Heal") {
-            cout << "You healed for " << card.getValue() << " HP!\n\n";
+            cout << "You healed for " << card.getValue() << " HP.\n";
             player.heal(card.getValue());
         }
         else if(card.getName() == "Recover") {
-            cout << "You recovered " << card.getValue() << " energy!\n\n";
+            cout << "You recovered " << card.getValue() << " energy.\n";
             player.energy += card.getValue();
             if(player.energy > player.max_energy) {
                 player.energy = player.max_energy;
             }
         }
         else if(card.getName() == "Iron Wall") {
-            cout << "You gained " << card.getValue() << " block!\n\n";
+            cout << "You gained " << card.getValue() << " block.\n";
             player.block += card.getValue();
         }
         else if(card.getName() == "Adrenaline") {
@@ -320,7 +365,7 @@ void Battle::apply_card() {
                 player.energy = player.max_energy;
             }
             player.heal(2);
-            cout << "You gained 1 energy and recovered 2 HP!\n\n";
+            cout << "You gained 1 energy and recovered 2 HP.\n";
         }
     }
 

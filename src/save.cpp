@@ -77,14 +77,12 @@ void update_record(int current_score, int current_floor, bool player_won) {
 void print_record(){
     record record = get_record();
     print_sep_line();
-    cout << "=== Game Record ===" << endl;
-    cout << "Best Score: " << record.best_score << endl;
-    cout << "Highest Floor: " << record.highest_floor << endl;
-    cout << "Total Wins: " << record.total_wins << endl;
-    cout << "Total Losses: " << record.total_losses << endl;
-    cout << "Win Rate: " << record.win_rate() << "%" << endl;
-
-
+    cout << "=== Game Record ===\n\n";
+    cout << "Best score:    " << record.best_score << "\n";
+    cout << "Highest stage: " << record.highest_floor << "\n";
+    cout << "Total wins:    " << record.total_wins << "\n";
+    cout << "Total losses:  " << record.total_losses << "\n";
+    cout << "Win rate:      " << record.win_rate() << "%\n";
 }
 
 int record::get_total_game(){
@@ -99,6 +97,5 @@ double record::win_rate(){
     return total_wins/total*100;
 
 }
-
 
 

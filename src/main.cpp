@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <fstream>
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
@@ -25,6 +26,21 @@ bool record_saved = false;
 Screen cur_screen = Screen::welcome;
 Battle cur_battle;
 const string game_save_file = "game_save.txt";
+
+namespace {
+void print_menu_option(int option, const string &label, const string &detail) {
+    cout << "  [" << option << "] " << label;
+    if(!detail.empty()) {
+        cout << " - " << detail;
+    }
+    cout << "\n";
+}
+
+bool saved_game_exists() {
+    ifstream fin(game_save_file);
+    return fin.good();
+}
+}
 
 int main() {
     // Initialize random seed for enemy/card generation
@@ -62,12 +78,13 @@ int main() {
 // Display welcome screen and handle main menu choices
 void welcome_screen() {
     print_sep_line();
-    cout << "===|Spire Lite|===\n" << endl;
-    cout << "    Main Menu   " << endl;
-    cout << "   1. Start      " << endl;
-    cout << "   2. Game Record" << endl;
-    cout << "   3. More Info  " << endl;
-    cout << "   4. Quit       " << endl;
+    cout << "=== Spire Lite ===\n\n";
+    cout << "Main Menu\n";
+    print_menu_option(1, "Play", "start a new run or continue a save");
+    print_menu_option(2, "Game Record", "view best score, floors, wins and losses");
+    print_menu_option(3, "How To Play", "quick explanation of the basic controls");
+    print_menu_option(4, "Quit", "exit the game");
+    cout << "\nEnter choice: ";
 
     int choice = read_int();
     switch(choice) {
@@ -92,17 +109,26 @@ void welcome_screen() {
 // Handle save slot selection and new game creation
 void save_slot_screen() {
     print_sep_line();
-    cout << "    Saves:\n";
-    cout << "   1. New Game\n";
-    cout << "   2. Browse Saves\n";
-    cout << "   3. Main Menu\n";
+    cout << "=== Run Setup ===\n\n";
+    cout << "Save status: ";
+    if(saved_game_exists()) {
+        cout << "saved run found\n\n";
+    }
+    else {
+        cout << "no saved run\n\n";
+    }
+
+    print_menu_option(1, "New Game", "create a fresh character and deck");
+    print_menu_option(2, "Continue Save", "load game_save.txt if it exists");
+    print_menu_option(3, "Main Menu", "go back");
+    cout << "\nEnter choice: ";
 
     int option = read_int();
     switch(option) {
     case 1: {
         // Get player name and create new battle
         string new_name;
-        cout << "Type your name: ";
+        cout << "\nEnter player name: ";
         cin >> new_name;
         
         // Initialize battle with new player
@@ -116,18 +142,18 @@ void save_slot_screen() {
         record_saved = false;
         save_current_game();
         
-        cout << "\nCreate successfully, welcome to Spire Lite, " << new_name << endl;
+        cout << "\nNew run created. Welcome to Spire Lite, " << new_name << ".\n";
         //todo: insert a difficulty selection function and store it in player.difficulty
         cur_screen = Screen::map;
         break;
     }
     case 2: {
         if(load_current_game()) {
-            cout << "\nLoaded save for " << cur_battle.player.name << ".\n";
+            cout << "\nLoaded saved run for " << cur_battle.player.name << ".\n";
             cur_screen = Screen::map;
         }
         else {
-            cout << "\nNo saved game found.\n";
+            cout << "\nNo saved game found. Choose New Game to start a run.\n";
         }
         break;
     }
@@ -160,12 +186,12 @@ void map_screen() {
             cur_battle.enemies.push_back(enemy);
             cur_battle.start_combat(false);
             
-            cout << "\nA wild " << enemy.name << " appears!\n";
+            cout << "\nEncounter started: " << enemy.name << ".\n";
             cur_screen = Screen::battle;  // Jump to the battle screen
             break;
         }
         case NodeType::Event: {
-            cout << "\nA quiet event passes by. You move on.\n";
+            cout << "\nEvent resolved. You move to the next stage.\n";
             cur_battle.player.stage++;
             save_current_game();
             cur_screen = Screen::map;
@@ -177,7 +203,7 @@ void map_screen() {
             cur_battle.enemies.push_back(boss);
             cur_battle.start_combat(true);
 
-            cout << "\nThe boss " << boss.name << " blocks your path!\n";
+            cout << "\nBoss encounter started: " << boss.name << ".\n";
             cur_screen = Screen::battle;
             break;
         }
@@ -197,18 +223,21 @@ void battle_screen() {
 // Display end game screen with results
 void end_screen() {
     print_sep_line();
+    cout << "=== Run Result ===\n\n";
     if(current_run_won) {
-        cout << "   Victory, " << cur_battle.player.name << "!\n\n";
+        cout << "Result: Victory\n";
     }
     else {
-        cout << "   Rest In Peace, " << cur_battle.player.name << "\n\n";
+        cout << "Result: Defeat\n";
     }
-    cout << "   Score: " << current_score << "\n";
-    cout << "   Difficulty: " << cur_battle.player.difficulty << "\n";
-    cout << "   Stage: " << cur_battle.player.stage << "\n\n";
+    cout << "Player: " << cur_battle.player.name << "\n";
+    cout << "Score: " << current_score << "\n";
+    cout << "Difficulty: " << cur_battle.player.difficulty << "\n";
+    cout << "Stage reached: " << cur_battle.player.stage << "\n\n";
 
-    cout << "   1. Main Menu\n\n";
-    cout << "   2. Quit\n\n";
+    print_menu_option(1, "Main Menu", "return to title screen");
+    print_menu_option(2, "Quit", "exit the game");
+    cout << "\nEnter choice: ";
 
     int option = read_int();
     switch(option) {
@@ -241,7 +270,12 @@ void record_screen() {
 // Display game information
 void info_screen() {
     print_sep_line();
-    cout << "   Spire Lite" << endl;
+    cout << "=== How To Play ===\n\n";
+    cout << "Map: choose a reachable node number to move to the next stage.\n";
+    cout << "Battle: choose card numbers from your hand. Attack cards ask for a target.\n";
+    cout << "Turn flow: play any cards you can afford, then choose End turn.\n";
+    cout << "Cards: your deck is permanent; each battle uses draw and discard piles.\n";
+    cout << "Goal: survive the map and defeat the boss.\n";
     cur_screen = Screen::welcome;
 }
 
@@ -295,5 +329,5 @@ int read_int() {
 
 // Print separator line for visual clarity
 void print_sep_line() {
-    cout << "\n------------------------------------------------------------\n\n";
+    cout << "\n============================================================\n\n";
 }
