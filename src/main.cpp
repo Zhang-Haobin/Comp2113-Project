@@ -29,7 +29,7 @@ const string game_save_file = "game_save.txt";
 
 namespace {
 void print_menu_option(int option, const string &label, const string &detail) {
-    cout << "  [" << option << "] " << label;
+    cout << option << ". " << label;
     if(!detail.empty()) {
         cout << " - " << detail;
     }
@@ -78,13 +78,18 @@ int main() {
 // Display welcome screen and handle main menu choices
 void welcome_screen() {
     print_sep_line();
-    cout << "=== Spire Lite ===\n\n";
-    cout << "Main Menu\n";
-    print_menu_option(1, "Play", "start a new run or continue a save");
-    print_menu_option(2, "Game Record", "view best score, floors, wins and losses");
-    print_menu_option(3, "How To Play", "quick explanation of the basic controls");
-    print_menu_option(4, "Quit", "exit the game");
-    cout << "\nEnter choice: ";
+    record record = get_record();
+    cout << "==== Spire Lite ====\n";
+    cout << "A tiny text-based deckbuilding climb.\n";
+    cout << "Best stage: " << record.highest_floor
+         << " | Wins: " << record.total_wins
+         << " | Losses: " << record.total_losses << "\n\n";
+    print_menu_option(1, "Start run", "");
+    print_menu_option(2, "Continue save", "");
+    print_menu_option(3, "Game record", "");
+    print_menu_option(4, "How to play", "");
+    print_menu_option(5, "Quit", "");
+    cout << "Choose: ";
 
     int choice = read_int();
     switch(choice) {
@@ -92,12 +97,21 @@ void welcome_screen() {
             cur_screen = Screen::lobby;
             break;
         case 2:
-            record_screen();
+            if(load_current_game()) {
+                cout << "\nLoaded saved run for " << cur_battle.player.name << ".\n";
+                cur_screen = Screen::map;
+            }
+            else {
+                cout << "\nNo saved game found.\n";
+            }
             break;
         case 3:
-            info_screen();
+            record_screen();
             break;
         case 4:
+            info_screen();
+            break;
+        case 5:
             cur_screen = Screen::quit;
             break;
         default:
@@ -109,19 +123,18 @@ void welcome_screen() {
 // Handle save slot selection and new game creation
 void save_slot_screen() {
     print_sep_line();
-    cout << "=== Run Setup ===\n\n";
-    cout << "Save status: ";
+    cout << "==== Start Run ====\n";
+    cout << "Save file: ";
     if(saved_game_exists()) {
-        cout << "saved run found\n\n";
+        cout << "found\n\n";
     }
     else {
-        cout << "no saved run\n\n";
+        cout << "none\n\n";
     }
 
-    print_menu_option(1, "New Game", "create a fresh character and deck");
-    print_menu_option(2, "Continue Save", "load game_save.txt if it exists");
-    print_menu_option(3, "Main Menu", "go back");
-    cout << "\nEnter choice: ";
+    print_menu_option(1, "New run", "fresh character and starter deck");
+    print_menu_option(2, "Back", "return to main menu");
+    cout << "Choose: ";
 
     int option = read_int();
     switch(option) {
@@ -148,16 +161,6 @@ void save_slot_screen() {
         break;
     }
     case 2: {
-        if(load_current_game()) {
-            cout << "\nLoaded saved run for " << cur_battle.player.name << ".\n";
-            cur_screen = Screen::map;
-        }
-        else {
-            cout << "\nNo saved game found. Choose New Game to start a run.\n";
-        }
-        break;
-    }
-    case 3: {
         cur_screen = Screen::welcome;
         break;
     }
@@ -223,21 +226,20 @@ void battle_screen() {
 // Display end game screen with results
 void end_screen() {
     print_sep_line();
-    cout << "=== Run Result ===\n\n";
+    cout << "==== Run Result ====\n";
     if(current_run_won) {
-        cout << "Result: Victory\n";
+        cout << "You cleared the spire. Victory!\n";
     }
     else {
-        cout << "Result: Defeat\n";
+        cout << "The climb ends here.\n";
     }
-    cout << "Player: " << cur_battle.player.name << "\n";
-    cout << "Score: " << current_score << "\n";
-    cout << "Difficulty: " << cur_battle.player.difficulty << "\n";
-    cout << "Stage reached: " << cur_battle.player.stage << "\n\n";
+    cout << "Player: " << cur_battle.player.name
+         << " | Score: " << current_score
+         << " | Stage: " << cur_battle.player.stage << "\n\n";
 
-    print_menu_option(1, "Main Menu", "return to title screen");
-    print_menu_option(2, "Quit", "exit the game");
-    cout << "\nEnter choice: ";
+    print_menu_option(1, "Main menu", "");
+    print_menu_option(2, "Quit", "");
+    cout << "Choose: ";
 
     int option = read_int();
     switch(option) {
@@ -270,7 +272,7 @@ void record_screen() {
 // Display game information
 void info_screen() {
     print_sep_line();
-    cout << "=== How To Play ===\n\n";
+    cout << "==== How To Play ====\n";
     cout << "Map: choose a reachable node number to move to the next stage.\n";
     cout << "Battle: choose card numbers from your hand. Attack cards ask for a target.\n";
     cout << "Turn flow: play any cards you can afford, then choose End turn.\n";
@@ -329,5 +331,5 @@ int read_int() {
 
 // Print separator line for visual clarity
 void print_sep_line() {
-    cout << "\n============================================================\n\n";
+    cout << "\n";
 }

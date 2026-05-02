@@ -126,31 +126,30 @@ void playmap(Map &map){
     while (!map.isBossLayer()) {
         
         Node& cur = map.getCurrentNode();                                          //show the current stages
-        cout << "=== Map ===\n\n";
-        cout << "Current stage: " << map.currentLayer << "\n";
-        cout << "Current node: ";
+        cout << "\n========== Floor " << map.currentLayer << " ==========\n";
+        cout << "Current room: ";
         displayNodeType(cur.type);
         cout << "\n";
 
         auto nexts = map.getNextNodes();
 
-        cout << "\nChoose your next path:\n";                                                //show reachable node
+        cout << "Choose next room:\n";                                                //show reachable node
         for (size_t i = 0; i < nexts.size(); ++i) {
-            cout << "  [" << (i + 1) << "] ";
+            cout << i + 1 << ". ";
             displayNodeType(nexts[i].second);
             if (nexts[i].second == NodeType::NormalEnemy) {
-                cout << " - fight an enemy and earn a card reward";
+                cout << " - fight and earn a reward";
             }
             else if (nexts[i].second == NodeType::Event) {
-                cout << " - advance through a story event";
+                cout << " - resolve an event";
             }
             else if (nexts[i].second == NodeType::Boss) {
-                cout << " - final boss battle";
+                cout << " - final battle";
             }
             cout << "\n";
         }
 
-        cout << "\nEnter path number (1-" << nexts.size() << "): ";
+        cout << "Choose: ";
         int choice = read_int();
 
         if (1 <= choice && choice <= static_cast<int>(nexts.size())) {                                 //choose one node to move
@@ -160,7 +159,7 @@ void playmap(Map &map){
             }
         }
         else {
-            cout << "Invalid path. Choose one of the listed numbers.\n";
+            cout << "Enter a number between 1 and " << nexts.size() << ".\n";
         } 
     }
 }
