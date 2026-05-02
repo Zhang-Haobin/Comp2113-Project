@@ -96,9 +96,9 @@ void print_action_status(const Player &player, const vector<Enemy> &enemies) {
          << " | Energy " << COLOR_YELLOW << player.energy << "/" << player.max_energy << COLOR_RESET << "\n";
 }
 
-void wait_for_next_screen() {
+void wait_for_next_screen(int milliseconds = 1000) {
     cout.flush();
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
 }
 
@@ -341,6 +341,11 @@ void Battle::print_and_apply_enemies() {
             break;
         }
     }
+
+    if(cur_screen == Screen::battle) {
+        print_action_status(player, enemies);
+        keep_next_battle_screen = true;
+    }
 }
 
 // Decide which battle sub-screen should be printed.
@@ -386,7 +391,7 @@ void Battle::process_player_input() {
         break;
     }
     case BattleRound::option_result: {
-        wait_for_next_screen();
+        wait_for_next_screen(2000);
         if(cur_screen == Screen::battle) {
             start_player_turn();
             keep_next_battle_screen = true;
