@@ -17,3 +17,7 @@
 .idea/
 *.suo
 *.use
+
+# Local game data
+game_save.txt
+save.txt
