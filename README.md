@@ -62,3 +62,6 @@ The game uses local text files for save data:
 
 - `game_save.txt` stores the current unfinished run.
 - `save.txt` stores long-term game records such as best score, highest stage, wins, and losses.
+
+## Warnings
+ANSI escape sequence may not works on some terminals (old cmd on Windows e.g.). If color style does not work and scramble texts exist, it means your terminal does not support "ANSI escape". 
