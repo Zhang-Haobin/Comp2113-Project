@@ -9,15 +9,17 @@ Our group plans to build a text-based card battle game inspired by Slay the Spir
     * On **Mac**, open [Spotlight](https://support.apple.com/en-hk/guide/mac-help/mchlp1008/mac), then type "terminal". Press the Return or Enter key on your keyboard.
 
 2. Make sure you are on the right folder before you proceed.\
-Enter the command: ```cd <folder path>```\
-Replace ```<folder path>``` with the path of the folder where Spire Lite is.
+Enter the command: ```cd <folder path>```. Replace ```<folder path>``` with the path of the Spire Lite folder.\
+In case you are not familiar, examples for the ```cd``` command can be found here for [Windows](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cd), and [Linux / Mac](https://www.geeksforgeeks.org/linux-unix/cd-command-in-linux-with-examples/).
 
-3. On **Windows**, enter the command: ```SpireLite```\
-On **Linux / Mac**, enter the command: ```./SpireLite```
+3. On **Windows**, enter the command: ```SpireLite```.\
+On **Linux / Mac**, enter the command: ```./SpireLite```.
 
 4. A CLI of Spire Lite should sppear.
 
 ## Compilation
-1. Make sure you are on the right folder before you proceed.
+1. Open Terminal.
 
-2. Enter: ```make clean && make main```
+2. Make sure you are on the right folder before you proceed.
+
+3. Run ```make clean && make main```.
