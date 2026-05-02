@@ -44,8 +44,9 @@ void print_padded_colored(const string &text, int width, const string &color) {
 }
 
 // Print one card as a numbered menu option.
-void print_card_option(int option, const Card &card) {
+void print_card_option(int option, const Card &card, int current_energy = -1) {
     string type_label = "[" + card.getType() + "]";
+    bool cannot_afford = current_energy >= 0 && !card.isPlayable(current_energy);
 
     cout << left
          << setw(4) << (to_string(option) + ".");
@@ -56,6 +57,9 @@ void print_card_option(int option, const Card &card) {
 
     if(card.getIsApplyToEnemy()) {
         cout << " Target enemy.";
+    }
+    if(cannot_afford) {
+        cout << " " << COLOR_YELLOW << "Not enough energy." << COLOR_RESET;
     }
 
     cout << right << "\n";
@@ -232,7 +236,7 @@ void Battle::print_and_select_options() {
     for(int i = 0; i < player.hand.size(); ++i) {
         const Card &card = player.hand[i];
 
-        print_card_option(option_name, card);
+        print_card_option(option_name, card, player.energy);
         
         valid_options[to_string(option_name)] = [&, i]() {  // capture i by value, otherwise menu choices point at the wrong card
             print_sep_line();
@@ -244,7 +248,10 @@ void Battle::print_and_select_options() {
 
             const Card &selected_card = player.hand[i];
             if(!selected_card.isPlayable(player.energy)) {
-                cout << "Not enough energy to play " << selected_card.getName() << "!\n";
+                cout << "Action Log\n";
+                cout << "Not enough energy to play " << selected_card.getName()
+                     << ". Need " << selected_card.getCost()
+                     << ", but you have " << player.energy << ".\n";
                 return;
             }
             player.energy -= selected_card.getCost();
