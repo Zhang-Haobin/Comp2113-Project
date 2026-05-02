@@ -5,19 +5,26 @@
 #include "../include/map.h"
 #include "../include/Cardfactory.h"
 #include "../include/enemy.h"
+#include "../include/game_state.h"
 
 #include <iostream>
 #include <string>
 #include <limits>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
+#include <cstdio>
 
 using namespace std;
 
 bool is_game_running = true;
 int difficulty = 2;
+int current_score = 0;
+bool current_run_won = false;
+bool record_saved = false;
 Screen cur_screen = Screen::welcome;
 Battle cur_battle;
+const string game_save_file = "game_save.txt";
 
 int main() {
     // Initialize random seed for enemy/card generation
@@ -104,6 +111,10 @@ void save_slot_screen() {
         cur_battle.player.cards = Cardfactory::create_starter_carddeck();  // Initialize player deck with starter cards
         cur_battle.player.stage = 0;
         cur_battle.player.difficulty = difficulty;
+        current_score = 0;
+        current_run_won = false;
+        record_saved = false;
+        save_current_game();
         
         cout << "\nCreate successfully, welcome to Spire Lite, " << new_name << endl;
         //todo: insert a difficulty selection function and store it in player.difficulty
@@ -111,7 +122,13 @@ void save_slot_screen() {
         break;
     }
     case 2: {
-        // todo: browse and load saved games
+        if(load_current_game()) {
+            cout << "\nLoaded save for " << cur_battle.player.name << ".\n";
+            cur_screen = Screen::map;
+        }
+        else {
+            cout << "\nNo saved game found.\n";
+        }
         break;
     }
     case 3: {
@@ -128,7 +145,10 @@ void save_slot_screen() {
 // Generate map and handle navigation to next node
 void map_screen() {
     print_sep_line();
-    Map map((cur_battle.player.difficulty) * 4 + 10);
+    int total_layers = (cur_battle.player.difficulty) * 4 + 10;
+    Map map(total_layers);
+    map.currentLayer = min(cur_battle.player.stage, total_layers - 1);
+    map.currentNodeIdx = 0;
     playmap(map);
 
     Node& newNode = map.getCurrentNode(); 
@@ -138,14 +158,27 @@ void map_screen() {
             cur_battle.enemies.clear();  // Clear any previous enemies
             Enemy enemy = create_normal_enemy_by_floor(cur_battle.player.stage);  // Generate enemy based on current stage
             cur_battle.enemies.push_back(enemy);
-            cur_battle.round = BattleRound::select_option;  // Start battle at player's turn
+            cur_battle.start_combat(false);
             
             cout << "\nA wild " << enemy.name << " appears!\n";
             cur_screen = Screen::battle;  // Jump to the battle screen
             break;
         }
         case NodeType::Event: {
-            // todo: add some random events here
+            cout << "\nA quiet event passes by. You move on.\n";
+            cur_battle.player.stage++;
+            save_current_game();
+            cur_screen = Screen::map;
+            break;
+        }
+        case NodeType::Boss: {
+            cur_battle.enemies.clear();
+            Enemy boss = create_boss_enemy();
+            cur_battle.enemies.push_back(boss);
+            cur_battle.start_combat(true);
+
+            cout << "\nThe boss " << boss.name << " blocks your path!\n";
+            cur_screen = Screen::battle;
             break;
         }
         default:
@@ -164,7 +197,13 @@ void battle_screen() {
 // Display end game screen with results
 void end_screen() {
     print_sep_line();
-    cout << "   Rest In Peace, " << cur_battle.player.name << "\n\n";
+    if(current_run_won) {
+        cout << "   Victory, " << cur_battle.player.name << "!\n\n";
+    }
+    else {
+        cout << "   Rest In Peace, " << cur_battle.player.name << "\n\n";
+    }
+    cout << "   Score: " << current_score << "\n";
     cout << "   Difficulty: " << cur_battle.player.difficulty << "\n";
     cout << "   Stage: " << cur_battle.player.stage << "\n\n";
 
@@ -204,6 +243,41 @@ void info_screen() {
     print_sep_line();
     cout << "   Spire Lite" << endl;
     cur_screen = Screen::welcome;
+}
+
+void save_current_game() {
+    GameState state;
+    state.player = cur_battle.player;
+    state.score = current_score;
+    state.current_floor = cur_battle.player.stage;
+    state.save_to_file(game_save_file);
+}
+
+bool load_current_game() {
+    GameState state;
+    if(!state.load_from_file(game_save_file)) {
+        return false;
+    }
+
+    cur_battle = Battle();
+    cur_battle.player = state.player;
+    cur_battle.player.hand.clear();
+    cur_battle.player.draw_pile.clear();
+    cur_battle.player.discard_pile.clear();
+    current_score = state.score;
+    current_run_won = false;
+    record_saved = false;
+    return true;
+}
+
+void record_current_run() {
+    if(record_saved) {
+        return;
+    }
+
+    update_record(current_score, cur_battle.player.stage, current_run_won);
+    record_saved = true;
+    remove(game_save_file.c_str());
 }
 
 // Read integer input with validation - keeps reading until valid integer is entered

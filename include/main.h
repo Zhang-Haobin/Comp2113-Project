@@ -11,6 +11,9 @@ enum class Difficulty { easy, normal, hard, lunatic };
 
 extern bool is_game_running;
 extern int difficulty;
+extern int current_score;
+extern bool current_run_won;
+extern bool record_saved;
 extern Screen cur_screen;
 extern Battle cur_battle;
 
@@ -23,5 +26,8 @@ void end_screen();
 void save_slot_screen();
 void record_screen();
 void info_screen();
+void save_current_game();
+bool load_current_game();
+void record_current_run();
 
 #endif // ifndef MAIN_H

@@ -22,6 +22,7 @@ public:
     Player player = {};
     vector<Enemy> enemies;
     BattleRound round = BattleRound::select_option;
+    bool is_boss_battle = false;
 
     umap<string, function<void()>> valid_options;
     int played_card_idx;
@@ -29,12 +30,17 @@ public:
 
     Battle() = default;
 
+    void start_combat(bool boss_battle);
     void print_and_select_options();
     void print_and_apply_enemies();
     void print_battle_screen();
     void process_player_input();
 
     void apply_card();
+    void draw_cards(int count);
+    void discard_hand();
+    void start_player_turn();
+    void finish_victory();
 };
 
 #endif // ifndef BATTLE_H

@@ -17,9 +17,6 @@ Map::Map(int numLayers) {
     }
 
 void Map::generate() {
-        srand(static_cast<unsigned> (time(nullptr)));            //random seed
-
-    
         for (size_t i = 0; i < layers.size(); ++i) { 
             if (i == 0) {                                        //first layer, only start node
                 layers[i].resize(1);

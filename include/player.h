@@ -24,7 +24,10 @@ public:
     int stage = 0;                   // current stage
     int difficulty = 2;              // difficulty
     int max_card = 6;                // max number of cards held at the same time
-    vector<Card> cards = {};
+    vector<Card> cards = {};         // permanent deck owned by the player
+    vector<Card> hand = {};          // cards currently available in battle
+    vector<Card> draw_pile = {};     // shuffled combat draw pile
+    vector<Card> discard_pile = {};  // played and discarded cards in battle
 
     int get_damage(int atk) const;
     bool is_dead() const;

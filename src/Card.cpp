@@ -9,6 +9,7 @@ Card::Card() {
     type = "Utility";
     cost = 0;
     value = 0;
+    is_apply_to_enemy = false;
 }
 
 // Create a custom card
@@ -80,7 +81,7 @@ Card Card::create_Bash() {
 }
 
 Card Card::create_Recover() {
-    return Card("Recover", "Skill", 1, 4, "Recover 4 HP.", false);
+    return Card("Recover", "Skill", 1, 4, "Gain 4 energy.", false);
 }
 
 Card Card::create_Fireball() {

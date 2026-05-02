@@ -1,7 +1,7 @@
-main: main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o
-	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o -o SpireLite -O2 -std=c++11
+main: main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o game_state.o
+	g++ main.o battle.o enemy.o player.o Card.o Deck.o save.o Cardfactory.o map.o game_state.o -o SpireLite -O2 -std=c++11
 
-main.o: src/main.cpp include/main.h player.o save.o battle.o map.o Cardfactory.o enemy.o Card.o Deck.o
+main.o: src/main.cpp include/main.h player.o save.o battle.o map.o Cardfactory.o enemy.o Card.o Deck.o game_state.o
 	g++ -c src/main.cpp -O2 -std=c++11
 
 battle.o: src/battle.cpp include/battle.h include/main.h save.o Cardfactory.o
@@ -27,6 +27,9 @@ Cardfactory.o: src/Cardfactory.cpp include/Cardfactory.h Card.o
 
 map.o: src/map.cpp include/map.h include/main.h
 	g++ -c src/map.cpp -O2 -std=c++11
+
+game_state.o: src/game_state.cpp include/game_state.h player.o map.o Cardfactory.o
+	g++ -c src/game_state.cpp -O2 -std=c++11
 
 clean:
 	rm -f *.o SpireLite

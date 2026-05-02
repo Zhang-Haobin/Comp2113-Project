@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const string save_file = "../save.txt";
+const string save_file = "save.txt";
 
 void record::reset_record(){
     best_score = 0;
@@ -82,6 +82,7 @@ void print_record(){
     cout << "Highest Floor: " << record.highest_floor << endl;
     cout << "Total Wins: " << record.total_wins << endl;
     cout << "Total Losses: " << record.total_losses << endl;
+    cout << "Win Rate: " << record.win_rate() << "%" << endl;
 
 
 }
@@ -98,7 +99,6 @@ double record::win_rate(){
     return total_wins/total*100;
 
 }
-
 
 
 
