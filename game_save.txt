@@ -2,9 +2,9 @@ abc
 60 60
 3 0
 1 0 0
-1 2
+3 2
 6
-7
+8
 Strike
 Strike
 Strike
@@ -12,6 +12,7 @@ Defend
 Defend
 Heal
 Quick Slash
-100
-1
+Heal
+220
+3
 0
