@@ -1,7 +1,10 @@
-**Spire Lite**
+# Spire Lite
 
-Run the game:
+## Run the game:
+---
 Windows:     ```SpireLite```
 Linux & Mac: ```./SpireLite```
 
+## Compilation:
+---
 make: ```make clean && make main```
