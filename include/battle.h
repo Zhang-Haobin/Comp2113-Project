@@ -52,6 +52,9 @@ public:
     // Actually apply the chosen card effect.
     void apply_card();
 
+    // Use and remove one potion from the player's potion slots.
+    void use_potion(int potion_idx);
+
     // Draw cards from draw pile, reshuffling discard pile if needed.
     void draw_cards(int count);
 

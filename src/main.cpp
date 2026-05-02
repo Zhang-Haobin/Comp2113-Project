@@ -5,6 +5,7 @@
 #include "../include/map.h"
 #include "../include/Cardfactory.h"
 #include "../include/Deck.h"
+#include "../include/Potion.h"
 #include "../include/enemy.h"
 #include "../include/game_state.h"
 #include "../include/event_screen.h"
@@ -71,6 +72,19 @@ bool should_add_second_enemy(int difficulty_level, int stage) {
         return rand() % 100 < 30;
     }
     return false;
+}
+
+void try_give_map_potion(Player &player, int chance_percent) {
+    if(static_cast<int>(player.potions.size()) >= player.max_potion) {
+        return;
+    }
+    if(rand() % 100 >= chance_percent) {
+        return;
+    }
+
+    Potion potion = create_random_potion();
+    player.potions.push_back(potion);
+    cout << "You found a " << potion.name << ".\n";
 }
 
 // New run gets a fresh generated map.
@@ -221,6 +235,7 @@ void save_slot_screen() {
         cur_battle = Battle();
         cur_battle.player.name = new_name;
         cur_battle.player.cards = Cardfactory::create_starter_carddeck();  // Initialize player deck with starter cards
+        cur_battle.player.potions = create_starting_potions();
         cur_battle.player.stage = 0;
         apply_difficulty_to_player(difficulty, cur_battle.player);
         reset_current_map_for_player();
@@ -283,6 +298,7 @@ void map_screen() {
             }
 
             cur_battle.player.stage++;
+            try_give_map_potion(cur_battle.player, 15);
             save_current_game();
             cur_screen = Screen::map;
             break;

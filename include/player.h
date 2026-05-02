@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Card.h"
+#include "Potion.h"
 
 using namespace std;
 
@@ -24,7 +25,9 @@ public:
     int stage = 0;                   // current stage
     int difficulty = 2;              // difficulty
     int max_card = 6;                // max number of cards held at the same time
+    int max_potion = 3;              // max number of potions carried
     vector<Card> cards = {};         // permanent deck owned by the player
+    vector<Potion> potions = {};     // one-use items carried between rooms
     vector<Card> hand = {};          // cards currently available in battle
     vector<Card> draw_pile = {};     // shuffled combat draw pile
     vector<Card> discard_pile = {};  // played and discarded cards in battle

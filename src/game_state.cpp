@@ -1,5 +1,6 @@
 #include "../include/game_state.h"
 #include "../include/Cardfactory.h"
+#include "../include/Potion.h"
 #include <fstream>
 #include <iostream>
 
@@ -8,6 +9,7 @@ using namespace std;
 namespace {
 // Marker lets old save files still load without confusing them with map data.
 const string map_save_marker = "MAP_V1";
+const string potion_save_marker = "POTION_V1";
 }
 
 // Start with an empty map and default numbers.
@@ -36,6 +38,12 @@ void GameState::save_to_file(const string& filename) {
     }
     
     fout << score << "\n" << current_floor << "\n" << is_boss_fight << "\n";
+
+    fout << potion_save_marker << "\n";
+    fout << player.max_potion << " " << player.potions.size() << "\n";
+    for(const Potion &potion : player.potions) {
+        fout << potion.name << "\n";
+    }
 
     fout << map_save_marker << "\n";
     fout << current_map.currentLayer << " " << current_map.currentNodeIdx
@@ -84,7 +92,38 @@ bool GameState::load_from_file(const string& filename) {
     fin >> score >> current_floor >> is_boss_fight;
 
     string marker;
-    if (!(fin >> marker) || marker != map_save_marker) {
+    if (!(fin >> marker)) {
+        int total_layers = player.difficulty * 4 + 10;
+        current_map = Map(total_layers);
+        current_map.currentLayer = current_floor;
+        current_map.currentNodeIdx = 0;
+        fin.close();
+        return true;
+    }
+
+    player.potions.clear();
+    if(marker == potion_save_marker) {
+        int potion_count;
+        fin >> player.max_potion >> potion_count;
+        fin.ignore();
+
+        for(int i = 0; i < potion_count; i++) {
+            string potion_name;
+            getline(fin, potion_name);
+            player.potions.push_back(create_potion(potion_name));
+        }
+
+        if(!(fin >> marker)) {
+            int total_layers = player.difficulty * 4 + 10;
+            current_map = Map(total_layers);
+            current_map.currentLayer = current_floor;
+            current_map.currentNodeIdx = 0;
+            fin.close();
+            return true;
+        }
+    }
+
+    if (marker != map_save_marker) {
         int total_layers = player.difficulty * 4 + 10;
         current_map = Map(total_layers);
         current_map.currentLayer = current_floor;

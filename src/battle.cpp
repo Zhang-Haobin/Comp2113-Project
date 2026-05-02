@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
+#include <cstdlib>
 #include <iomanip>
 #include <thread>
 
@@ -14,6 +15,7 @@
 #include "../include/Cardfactory.h"
 #include "../include/Deck.h"
 #include "../include/difficulty.h"
+#include "../include/Potion.h"
 
 using namespace std;
 
@@ -105,6 +107,12 @@ void wait_for_next_screen(int milliseconds = 1000) {
     cout.flush();
     this_thread::sleep_for(chrono::milliseconds(milliseconds));
 }
+
+void print_potion_option(int option, const Potion &potion) {
+    cout << option << ". [Potion] "
+         << potion.name << " - "
+         << potion.description << "\n";
+}
 }
 
 // Fresh combat setup: reset piles, shuffle deck, then start the player's first turn.
@@ -194,6 +202,11 @@ void Battle::finish_victory() {
 
     player.heal(5);
     cout << "You recover 5 HP. Player HP " << player.hp << "/" << player.max_hp << ".\n";
+    if(static_cast<int>(player.potions.size()) < player.max_potion && rand() % 100 < 15) {
+        Potion potion = create_random_potion();
+        player.potions.push_back(potion);
+        cout << "Potion reward: " << potion.name << " added to your potion slots.\n";
+    }
     save_current_game();
     cur_screen = Screen::map;
 }
@@ -223,6 +236,19 @@ void Battle::print_and_select_options() {
     cout << "Deck " << player.cards.size()
          << " | Draw " << player.draw_pile.size()
          << " | Discard " << player.discard_pile.size() << "\n";
+    cout << "Potions " << player.potions.size() << "/" << player.max_potion << ": ";
+    if(player.potions.empty()) {
+        cout << "none";
+    }
+    else {
+        for(size_t i = 0; i < player.potions.size(); ++i) {
+            if(i > 0) {
+                cout << ", ";
+            }
+            cout << player.potions[i].name;
+        }
+    }
+    cout << "\n";
 
     for(size_t i = 0; i < enemies.size(); ++i) {
         const Enemy &enemy = enemies[i];
@@ -311,6 +337,19 @@ void Battle::print_and_select_options() {
             apply_card();
         };
         ++option_name;
+    }
+
+    if(!player.potions.empty()) {
+        cout << "Potions:\n";
+        for(int i = 0; i < static_cast<int>(player.potions.size()); ++i) {
+            int potion_option = option_name;
+            print_potion_option(potion_option, player.potions[i]);
+            valid_options[to_string(potion_option)] = [&, i]() {
+                print_sep_line();
+                use_potion(i);
+            };
+            ++option_name;
+        }
     }
 
     cout << option_name << ". End turn\n";
@@ -568,4 +607,65 @@ void Battle::apply_card() {
         record_current_run();
         cur_screen = Screen::end;
     }
+}
+
+void Battle::use_potion(int potion_idx) {
+    if(potion_idx < 0 || potion_idx >= static_cast<int>(player.potions.size())) {
+        cout << "Invalid potion index!\n";
+        return;
+    }
+
+    Potion potion = player.potions[potion_idx];
+    cout << "Action Log\n";
+    cout << "You used " << potion.name << ".\n";
+
+    if(potion.type == PotionType::Heal) {
+        int old_hp = player.hp;
+        player.heal(potion.value);
+        cout << "You recover " << (player.hp - old_hp)
+             << " HP. Player HP " << player.hp << "/" << player.max_hp << ".\n";
+    }
+    else if(potion.type == PotionType::Energy) {
+        player.energy += potion.value;
+        cout << "You gained " << potion.value
+             << " energy. Energy " << player.energy << "/" << player.max_energy << ".\n";
+    }
+    else if(potion.type == PotionType::Block) {
+        player.block += potion.value;
+        cout << "You gained " << potion.value << " block.\n";
+    }
+    else if(potion.type == PotionType::Fire) {
+        if(enemies.empty()) {
+            cout << "There is no enemy to target.\n";
+        }
+        else {
+            int target_idx = 0;
+            if(enemies.size() > 1) {
+                cout << "\nChoose target for " << potion.name << ":\n";
+                for(size_t i = 0; i < enemies.size(); ++i) {
+                    print_enemy_status(static_cast<int>(i + 1), enemies[i]);
+                }
+                cout << "Choose: ";
+
+                int option_enemy_idx = read_int();
+                while(!(1 <= option_enemy_idx && option_enemy_idx <= static_cast<int>(enemies.size()))) {
+                    cout << "Invalid enemy index!\n";
+                    cout << "Choose target between 1 and " << enemies.size() << ": ";
+                    option_enemy_idx = read_int();
+                }
+                target_idx = option_enemy_idx - 1;
+            }
+
+            Enemy &enemy = enemies[target_idx];
+            int old_enemy_hp = enemy.hp;
+            enemy.take_damage(potion.value);
+            cout << enemy.name << " takes " << (old_enemy_hp - enemy.hp)
+                 << " damage.\n";
+            if(enemy.is_dead()) {
+                cout << enemy.name << " is defeated.\n";
+            }
+        }
+    }
+
+    player.potions.erase(player.potions.begin() + potion_idx);
 }
