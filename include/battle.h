@@ -14,6 +14,7 @@ using umap = unordered_map<K, V>;
 enum class BattleRound {
     select_option,
     option_result,
+    victory,
 };
 
 class Battle {

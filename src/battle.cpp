@@ -14,8 +14,8 @@ using namespace std;
 
 void Battle::print_and_select_options() {
     if(enemies.empty()) { // victory
-        cout << "All enemies cleared!\n\n";
-        cur_screen = Screen::map;
+        cout << "Victory! All enemies cleared!\n\n";
+        round = BattleRound::victory;
         return;
     }
 
@@ -55,14 +55,13 @@ void Battle::print_and_select_options() {
             cout << "You played " << card.getName() << "!\n";
 
             if(!card.getIsApplyToEnemy()) {
-                // Card doesn't need target (like Defend or Heal)
-                played_card_enemy_idx = -1;  // Set to -1 for non-target cards
+                played_card_enemy_idx = -1;  // index = -1 for non-target cards
                 apply_card();
                 return;
             }
 
-            // Card needs a target - ask player which enemy to target
-            cout << "Apply '" << card.getName() << "' to which enemy?\n\n";
+            // else: card applies to enemy
+            cout << "Apply " << card.getName() << " to which enemy?\n\n";
             for(int j = 0; j < enemies.size(); ++j) {
                 Enemy &enemy = enemies[j];
                 cout << j + 1 << ". " << enemy.name << " HP " << enemy.hp << "/" << enemy.max_hp << " | Next attack " << enemy.attack << "\n";
@@ -76,7 +75,7 @@ void Battle::print_and_select_options() {
                 option_enemy_idx = read_int();
             }
 
-            played_card_enemy_idx = option_enemy_idx - 1;  // Convert to 0-based index
+            played_card_enemy_idx = option_enemy_idx - 1;  // convert from 1-based to 0-based index
             apply_card();
         };
         ++option_name;
@@ -121,6 +120,10 @@ void Battle::print_battle_screen() {
         print_and_apply_enemies();
         break;
     }
+    case BattleRound::victory: {
+        cur_screen = Screen::map;
+        break;
+    }
     default: {
         cout << "Unimplemented battle round!\n";
         break;
@@ -129,7 +132,6 @@ void Battle::print_battle_screen() {
 }
 
 void Battle::process_player_input() {
-    // todo: save the current battle state every turn
     switch(round) {
     case BattleRound::select_option: {
         string option;
@@ -147,6 +149,9 @@ void Battle::process_player_input() {
         round = BattleRound::select_option;
         break;
     }
+    case BattleRound::victory: {
+        break;
+    }
     default: {
         cout << "Unimplemented battle round!\n";
         break;
@@ -156,17 +161,14 @@ void Battle::process_player_input() {
 
 void Battle::apply_card() {
     const Card &card = player.cards[played_card_idx];
-    
-    print_sep_line();
-    cout << "You performed " << card.getName();
-    
-    // Check if card applies to enemy (for damage cards)
-    if(card.getIsApplyToEnemy() && played_card_enemy_idx != -1 && played_card_enemy_idx < enemies.size()) {
-        Enemy &enemy = enemies[played_card_enemy_idx];
-        cout << " on " << enemy.name;
-        cout << "!\n\n";
 
-        // Apply damage effects
+    if(card.getIsApplyToEnemy()) {
+        if(played_card_enemy_idx != -1 && played_card_enemy_idx >= enemies.size()) { // invalid enemy
+            cout << "Invalid enemy index!\n";
+            return;
+        }
+        Enemy &enemy = enemies[played_card_enemy_idx];
+
         if(card.getType() == "Strike" || card.getType() == "Attack") {
             cout << "You dealt " << card.getValue() << " damage to " << enemy.name << "!\n\n";
             enemy.take_damage(card.getValue());
@@ -196,10 +198,7 @@ void Battle::apply_card() {
             }
         }
     }
-    else {
-        // Card doesn't apply to enemy (like Defend or Heal)
-        cout << "!\n\n";
-
+    else { // card doesn't apply to enemy
         if(card.getType() == "Defend") {
             cout << "You gained " << card.getValue() << " block!\n\n";
             player.block += card.getValue();
