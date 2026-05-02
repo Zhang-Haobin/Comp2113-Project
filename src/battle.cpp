@@ -32,6 +32,10 @@ string card_type_color(const string &type) {
     return "";
 }
 
+bool is_aoe_attack(const Card &card) {
+    return card.getName() == "Cleave";
+}
+
 void print_padded_colored(const string &text, int width, const string &color) {
     if(color.empty()) {
         cout << text;
@@ -261,10 +265,27 @@ void Battle::print_and_select_options() {
             round = BattleRound::select_option;
             played_card_idx = i;
 
+            if(is_aoe_attack(selected_card)) {
+                played_card_enemy_idx = -1;
+                cout << "Action Log\n";
+                cout << "You played " << selected_card.getName() << " on all enemies.\n";
+                apply_card();
+                return;
+            }
+
             if(!selected_card.getIsApplyToEnemy()) {
                 played_card_enemy_idx = -1;  // index = -1 for non-target cards
                 cout << "Action Log\n";
                 cout << "You played " << selected_card.getName() << ".\n";
+                apply_card();
+                return;
+            }
+
+            if(enemies.size() == 1) {
+                played_card_enemy_idx = 0;
+                cout << "Action Log\n";
+                cout << "You played " << selected_card.getName()
+                     << " on " << enemies[played_card_enemy_idx].name << ".\n";
                 apply_card();
                 return;
             }
@@ -473,7 +494,31 @@ void Battle::apply_card() {
         }
     }
     else { // card doesn't apply to enemy
-        if(card.getName() == "Defend") {
+        if(is_aoe_attack(card)) {
+            int damage = player.get_damage(card.getValue());
+            for(Enemy &enemy : enemies) {
+                if(enemy.is_dead()) {
+                    continue;
+                }
+
+                int old_enemy_hp = enemy.hp;
+                int damage_after_armor = max(0, damage - enemy.armor);
+                int armor_blocked = damage - damage_after_armor;
+                enemy.take_damage(damage);
+
+                cout << enemy.name << " takes " << (old_enemy_hp - enemy.hp)
+                     << " damage";
+                if(armor_blocked > 0) {
+                    cout << " (" << armor_blocked << " blocked by armor)";
+                }
+                cout << ".\n";
+
+                if(enemy.is_dead()) {
+                    cout << enemy.name << " is defeated.\n";
+                }
+            }
+        }
+        else if(card.getName() == "Defend") {
             cout << "You gained " << card.getValue() << " block.\n";
             player.block += card.getValue();
         }

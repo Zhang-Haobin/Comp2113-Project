@@ -4,6 +4,7 @@
 #include "../include/battle.h"
 #include "../include/map.h"
 #include "../include/Cardfactory.h"
+#include "../include/Deck.h"
 #include "../include/enemy.h"
 #include "../include/game_state.h"
 #include "../include/event_screen.h"
@@ -60,6 +61,16 @@ Enemy scale_enemy_for_difficulty(Enemy enemy, int difficulty_level) {
     enemy.hp = enemy.max_hp;
     enemy.attack = max(1, static_cast<int>(enemy.attack * settings.enemy_damage_multiplier + 0.5f));
     return enemy;
+}
+
+bool should_add_second_enemy(int difficulty_level, int stage) {
+    if(difficulty_level == 2 && stage >= 4) {
+        return rand() % 100 < 25;
+    }
+    if(difficulty_level == 3 && stage >= 2) {
+        return rand() % 100 < 40;
+    }
+    return false;
 }
 
 // New run gets a fresh generated map.
@@ -136,7 +147,8 @@ void welcome_screen() {
     print_menu_option(2, "Continue save", "");
     print_menu_option(3, "Game record", "");
     print_menu_option(4, "How to play", "");
-    print_menu_option(5, "Quit", "");
+    print_menu_option(5, "Card library", "");
+    print_menu_option(6, "Quit", "");
     cout << "Choose: ";
 
     int choice = read_int();
@@ -160,6 +172,9 @@ void welcome_screen() {
             info_screen();
             break;
         case 5:
+            card_library_screen();
+            break;
+        case 6:
             cur_screen = Screen::quit;
             break;
         default:
@@ -243,9 +258,18 @@ void map_screen() {
             Enemy enemy = create_normal_enemy_by_floor(cur_battle.player.stage);  // Generate enemy based on current stage
             enemy = scale_enemy_for_difficulty(enemy, cur_battle.player.difficulty);
             cur_battle.enemies.push_back(enemy);
+            if(should_add_second_enemy(cur_battle.player.difficulty, cur_battle.player.stage)) {
+                Enemy second_enemy = create_normal_enemy_by_floor(cur_battle.player.stage);
+                second_enemy = scale_enemy_for_difficulty(second_enemy, cur_battle.player.difficulty);
+                cur_battle.enemies.push_back(second_enemy);
+            }
             cur_battle.start_combat(false);
             
-            cout << "\nEncounter started: " << enemy.name << ".\n";
+            cout << "\nEncounter started:";
+            for(const Enemy &battle_enemy : cur_battle.enemies) {
+                cout << " " << battle_enemy.name;
+            }
+            cout << ".\n";
             cur_screen = Screen::battle;  // Jump to the battle screen
             break;
         }
@@ -336,6 +360,44 @@ void lobby_screen() {
 // Display game record/statistics
 void record_screen() {
     print_record();
+    cout << "\n";
+    print_menu_option(1, "Back", "return to main menu");
+    print_menu_option(2, "Reset record", "clear best score and win/loss record");
+    cout << "Choose: ";
+
+    int choice = read_int();
+    if(choice == 2) {
+        record empty_record;
+        empty_record.reset_record();
+        save_record(empty_record);
+        cout << "Game record reset.\n";
+    }
+    else if(choice != 1) {
+        cout << "Invalid option!\n";
+    }
+
+    keep_next_welcome_screen = true;
+    cur_screen = Screen::welcome;
+}
+
+// Display every card template in the game.
+void card_library_screen() {
+    vector<string> card_names = Cardfactory::getall_cardnames();
+    vector<Card> cards;
+    for(const string &card_name : card_names) {
+        cards.push_back(Cardfactory::create_card(card_name));
+    }
+
+    cout << "==== Card Library ====\n";
+    printDeck(cards);
+    cout << "\nDetails:\n";
+    for(const Card &card : cards) {
+        cout << "[" << card.getType() << "] "
+             << card.getName()
+             << " (" << card.getCost() << ") - "
+             << card.getDescription() << "\n";
+    }
+
     keep_next_welcome_screen = true;
     cur_screen = Screen::welcome;
 }

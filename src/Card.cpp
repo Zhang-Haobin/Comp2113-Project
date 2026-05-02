@@ -88,6 +88,10 @@ Card Card::create_Fireball() {
     return Card("Fireball", "Attack", 2, 13, "Deal 13 damage.", true);
 }
 
+Card Card::create_Cleave() {
+    return Card("Cleave", "Attack", 1, 5, "Deal 5 damage to all enemies.", false);
+}
+
 Card Card::create_QuickSlash() {
     return Card("Quick Slash", "Attack", 1, 5, "Deal 5 damage and gain 2 block.", true);
 }

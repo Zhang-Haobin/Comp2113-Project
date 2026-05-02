@@ -21,6 +21,7 @@ vector<string> Cardfactory::get_common_cardnames(){
         "Bash",
         "Recover",
         "Fireball",
+        "Cleave",
         "Quick Slash",
         "Iron Wall",
         "Adrenaline"
@@ -62,6 +63,9 @@ Card Cardfactory::create_card(const string& card_name) {
     }
     if (card_name == "Fireball") {
         return Card::create_Fireball();
+    }
+    if (card_name == "Cleave") {
+        return Card::create_Cleave();
     }
     if (card_name == "Quick Slash") {
         return Card::create_QuickSlash();
@@ -148,7 +152,6 @@ vector<Card> Cardfactory::create_reward_card(int count){
 
     return rewards;
 }
-
 
 
 

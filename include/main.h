@@ -47,6 +47,9 @@ void save_slot_screen();
 // Show best score and win/loss record.
 void record_screen();
 
+// Show every card template.
+void card_library_screen();
+
 // Print short instructions.
 void info_screen();
 

@@ -40,6 +40,7 @@ struct Card {
     static Card create_Bash();
     static Card create_Recover();
     static Card create_Fireball();
+    static Card create_Cleave();
     static Card create_QuickSlash();
     static Card create_IronWall();
     static Card create_Adrenaline();
