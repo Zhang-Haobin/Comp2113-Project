@@ -14,6 +14,7 @@ struct Card {
     int cost;               // energy cost
     int value;              // main number of the card effect
     bool is_apply_to_enemy; // whether the card applies to enemy
+    int times_played;       // combat counter used by scaling cards
 
     // Create a default card
     Card();
@@ -42,6 +43,10 @@ struct Card {
     static Card create_QuickSlash();
     static Card create_IronWall();
     static Card create_Adrenaline();
+    static Card create_Entrench();
+    static Card create_Bloodletting();
+    static Card create_PerfectedStrike();
+    static Card create_Rampage();
 };
 
 #endif
