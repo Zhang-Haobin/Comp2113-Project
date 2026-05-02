@@ -295,6 +295,7 @@ void Battle::print_and_select_options() {
     valid_options[to_string(option_name)] = [&]() {
         cout << "Turn ended.\n";
         discard_hand();
+        keep_next_battle_screen = true;
         round = BattleRound::option_result;
     };
 }
@@ -388,6 +389,7 @@ void Battle::process_player_input() {
         wait_for_next_screen();
         if(cur_screen == Screen::battle) {
             start_player_turn();
+            keep_next_battle_screen = true;
             round = BattleRound::select_option;
         }
         break;
