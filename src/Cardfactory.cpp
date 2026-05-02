@@ -1,9 +1,32 @@
 #include "../include/Cardfactory.h"
 #include <cstdlib>
 
+namespace {
+bool can_offer_aoe_card(int difficulty, int stage) {
+    if(difficulty == 1) {
+        return stage >= 6;
+    }
+    if(difficulty == 2) {
+        return stage >= 5;
+    }
+    if(difficulty == 3) {
+        return stage >= 3;
+    }
+    return false;
+}
+
+int aoe_offer_chance(int difficulty) {
+    if(difficulty == 1) return 8;
+    if(difficulty == 2) return 12;
+    if(difficulty == 3) return 15;
+    return 0;
+}
+}
+
 // Put every rarity pool together. Mostly useful for debugging or future card lists.
 vector<string> Cardfactory::getall_cardnames(){
     vector<string> names = get_common_cardnames();
+    names.push_back("Cleave");
     vector<string> uncommon = get_uncommon_cardnames();
     vector<string> rare = get_rare_cardnames();
 
@@ -21,7 +44,6 @@ vector<string> Cardfactory::get_common_cardnames(){
         "Bash",
         "Recover",
         "Fireball",
-        "Cleave",
         "Quick Slash",
         "Iron Wall",
         "Adrenaline"
@@ -153,6 +175,28 @@ vector<Card> Cardfactory::create_reward_card(int count){
     return rewards;
 }
 
+vector<Card> Cardfactory::create_reward_card(int count, int difficulty, int stage){
+    vector<Card> rewards;
+    if (count <= 0) {
+        return rewards;
+    }
+
+    Card* reward_choices = new Card[count];
+    for (int i = 0; i < count; i++) {
+        if(can_offer_aoe_card(difficulty, stage) && rand() % 100 < aoe_offer_chance(difficulty)) {
+            reward_choices[i] = create_card("Cleave");
+        }
+        else {
+            reward_choices[i] = create_random_card();
+        }
+    }
+    for (int i = 0; i < count; i++) {
+        rewards.push_back(reward_choices[i]);
+    }
+    delete[] reward_choices;
+
+    return rewards;
+}
 
 
 

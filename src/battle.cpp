@@ -175,7 +175,7 @@ void Battle::finish_victory() {
         return;
     }
 
-    vector<Card> rewards = Cardfactory::create_reward_card(3);
+    vector<Card> rewards = Cardfactory::create_reward_card(3, player.difficulty, player.stage);
     cout << "\nChoose a reward card:\n";
     for(size_t i = 0; i < rewards.size(); ++i) {
         print_card_option(static_cast<int>(i + 1), rewards[i]);

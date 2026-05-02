@@ -64,11 +64,11 @@ Enemy scale_enemy_for_difficulty(Enemy enemy, int difficulty_level) {
 }
 
 bool should_add_second_enemy(int difficulty_level, int stage) {
-    if(difficulty_level == 2 && stage >= 4) {
-        return rand() % 100 < 25;
+    if(difficulty_level == 2 && stage >= 5) {
+        return rand() % 100 < 20;
     }
-    if(difficulty_level == 3 && stage >= 2) {
-        return rand() % 100 < 40;
+    if(difficulty_level == 3 && stage >= 3) {
+        return rand() % 100 < 30;
     }
     return false;
 }

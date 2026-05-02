@@ -23,6 +23,9 @@ struct Cardfactory{
     // Make several reward choices. This also shows our dynamic memory part.
     static vector<Card> create_reward_card(int count);
 
+    // Make reward choices with difficulty/stage-aware cards.
+    static vector<Card> create_reward_card(int count, int difficulty, int stage);
+
     // Useful if we ever want to print every card in the game.
     static vector<string> getall_cardnames();
 
