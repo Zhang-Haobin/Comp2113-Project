@@ -5,8 +5,8 @@
 
 using namespace std;
 
-// This struct stores the information of one card.
-// It only keeps card data and does not handle battle logic.
+// One card's basic info lives here.
+// The real battle effect is handled in battle.cpp, otherwise this file gets too messy.
 struct Card {
     string name;            // card name
     string description;     // card description
@@ -16,7 +16,7 @@ struct Card {
     bool is_apply_to_enemy; // whether the card applies to enemy
     int times_played;       // combat counter used by scaling cards
 
-    // Create a default card
+    // Fallback card, mainly used when a name cannot be found.
     Card();
 
     // Create a card with full information
