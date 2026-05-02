@@ -3,6 +3,7 @@
 #include "../include/Cardfactory.h"
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ void trigger_random_event(Player& player, int& score) {
     
     show_event_result(player, type, score);
     cout << "\nPress Enter...";
-    cin.ignore();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
 
