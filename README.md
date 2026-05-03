@@ -9,12 +9,13 @@
 1. [For Player](#for-player)
     1. [Team Members](#team-members)
     2. [How to Download and Run](#how-to-download-and-run)
-    3. [Warning](#warning)
-    4. [How to Play](#how-to-play)
-    5. [Features Implemented](#features-implemented)
-    6. [Description](#description)
-    7. [Difficulty Levels](#difficulty-levels)
-    8. [Non-standard Libraries](#non-standard-libraries)
+    3. [Demo Video](#demo-video)
+    4. [Warning](#warning)
+    5. [How to Play](#how-to-play)
+    6. [Features Implemented](#features-implemented)
+    7. [Description](#description)
+    8. [Difficulty Levels](#difficulty-levels)
+    9. [Non-standard Libraries](#non-standard-libraries)
 2. [For Developer](#for-developer)
     1. [Code Structure](#code-structure)
     2. [Main Classes and Files](#main-classes-and-files)
@@ -56,6 +57,12 @@ The executable file `SpireLite` is not uploaded to GitHub. Please download the s
     ```
 
 7. Spire Lite should now appear in the terminal. Enjoy!
+
+<a id="demo-video"></a>
+## Demo Video 🎬
+[![Spire Lite demo video](https://img.youtube.com/vi/74wJlqoDsLc/hqdefault.jpg)](https://youtu.be/74wJlqoDsLc)
+
+Watch the demo on YouTube: [https://youtu.be/74wJlqoDsLc](https://youtu.be/74wJlqoDsLc)
 
 <a id="warning"></a>
 ## Warning ⚠️
