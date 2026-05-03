@@ -7,30 +7,30 @@
 
 # Menu
 1. [For Player](#for-player)
-    1. [Team Members](#team-members)
-    2. [How to Download and Run](#how-to-download-and-run)
-    3. [Warning](#warning)
-    4. [How to Play](#how-to-play)
-    5. [Features Implemented](#features-implemented)
-    6. [Description](#description)
-    7. [Difficulty Levels](#difficulty-levels)
-    8. [Non-standard Libraries](#non-standard-libraries)
+    1. [Team Members](#team-members-)
+    2. [How to Download and Run](#how-to-download-and-run-)
+    3. [Warning](#warning-)
+    4. [How to Play](#how-to-play-)
+    5. [Features Implemented](#features-implemented-)
+    6. [Description](#description-)
+    7. [Difficulty Levels](#difficulty-levels-)
+    8. [Non-standard Libraries](#non-standard-libraries-)
 2. [For Developer](#for-developer)
-    1. [Code Structure](#code-structure)
-    2. [Main Classes and Files](#main-classes-and-files)
-    3. [Dynamic Memory Management](#dynamic-memory-management)
-    4. [File Input and Output](#file-input-and-output)
-    5. [Build Target](#build-target)
+    1. [Code Structure](#code-structure-)
+    2. [Main Classes and Files](#main-classes-and-files-)
+    3. [Dynamic Memory Management](#dynamic-memory-management-)
+    4. [File Input and Output](#file-input-and-output-)
+    5. [Build Target](#build-target-)
 
 # For Player
 
-## Team Members
+## Team Members 👥
 - [Zhang Haobin](https://github.com/Zhang-Haobin)
 - [Peng Yik Sz](https://github.com/ZFSR)
 - [Yeung Long](https://github.com/dyn-p)
 - [Zhang Hanyun](https://github.com/TinaZhang0424)
 
-## How to Download and Run
+## How to Download and Run 🚀
 The executable file `SpireLite` is not uploaded to GitHub. Please download the source code and compile it first.
 
 1. On GitHub, click **Code** and then **Download ZIP**.
@@ -55,10 +55,10 @@ The executable file `SpireLite` is not uploaded to GitHub. Please download the s
 
 7. Spire Lite should now appear in the terminal. Enjoy!
 
-## Warning
+## Warning ⚠️
 ANSI escape sequences may not work in some older terminals, especially old Windows cmd. If colors or clear-screen behavior looks strange, use a modern terminal such as Windows Terminal, macOS Terminal, or a Linux terminal.
 
-## How to Play
+## How to Play 🎮
 - Enter the number shown beside a menu option to choose it.
 - Start a new run, choose a difficulty level, and climb through the generated map.
 - In battle, each card costs energy. Unused energy does not carry over to the next turn.
@@ -69,39 +69,39 @@ ANSI escape sequences may not work in some older terminals, especially old Windo
 - After battles, choose reward cards, recover HP, and continue climbing.
 - The run ends when the player defeats the final boss or dies.
 
-## Features Implemented
-- **Generation of random game sets or events**
+## Features Implemented ✨
+- **Generation of random game sets or events 🎲**
 
     The map contains random normal enemy rooms, event rooms, and a final boss room. Enemy encounters, card rewards, potion drops, double-enemy encounters, and event outcomes are also randomly generated.
 
-- **Data structures for storing game status**
+- **Data structures for storing game status 🧱**
 
     The game uses `vector` for decks, hands, draw piles, discard piles, enemies, potions, reward cards, map layers, and map nodes. It also uses `unordered_map` in battle to map player input options to actions.
 
-- **Dynamic memory management**
+- **Dynamic memory management 🧠**
 
     Temporary card arrays are created with `new[]` and released with `delete[]` in card reward generation and the card library screen.
 
-- **File input/output**
+- **File input/output 💾**
 
     The game saves unfinished runs to `game_save.txt` and long-term records to `save.txt`.
 
-- **Program codes in multiple files**
+- **Program codes in multiple files 📁**
 
     The project is split into separate header and source files for cards, battles, enemies, players, potions, map generation, events, save/load, difficulty settings, and the main game loop.
 
-- **Multiple difficulty levels**
+- **Multiple difficulty levels ⛰️**
 
     Easy, Normal, and Hard change player HP, map length, enemy HP, enemy damage, score gain, and double-enemy encounter frequency.
 
-## Description
+## Description 📖
 Spire Lite is a terminal-based card battle game. The player starts a run with a small deck, chooses a difficulty level, and climbs through a randomly generated map. Each room may contain a battle, a random event, or the final boss.
 
 Battles use a deckbuilding loop with a hand, draw pile, discard pile, energy system, block, enemy armor, card effects, and potions. Between battles, the player can gain new cards, recover HP, resolve events, and continue moving through the map.
 
 The game also includes save data and records, so the player can continue an unfinished run and view the best score, highest stage, wins, losses, and win rate.
 
-## Difficulty Levels
+## Difficulty Levels ⚔️
 Difficulty changes player HP, map length, enemy HP, enemy damage, and score gain.
 
 | Difficulty | Player HP | Floors | Enemy HP | Enemy Damage | Score |
@@ -112,12 +112,12 @@ Difficulty changes player HP, map length, enemy HP, enemy damage, and score gain
 
 Normal and Hard can also generate double-enemy encounters later in the run. Easy keeps battles simpler.
 
-## Non-standard Libraries
+## Non-standard Libraries 📚
 Not used. This project only uses standard C++ libraries.
 
 # For Developer
 
-## Code Structure
+## Code Structure 🧩
 - `src/main.cpp` controls the main game loop, screen flow, map transitions, and global run state.
 - `src/battle.cpp` handles combat, card use, enemy attacks, potion use, rewards, and victory/defeat logic.
 - `src/Card.cpp` defines card templates and card data.
@@ -129,7 +129,7 @@ Not used. This project only uses standard C++ libraries.
 - `src/save.cpp` stores long-term records such as best score, wins, losses, and win rate.
 - `src/difficulty.cpp` defines and applies Easy, Normal, and Hard difficulty settings.
 
-## Main Classes and Files
+## Main Classes and Files 🛠️
 ### class `Player`
 Defined in `include/player.h`.
 
@@ -165,7 +165,7 @@ Defined in `include/Potion.h`.
 
 Stores potion name, description, type, value, and target requirement.
 
-## Dynamic Memory Management
+## Dynamic Memory Management 🧠
 Dynamic memory is used in two places:
 
 ```cpp
@@ -182,13 +182,13 @@ delete[] cards;
 
 This is used in `card_library_screen()` to create a temporary card template array for printing the card library.
 
-## File Input and Output
+## File Input and Output 💾
 - `game_save.txt` stores the current unfinished run, including player data, deck, potions, score, difficulty, and map state.
 - `save.txt` stores long-term game records such as best score, highest stage, wins, losses, and win rate.
 
 The game saves at key checkpoints, such as after creating a new run, after winning a normal battle, and after resolving an event.
 
-## Build Target
+## Build Target 🏗️
 The Makefile builds the executable target named `SpireLite`.
 
 ```bash
