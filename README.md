@@ -21,14 +21,17 @@
     3. [Dynamic Memory Management](#dynamic-memory-management)
     4. [File Input and Output](#file-input-and-output)
 
+<a id="for-player"></a>
 # For Player
 
+<a id="team-members"></a>
 ## Team Members 👥
 - [Zhang Haobin](https://github.com/Zhang-Haobin)
 - [Peng Yik Sz](https://github.com/ZFSR)
 - [Yeung Long](https://github.com/dyn-p)
 - [Zhang Hanyun](https://github.com/TinaZhang0424)
 
+<a id="how-to-download-and-run"></a>
 ## How to Download and Run 🚀
 The executable file `SpireLite` is not uploaded to GitHub. Please download the source code and compile it first.
 
@@ -54,9 +57,11 @@ The executable file `SpireLite` is not uploaded to GitHub. Please download the s
 
 7. Spire Lite should now appear in the terminal. Enjoy!
 
+<a id="warning"></a>
 ## Warning ⚠️
 ANSI escape sequences may not work in some older terminals, especially old Windows cmd. If colors or clear-screen behavior looks strange, use a modern terminal such as Windows Terminal, macOS Terminal, or a Linux terminal.
 
+<a id="how-to-play"></a>
 ## How to Play 🎮
 - Enter the number shown beside a menu option to choose it.
 - Start a new run, choose a difficulty level, and climb through the generated map.
@@ -68,6 +73,7 @@ ANSI escape sequences may not work in some older terminals, especially old Windo
 - After battles, choose reward cards, recover HP, and continue climbing.
 - The run ends when the player defeats the final boss or dies.
 
+<a id="features-implemented"></a>
 ## Features Implemented ✨
 - **Generation of random game sets or events 🎲**
 
@@ -93,6 +99,7 @@ ANSI escape sequences may not work in some older terminals, especially old Windo
 
     Easy, Normal, and Hard change player HP, map length, enemy HP, enemy damage, score gain, and double-enemy encounter frequency.
 
+<a id="description"></a>
 ## Description 📖
 Spire Lite is a terminal-based card battle game. The player starts a run with a small deck, chooses a difficulty level, and climbs through a randomly generated map. Each room may contain a battle, a random event, or the final boss.
 
@@ -100,6 +107,7 @@ Battles use a deckbuilding loop with a hand, draw pile, discard pile, energy sys
 
 The game also includes save data and records, so the player can continue an unfinished run and view the best score, highest stage, wins, losses, and win rate.
 
+<a id="difficulty-levels"></a>
 ## Difficulty Levels ⚔️
 Difficulty changes player HP, map length, enemy HP, enemy damage, and score gain.
 
@@ -111,11 +119,14 @@ Difficulty changes player HP, map length, enemy HP, enemy damage, and score gain
 
 Normal and Hard can also generate double-enemy encounters later in the run. Easy keeps battles simpler.
 
+<a id="non-standard-libraries"></a>
 ## Non-standard Libraries 📚
 Not used. This project only uses standard C++ libraries.
 
+<a id="for-developer"></a>
 # For Developer
 
+<a id="code-structure"></a>
 ## Code Structure 🧩
 - `src/main.cpp` controls the main game loop, screen flow, map transitions, and global run state.
 - `src/battle.cpp` handles combat, card use, enemy attacks, potion use, rewards, and victory/defeat logic.
@@ -128,6 +139,7 @@ Not used. This project only uses standard C++ libraries.
 - `src/save.cpp` stores long-term records such as best score, wins, losses, and win rate.
 - `src/difficulty.cpp` defines and applies Easy, Normal, and Hard difficulty settings.
 
+<a id="main-classes-and-files"></a>
 ## Main Classes and Files 🛠️
 ### class `Player`
 Defined in `include/player.h`.
@@ -164,6 +176,7 @@ Defined in `include/Potion.h`.
 
 Stores potion name, description, type, value, and target requirement.
 
+<a id="dynamic-memory-management"></a>
 ## Dynamic Memory Management 🧠
 Dynamic memory is used in two places:
 
@@ -181,6 +194,7 @@ delete[] cards;
 
 This is used in `card_library_screen()` to create a temporary card template array for printing the card library.
 
+<a id="file-input-and-output"></a>
 ## File Input and Output 💾
 - `game_save.txt` stores the current unfinished run, including player data, deck, potions, score, difficulty, and map state.
 - `save.txt` stores long-term game records such as best score, highest stage, wins, losses, and win rate.
