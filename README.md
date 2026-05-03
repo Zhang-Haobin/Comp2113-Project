@@ -1,4 +1,4 @@
-![Slay the Spire banner](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/646570/header.jpg?t=1774015376)
+![Slay the Spire banner]([https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/646570/header.jpg?t=177401537](https://steamcommunity.com/app/2868840/?l=schinese&curator_clanid=4777282&utm_source=SteamDB)6)
 
 # Spire Lite
 
