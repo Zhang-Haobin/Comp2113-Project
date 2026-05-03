@@ -403,9 +403,7 @@ void Battle::print_and_apply_enemies() {
              << ", you lose " << (old_player_hp - player.hp) << " HP.\n";
 
         if(player.is_dead()) {
-            current_run_won = false;
-            record_current_run();
-            cur_screen = Screen::end;
+            player_died();
             break;
         }
     }
@@ -609,9 +607,7 @@ void Battle::apply_card() {
     player.discard_pile.push_back(card);
 
     if(player.is_dead()) {
-        current_run_won = false;
-        record_current_run();
-        cur_screen = Screen::end;
+        player_died();
     }
 }
 

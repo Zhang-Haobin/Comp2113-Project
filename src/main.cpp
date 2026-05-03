@@ -210,7 +210,8 @@ void welcome_screen() {
                 cur_screen = Screen::map;
             }
             else {
-                cout << "\nNo saved game found.\n";
+                cout << "\nNo saved game found\n";
+                keep_next_welcome_screen = true;
             }
             break;
         case 3:
@@ -325,9 +326,7 @@ void map_screen() {
         case NodeType::Event: {
             trigger_random_event(cur_battle.player, current_score);
             if(cur_battle.player.is_dead()) {
-                current_run_won = false;
-                record_current_run();
-                cur_screen = Screen::end;
+                player_died();
                 break;
             }
 
@@ -374,9 +373,11 @@ void end_screen() {
     if(current_run_won) {
         cout << "You cleared the spire. Victory!\n";
     }
-    else {
+    else if(cur_battle.player.is_dead()) {
+        cout << "You're dead.\n";
         cout << "The climb ends here.\n";
     }
+
     cout << "Player: " << cur_battle.player.name
          << " | Score: " << current_score
          << " | Stage: " << cur_battle.player.stage << "\n\n";
@@ -510,6 +511,12 @@ void record_current_run() {
     update_record(current_score, cur_battle.player.stage, current_run_won);
     record_saved = true;
     remove(game_save_file.c_str());
+}
+
+void player_died() {
+    current_run_won = false;
+    record_current_run();
+    cur_screen = Screen::end;
 }
 
 // Read integer input with validation - keeps reading until valid integer is entered

@@ -7,19 +7,19 @@
 
 # Menu
 1. [For Player](#for-player)
-    1. [Team Members](#team-members-)
-    2. [How to Download and Run](#how-to-download-and-run-)
-    3. [Warning](#warning-)
-    4. [How to Play](#how-to-play-)
-    5. [Features Implemented](#features-implemented-)
-    6. [Description](#description-)
-    7. [Difficulty Levels](#difficulty-levels-)
-    8. [Non-standard Libraries](#non-standard-libraries-)
+    1. [Team Members](#team-members)
+    2. [How to Download and Run](#how-to-download-and-run)
+    3. [Warning](#warning)
+    4. [How to Play](#how-to-play)
+    5. [Features Implemented](#features-implemented)
+    6. [Description](#description)
+    7. [Difficulty Levels](#difficulty-levels)
+    8. [Non-standard Libraries](#non-standard-libraries)
 2. [For Developer](#for-developer)
-    1. [Code Structure](#code-structure-)
-    2. [Main Classes and Files](#main-classes-and-files-)
-    3. [Dynamic Memory Management](#dynamic-memory-management-)
-    4. [File Input and Output](#file-input-and-output-)
+    1. [Code Structure](#code-structure)
+    2. [Main Classes and Files](#main-classes-and-files)
+    3. [Dynamic Memory Management](#dynamic-memory-management)
+    4. [File Input and Output](#file-input-and-output)
 
 # For Player
 

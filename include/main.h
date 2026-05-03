@@ -62,4 +62,7 @@ bool load_current_game();
 // Write final run result to the long-term record.
 void record_current_run();
 
+// Finish the current run as a player death.
+void player_died();
+
 #endif // ifndef MAIN_H
