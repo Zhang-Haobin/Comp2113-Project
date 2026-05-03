@@ -46,12 +46,26 @@ void apply_difficulty_to_player(int level, Player& player) {
     player.max_hp = s.player_max_hp;
     player.hp = player.max_hp;
     player.difficulty = level;
-    cout << "Difficulty: " << s.name << " | HP: " << player.hp << " | Floors: " << s.map_layers << "\n";
+    cout << "Difficulty: " << s.name
+         << " | HP: " << player.hp
+         << " | Floors: " << s.map_layers
+         << " | Enemy HP x" << s.enemy_hp_multiplier
+         << " | Enemy damage x" << s.enemy_damage_multiplier
+         << " | Score x" << s.score_multiplier << "\n";
 }
 
 // Print difficulty menu before a new run starts.
 void print_difficulty_options() {
     print_sep_line();
     cout << "=== Select Difficulty ===\n\n";
-    cout << "  1. Easy\n  2. Normal\n  3. Hard\n\nEnter choice: ";
+    for(int level = 1; level <= 3; ++level) {
+        DifficultySettings s = get_difficulty_by_level(level);
+        cout << "  " << level << ". " << s.name
+             << " | Player HP " << s.player_max_hp
+             << " | Floors " << s.map_layers
+             << " | Enemy HP x" << s.enemy_hp_multiplier
+             << " | Enemy damage x" << s.enemy_damage_multiplier
+             << " | Score x" << s.score_multiplier << "\n";
+    }
+    cout << "\nEnter choice: ";
 }
