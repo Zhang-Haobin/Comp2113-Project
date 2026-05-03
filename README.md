@@ -25,10 +25,10 @@
 # For Player
 
 ## Team Members
-- Zhang Haobin
-- Peng Yik Sz
-- Yeung Long
-- Zhang Hanyun
+- [Zhang Haobin](https://github.com/Zhang-Haobin)
+- [Peng Yik Sz](https://github.com/ZFSR)
+- [Yeung Long](https://github.com/dyn-p)
+- [Zhang Hanyun](https://github.com/TinaZhang0424)
 
 ## How to Download and Run
 The executable file `SpireLite` is not uploaded to GitHub. Please download the source code and compile it first.
