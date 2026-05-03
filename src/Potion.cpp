@@ -1,7 +1,7 @@
 #include "../include/Potion.h"
 
 #include <cstdlib>
-
+//potion 
 Potion::Potion() {
     name = "Unknown Potion";
     description = "No effect.";
@@ -9,7 +9,7 @@ Potion::Potion() {
     value = 0;
     needs_enemy_target = false;
 }
-
+//member function
 Potion::Potion(string name, string description, PotionType type, int value, bool needs_enemy_target) {
     this->name = name;
     this->description = description;
@@ -17,7 +17,8 @@ Potion::Potion(string name, string description, PotionType type, int value, bool
     this->value = value;
     this->needs_enemy_target = needs_enemy_target;
 }
-
+//create potion
+//you can add more if you want to extend
 Potion create_potion(const string &name) {
     if(name == "Healing Potion") {
         return Potion("Healing Potion", "Heal 10 HP.", PotionType::Heal, 10, false);
@@ -34,7 +35,7 @@ Potion create_potion(const string &name) {
 
     return Potion();
 }
-
+//random potion
 Potion create_random_potion() {
     int index = rand() % 4;
     if(index == 0) return create_potion("Healing Potion");

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-
+//random event in the room
 void trigger_random_event(Player& player, int& score) {
     print_sep_line();
     cout << "=== Random Event ===\n\n";

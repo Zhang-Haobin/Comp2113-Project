@@ -30,7 +30,7 @@ Spire Lite also keeps save data and records, so the player can continue an unfin
 - File input/output for current run saves and long-term game records.
 - Modular source code split across multiple header and source files.
 - Dynamic data structures such as vectors, maps, and saved map layers.
-- Dynamic memory management in card reward generation, where temporary reward choices are created with a dynamic array and released after use.
+- Dynamic memory management in card reward generation and the card library screen, where temporary card arrays are created with `new[]` and released with `delete[]`.
 
 ## Difficulty Levels
 Difficulty changes player HP, map length, enemy HP, enemy damage, and score gain.
@@ -60,7 +60,7 @@ The project requirements ask the game to include several coding elements. Spire 
 | --- | --- |
 | Generation of random events | The map contains random event rooms, and `event_screen.cpp` randomly chooses event outcomes such as healing, traps, card removal, card gain, and mystery outcomes. Enemy encounters, card rewards, potion drops, double-enemy encounters, and map layouts also use random generation. |
 | Data structures for storing data | The game uses `vector` for decks, hands, draw piles, discard piles, enemies, potions, reward cards, map layers, and map nodes. It uses `unordered_map` in battle to map player input options to actions. |
-| Dynamic memory management | `Cardfactory::create_reward_card()` creates temporary reward choices using a dynamic array with `new[]`, copies them into a `vector`, and releases the memory with `delete[]`. |
+| Dynamic memory management | `Cardfactory::create_reward_card()` creates temporary reward choices using a dynamic array with `new[]`, copies them into a `vector`, and releases the memory with `delete[]`. `card_library_screen()` also creates a temporary dynamic array for card templates and releases it after printing the library. |
 | File input/output | `game_state.cpp` saves and loads unfinished runs through `game_save.txt`, including player data, deck, potions, score, difficulty, and map state. `save.cpp` stores long-term records such as best score, highest stage, wins, losses, and win rate in `save.txt`. |
 | Program codes in multiple files | The project is split into separate `.h` and `.cpp` files for battle, cards, card factory, potions, map generation, events, save/load, difficulty, player, enemy, and the main game loop. |
 | Multiple difficulty levels | `difficulty.cpp` defines Easy, Normal, and Hard. Difficulty changes player HP, map length, enemy HP multiplier, enemy damage multiplier, score multiplier, and double-enemy encounter frequency. |

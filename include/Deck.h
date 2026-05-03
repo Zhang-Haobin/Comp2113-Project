@@ -12,4 +12,4 @@ void printDeck(const vector<Card>& deck);
 // Shuffle the deck in-place before drawing cards.
 void shuffleDeck(vector<Card>& deck);
 
-#endif // ifndef DECK_H
+#endif 

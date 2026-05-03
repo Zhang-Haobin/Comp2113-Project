@@ -10,7 +10,6 @@ private:
     int strength = 1;         // damage multiplier
     int damage_boost = 0;     // damage boost
     int block = 0;            // damage reduction
-    // todo...
 
 public:
     // Empty entity, mostly for default construction.

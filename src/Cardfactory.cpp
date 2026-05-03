@@ -181,7 +181,7 @@ vector<Card> Cardfactory::create_reward_card(int count, int difficulty, int stag
         return rewards;
     }
 
-    Card* reward_choices = new Card[count];
+    Card* reward_choices = new Card[count]; //using dynamic memory to create reward card
     for (int i = 0; i < count; i++) {
         if(can_offer_aoe_card(difficulty, stage) && rand() % 100 < aoe_offer_chance(difficulty)) {
             reward_choices[i] = create_card("Cleave");

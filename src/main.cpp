@@ -400,20 +400,27 @@ void record_screen() {
 // Display every card template in the game.
 void card_library_screen() {
     vector<string> card_names = Cardfactory::getall_cardnames();
-    vector<Card> cards;
-    for(const string &card_name : card_names) {
-        cards.push_back(Cardfactory::create_card(card_name));
+    int card_count = static_cast<int>(card_names.size());
+    Card* cards = new Card[card_count];
+
+    for(int i = 0; i < card_count; i++) {
+        cards[i] = Cardfactory::create_card(card_names[i]);
     }
 
     cout << "==== Card Library ====\n";
-    printDeck(cards);
-    cout << "\nDetails:\n";
-    for(const Card &card : cards) {
-        cout << "[" << card.getType() << "] "
-             << card.getName()
-             << " (" << card.getCost() << ") - "
-             << card.getDescription() << "\n";
+    for(int i = 0; i < card_count; i++) {
+        cout << i + 1 << ". " << cards[i].getName() << endl;
     }
+
+    cout << "\nDetails:\n";
+    for(int i = 0; i < card_count; i++) {
+        cout << "[" << cards[i].getType() << "] "
+             << cards[i].getName()
+             << " (" << cards[i].getCost() << ") - "
+             << cards[i].getDescription() << "\n";
+    }
+
+    delete[] cards;
 
     keep_next_welcome_screen = true;
     cur_screen = Screen::welcome;

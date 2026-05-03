@@ -9,7 +9,7 @@ enum class EffectType {
     none,
     weak,
     strength,
-    // todo...
+
 };
 
 // Small effect object. It can still be useful if we expand status effects later.
