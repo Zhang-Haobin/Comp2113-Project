@@ -11,10 +11,10 @@ struct Cardfactory{
     // Find a card template by name and return a fresh copy of it.
     static Card create_card(const string& card_name);
 
-    // The small deck every new player starts with.
+    // Create the stater deck 
     static vector<Card> create_starter_carddeck();
 
-    // Random reward card. Common cards show up more often than rare ones.
+    // Random reward card. 
     static Card create_random_card();
 
     // Bosses can use this so the reward feels a bit better.
@@ -26,13 +26,12 @@ struct Cardfactory{
     // Make reward choices with difficulty/stage-aware cards.
     static vector<Card> create_reward_card(int count, int difficulty, int stage);
 
-    // Useful if we ever want to print every card in the game.
     static vector<string> getall_cardnames();
 
     // Common cards are the usual reward pool.
     static vector<string> get_common_cardnames();
 
-    // Slightly better cards, not as frequent.
+
     static vector<string> get_uncommon_cardnames();
 
     // The rare pool, mostly for lucky rolls and boss rewards.

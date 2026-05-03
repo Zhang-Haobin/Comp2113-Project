@@ -49,6 +49,7 @@ Normal and Hard can also generate double-enemy encounters later in the run. Easy
 - Most single-target attack cards automatically hit the enemy when only one enemy is alive.
 - If multiple enemies are alive, single-target attack cards ask which enemy to attack.
 - AOE cards such as `Cleave` hit all alive enemies.
+- Enemy attacks have a small random variation each turn, but the displayed `Next attack` value is the actual damage they will attempt to deal.
 - Potions appear as battle options and are consumed after use.
 - At the end of each turn, enemies attack and the next player turn begins.
 

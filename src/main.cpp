@@ -60,7 +60,8 @@ Enemy scale_enemy_for_difficulty(Enemy enemy, int difficulty_level) {
     DifficultySettings settings = get_difficulty_by_level(difficulty_level);
     enemy.max_hp = max(1, static_cast<int>(enemy.max_hp * settings.enemy_hp_multiplier + 0.5f));
     enemy.hp = enemy.max_hp;
-    enemy.attack = max(1, static_cast<int>(enemy.attack * settings.enemy_damage_multiplier + 0.5f));
+    enemy.base_attack = max(1, static_cast<int>(enemy.base_attack * settings.enemy_damage_multiplier + 0.5f));
+    enemy.attack = enemy.base_attack;
     return enemy;
 }
 

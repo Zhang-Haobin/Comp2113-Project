@@ -154,6 +154,11 @@ void Battle::discard_hand() {
 void Battle::start_player_turn() {
     player.energy = player.max_energy;
     player.block = 0;
+    for(Enemy &enemy : enemies) {
+        if(!enemy.is_dead()) {
+            enemy.roll_next_attack();
+        }
+    }
     draw_cards(5);
 }
 
@@ -382,7 +387,8 @@ void Battle::print_and_apply_enemies() {
         const Enemy &enemy = enemies[i];
 
         const int old_player_hp = player.hp;
-        int damage = enemy.get_attack();
+        int planned_attack = enemy.get_attack();
+        int damage = planned_attack;
         if(player.block >= damage) {
             player.block -= damage;
             damage = 0;
@@ -392,8 +398,8 @@ void Battle::print_and_apply_enemies() {
             player.block = 0;
         }
         player.hurt(damage);
-        cout << enemy.name << " attacks for " << enemy.get_attack()
-             << ". Block absorbs " << (enemy.get_attack() - damage)
+        cout << enemy.name << " attacks for " << planned_attack
+             << ". Block absorbs " << (planned_attack - damage)
              << ", you lose " << (old_player_hp - player.hp) << " HP.\n";
 
         if(player.is_dead()) {

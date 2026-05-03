@@ -10,6 +10,7 @@ Enemy::Enemy() { // default constructor: default enemy
     name = "unknown";
     max_hp = 15;
     hp = 15;
+    base_attack = 5;
     attack = 5;
     armor = 0;
 }
@@ -19,6 +20,7 @@ Enemy::Enemy(string name, int max_hp, int attack, int armor) { // custom enemy
     this->name = name;
     this->max_hp = max_hp;
     this->hp = max_hp;
+    this->base_attack = attack;
     this->attack = attack;
     this->armor = armor;
 }
@@ -35,9 +37,23 @@ void Enemy::take_damage(int attack) {
     }
 }
 
-// Enemy attack is fixed for now, no intent changes yet.
+// Return the enemy's currently planned attack.
 int Enemy::get_attack() const {
     return attack;
+}
+
+// Roll a small random variation around the base attack, then show/use that value.
+void Enemy::roll_next_attack() {
+    int variation = base_attack / 5;
+    if(variation < 1) {
+        variation = 1;
+    }
+
+    int offset = (rand() % (variation * 2 + 1)) - variation;
+    attack = base_attack + offset;
+    if(attack < 1) {
+        attack = 1;
+    }
 }
 
 // Dead means zero HP.

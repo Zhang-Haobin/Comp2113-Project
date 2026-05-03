@@ -11,6 +11,7 @@ struct Enemy{
     string name;
     int hp;
     int max_hp;
+    int base_attack;
     int attack;
     int armor;
 
@@ -22,9 +23,10 @@ struct Enemy{
 
     void take_damage(int attck);   // damage first goes through armor
     int get_attack() const;        // return the enemy's planned attack
+    void roll_next_attack();       // choose the next displayed attack value
     bool is_dead() const;
 
-    // These static functions are the enemy templates used by the map/battle flow.
+
     static Enemy create_Cultist();
 
     static Enemy create_JawWorm();
