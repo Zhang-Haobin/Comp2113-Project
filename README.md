@@ -20,7 +20,6 @@
     2. [Main Classes and Files](#main-classes-and-files-)
     3. [Dynamic Memory Management](#dynamic-memory-management-)
     4. [File Input and Output](#file-input-and-output-)
-    5. [Build Target](#build-target-)
 
 # For Player
 
@@ -187,16 +186,3 @@ This is used in `card_library_screen()` to create a temporary card template arra
 - `save.txt` stores long-term game records such as best score, highest stage, wins, losses, and win rate.
 
 The game saves at key checkpoints, such as after creating a new run, after winning a normal battle, and after resolving an event.
-
-## Build Target 🏗️
-The Makefile builds the executable target named `SpireLite`.
-
-```bash
-make clean && make main
-```
-
-To remove compiled files:
-
-```bash
-make clean
-```
