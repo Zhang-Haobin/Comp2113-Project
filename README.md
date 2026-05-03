@@ -69,21 +69,29 @@ The project requirements ask the game to include several coding elements. Spire 
 This project does not use any non-standard libraries.
 
 ## How to run the game?
-1. On File Explorer / Finder, open the Spire Lite folder.
-    * On File Explorer / Finder, you should see the "SpireLite" file, like this:
+1. On GitHub, click **Code** and then **Download ZIP**.
 
-    ![Your folder containing SpireLite](./folder_demo.png)
+2. Unzip the downloaded file.
 
-2. Open **Terminal** on the Spire Lite folder:
+3. On File Explorer / Finder, open the unzipped folder named `Comp2113-Project-main`.
+
+4. Open **Terminal** in the `Comp2113-Project-main` folder:
     * On **Windows**, follow [these steps](https://johnwargo.com/posts/2024/launch-windows-terminal/).
     * On **Mac**, follow [these steps](https://www.youtube.com/watch?v=6rzT130xpM4).
-    * On **Linux**, open Terminal and run ```cd``` on the Spire Lite folder.
+    * On **Linux**, open Terminal and run ```cd``` on the `Comp2113-Project-main` folder.
 
-3. Run the game!
+5. Compile the game:
+    ```bash
+    make clean && make main
+    ```
+
+    This creates the executable file named `SpireLite` in the project folder.
+
+6. Run the game:
     * On **Windows**, enter this command: ```SpireLite```
     * On **Linux / Mac**, enter this command: ```./SpireLite```
 
-4. Spire Lite should now appear. Enjoy!
+7. Spire Lite should now appear. Enjoy!
 
 ## Compilation (using make)
 1. Open Terminal.
