@@ -27,10 +27,10 @@
 
 <a id="team-members"></a>
 ## Team Members 👥
-- [Zhang Haobin](https://github.com/Zhang-Haobin)
-- [Peng Yik Sz](https://github.com/ZFSR)
-- [Yeung Long](https://github.com/dyn-p)
-- [Zhang Hanyun](https://github.com/TinaZhang0424)
+- [Zhang Haobin](https://github.com/Zhang-Haobin) (3036590283)
+- [Peng Yik Sz](https://github.com/ZFSR) (3036588620)
+- [Yeung Long](https://github.com/dyn-p) (3036590934)
+- [Zhang Hanyun](https://github.com/TinaZhang0424) (3033120099)
 
 <a id="how-to-download-and-run"></a>
 ## How to Download and Run 🚀
