@@ -21,6 +21,10 @@
 #include <cstdio>
 #include <chrono>
 #include <thread>
+#include <sys/stat.h>
+#ifdef _WIN32
+#include <direct.h>
+#endif
 
 using namespace std;
 
@@ -32,7 +36,8 @@ bool record_saved = false;
 Screen cur_screen = Screen::welcome;
 Battle cur_battle;
 Map cur_map;
-const string game_save_file = "game_save.txt";
+string game_save_file = "saves/game_save.txt";
+string record_save_file = "saves/save.txt";
 
 namespace {
 bool keep_next_welcome_screen = false;
@@ -50,6 +55,33 @@ void print_menu_option(int option, const string &label, const string &detail) {
 bool saved_game_exists() {
     ifstream fin(game_save_file);
     return fin.good();
+}
+
+string get_directory_from_path(const string &path) {
+    size_t slash_pos = path.find_last_of("/\\");
+    if(slash_pos == string::npos) {
+        return ".";
+    }
+    if(slash_pos == 0) {
+        return path.substr(0, 1);
+    }
+    return path.substr(0, slash_pos);
+}
+
+void create_directory_if_needed(const string &directory) {
+#ifdef _WIN32
+    _mkdir(directory.c_str());
+#else
+    mkdir(directory.c_str(), 0755);
+#endif
+}
+
+void setup_save_paths(const char *executable_path) {
+    string executable_directory = get_directory_from_path(executable_path ? executable_path : "");
+    string save_directory = executable_directory + "/saves";
+    create_directory_if_needed(save_directory);
+    game_save_file = save_directory + "/game_save.txt";
+    record_save_file = save_directory + "/save.txt";
 }
 
 // Difficulty controls how long the climb is.
@@ -141,9 +173,10 @@ void print_startup_splash() {
 }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     // Initialize random seed for enemy/card generation
     srand(time(0));
+    setup_save_paths(argc > 0 ? argv[0] : "");
     print_startup_splash();
     keep_next_welcome_screen = true;
     

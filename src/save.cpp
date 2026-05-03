@@ -8,8 +8,6 @@
 
 using namespace std;
 
-const string save_file = "save.txt";
-
 // Reset the permanent record, not the current run.
 void record::reset_record(){
     best_score = 0;
@@ -23,7 +21,7 @@ void record::reset_record(){
 record get_record(){
     record record;
 
-    ifstream fin(save_file);
+    ifstream fin(record_save_file);
     if (!fin){
         return record;
     }
@@ -41,7 +39,7 @@ record get_record(){
 
 // Write the permanent record back to save.txt.
 bool save_record(const record& record) {
-    ofstream fout(save_file);
+    ofstream fout(record_save_file);
 
     if (!fout) {
         return false;

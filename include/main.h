@@ -4,6 +4,8 @@
 #include "battle.h"
 #include "map.h"
 
+#include <string>
+
 // Safer integer input helper used by most menus.
 int read_int();
 
@@ -25,6 +27,8 @@ extern bool record_saved;
 extern Screen cur_screen;
 extern Battle cur_battle;
 extern Map cur_map;
+extern std::string game_save_file;
+extern std::string record_save_file;
 
 // Main menu screen.
 void welcome_screen();

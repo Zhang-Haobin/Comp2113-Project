@@ -89,7 +89,7 @@ ANSI escape sequences may not work in some older terminals, especially old Windo
 
 - **File input/output 💾**
 
-    The game saves unfinished runs to `game_save.txt` and long-term records to `save.txt`.
+    The game saves unfinished runs to `saves/game_save.txt` and long-term records to `saves/save.txt`.
 
 - **Program codes in multiple files 📁**
 
@@ -196,7 +196,7 @@ This is used in `card_library_screen()` to create a temporary card template arra
 
 <a id="file-input-and-output"></a>
 ## File Input and Output 💾
-- `game_save.txt` stores the current unfinished run, including player data, deck, potions, score, difficulty, and map state.
-- `save.txt` stores long-term game records such as best score, highest stage, wins, losses, and win rate.
+- `saves/game_save.txt` stores the current unfinished run, including player data, deck, potions, score, difficulty, and map state.
+- `saves/save.txt` stores long-term game records such as best score, highest stage, wins, losses, and win rate.
 
 The game saves at key checkpoints, such as after creating a new run, after winning a normal battle, and after resolving an event.
