@@ -60,7 +60,7 @@ The executable file `SpireLite` is not uploaded to GitHub. Please download the s
 
 <a id="demo-video"></a>
 ## Demo Video 🎬
-[![Spire Lite demo video](https://img.youtube.com/vi/74wJlqoDsLc/hqdefault.jpg)](https://youtu.be/74wJlqoDsLc)
+[![Spire Lite demo video](https://i9.ytimg.com/vi/74wJlqoDsLc/mqdefault.jpg?sqp=CNzX3M8G-oaymwEmCMACELQB8quKqQMa8AEB-AGsCIAC0AWKAgwIABABGGIgZSgwMA8=&rs=AOn4CLBjYTXSw1ZKmM55VxoHdheHpMjS5w)](https://youtu.be/74wJlqoDsLc)
 
 Watch the demo on YouTube: [https://youtu.be/74wJlqoDsLc](https://youtu.be/74wJlqoDsLc)
 
