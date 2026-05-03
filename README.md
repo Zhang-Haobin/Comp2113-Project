@@ -1,4 +1,4 @@
-![Slay the Spire 2 banner](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2868840/b0958d387dc366211e0f353443710cfcf9fdb020/header.jpg?t=1776735385)
+![Spire Lite banner](assets/banner.jpg)
 
 
 # Spire Lite
